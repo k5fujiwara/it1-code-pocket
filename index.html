@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>情報Ⅰ 第3問 対策クイズ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-theme="simple">
+
+  <!-- ヘッダー -->
+  <header class="themed-header sticky top-0 z-50 px-4 py-3 flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2 min-w-0">
+      <span class="text-lg font-bold truncate" id="header-title">📱 情報Ⅰ 第3問</span>
+    </div>
+    <div class="flex gap-1 shrink-0">
+      <button class="theme-switch-btn active" data-theme-btn="simple" onclick="setTheme('simple')">📄</button>
+      <button class="theme-switch-btn" data-theme-btn="cool" onclick="setTheme('cool')">💻</button>
+      <button class="theme-switch-btn" data-theme-btn="pop" onclick="setTheme('pop')">🎨</button>
+    </div>
+  </header>
+
+  <main class="app-shell max-w-lg mx-auto px-4 pb-8 pt-4">
+
+    <!-- ===== トップ画面 ===== -->
+    <section id="screen-top">
+      <div class="text-center mb-6">
+        <h1 class="text-2xl font-bold mb-1">プログラミング<br>アルゴリズム クイズ</h1>
+        <p class="themed-text-muted text-sm">共通テスト「情報Ⅰ」第3問 対策</p>
+      </div>
+
+      <div id="resume-card" class="resume-card themed-card hidden p-4 mb-4">
+        <div>
+          <h2 class="font-bold mb-1">保存中のクイズがあります</h2>
+          <p class="themed-text-muted text-sm" id="resume-summary"></p>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <button class="themed-btn-primary py-3 text-sm font-bold" onclick="resumeQuiz()">再開する</button>
+          <button class="themed-btn-secondary py-3 text-sm font-bold" onclick="deleteSavedSession()">削除</button>
+        </div>
+      </div>
+
+      <div class="themed-card p-4 mb-4">
+        <h2 class="font-bold mb-3 text-sm">🌐 言語モード</h2>
+        <div class="grid grid-cols-1 gap-2" id="lang-mode-group">
+          <button class="themed-btn-secondary selected w-full py-3 px-4 text-left text-sm" data-lang="python" onclick="selectLangMode('python')">
+            🐍 Pythonモード
+          </button>
+          <button class="themed-btn-secondary w-full py-3 px-4 text-left text-sm" data-lang="dncl" onclick="selectLangMode('dncl')">
+            🌰 DNCL（どんぐり）モード
+          </button>
+        </div>
+      </div>
+
+      <div class="themed-card p-4 mb-6">
+        <h2 class="font-bold mb-3 text-sm">📊 難易度</h2>
+        <div class="grid grid-cols-3 gap-2" id="difficulty-group">
+          <button class="themed-btn-secondary selected py-3 text-sm font-bold" data-diff="基礎" onclick="selectDifficulty('基礎')">基礎</button>
+          <button class="themed-btn-secondary py-3 text-sm font-bold" data-diff="標準" onclick="selectDifficulty('標準')">標準</button>
+          <button class="themed-btn-secondary py-3 text-sm font-bold" data-diff="発展" onclick="selectDifficulty('発展')">発展</button>
+        </div>
+      </div>
+
+      <button class="themed-btn-primary w-full py-4 text-lg font-bold" onclick="startQuiz()">
+        🚀 スタート！
+      </button>
+      <a href="admin.html" class="themed-btn-secondary block w-full py-3 mt-3 text-center text-sm font-bold">
+        問題一覧を確認する
+      </a>
+    </section>
+
+    <!-- ===== クイズ画面 ===== -->
+    <section id="screen-quiz" class="hidden">
+      <div class="progress-bar quiz-progress">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+
+      <div class="quiz-actions grid grid-cols-2 gap-2 mb-3">
+        <button class="themed-btn-secondary py-2.5 text-sm font-bold" onclick="suspendQuiz()">中断して保存</button>
+        <button class="themed-btn-secondary py-2.5 text-sm font-bold" onclick="abandonQuiz()">トップへ戻る</button>
+      </div>
+
+      <div class="quiz-desktop-grid">
+        <div class="quiz-main-pane">
+          <h2 class="font-bold text-base mb-2" id="quiz-title"></h2>
+          <p class="text-sm leading-relaxed mb-3 quiz-prompt" id="quiz-prompt"></p>
+
+          <!-- 言語注意書き -->
+          <div id="notice-area" class="space-y-2 mb-3"></div>
+
+          <!-- コード表示 -->
+          <div id="code-area" class="mb-4"></div>
+        </div>
+
+        <div class="quiz-side-pane">
+          <!-- 正誤フィードバック -->
+          <div id="feedback-area" class="hidden mb-3 text-center py-3 font-bold text-lg"></div>
+
+          <!-- 選択肢 -->
+          <div id="choices-area" class="grid grid-cols-1 gap-2.5 mb-4"></div>
+
+          <!-- 解説アコーディオン -->
+          <details id="explanation-details" class="explanation hidden mb-4">
+            <summary>💡 解説を見る 🔽</summary>
+            <div class="explanation-body" id="explanation-body"></div>
+          </details>
+
+          <button id="btn-next" class="themed-btn-primary hidden w-full py-4 text-lg font-bold" onclick="nextQuestion()">
+            次へ進む →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 結果画面 ===== -->
+    <section id="screen-result" class="hidden text-center">
+      <div class="themed-card p-6 mb-6">
+        <div class="text-5xl mb-3" id="result-emoji">🎉</div>
+        <h2 class="text-2xl font-bold mb-2">お疲れさま！</h2>
+        <p class="text-4xl font-bold mb-1" style="color:var(--accent)" id="result-score"></p>
+        <p class="themed-text-muted text-sm" id="result-detail"></p>
+      </div>
+      <button class="themed-btn-primary w-full py-4 text-lg font-bold mb-3" onclick="startQuiz()">
+        🔄 もう一度
+      </button>
+      <button class="themed-btn-secondary w-full py-3 text-sm font-bold" onclick="goHome()">
+        🏠 トップに戻る
+      </button>
+    </section>
+
+  </main>
+
+  <script src="js/questions.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

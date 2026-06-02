@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>問題管理 | 情報Ⅰ 第3問 対策クイズ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-theme="simple">
+
+  <header class="themed-header sticky top-0 z-50 px-4 py-3 flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2 min-w-0">
+      <a href="index.html" class="text-sm font-bold shrink-0">← 戻る</a>
+      <span class="text-lg font-bold truncate">問題管理</span>
+    </div>
+    <div class="flex gap-1 shrink-0">
+      <button class="theme-switch-btn active" data-theme-btn="simple" onclick="setTheme('simple')">📄</button>
+      <button class="theme-switch-btn" data-theme-btn="cool" onclick="setTheme('cool')">💻</button>
+      <button class="theme-switch-btn" data-theme-btn="pop" onclick="setTheme('pop')">🎨</button>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 pb-8 pt-4">
+    <section class="themed-card p-4 mb-4">
+      <h1 class="text-xl font-bold mb-1">問題一覧</h1>
+      <p class="themed-text-muted text-sm">登録されている問題データを確認できます。</p>
+    </section>
+
+    <section class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4" id="summary-area"></section>
+
+    <section class="themed-card p-4 mb-4">
+      <h2 class="font-bold mb-3 text-sm">絞り込み</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <label class="admin-label">
+          言語モード
+          <select id="filter-lang" class="admin-select">
+            <option value="all">すべて</option>
+            <option value="python">Python</option>
+            <option value="dncl">DNCL</option>
+          </select>
+        </label>
+        <label class="admin-label">
+          難易度
+          <select id="filter-difficulty" class="admin-select">
+            <option value="all">すべて</option>
+            <option value="基礎">基礎</option>
+            <option value="標準">標準</option>
+            <option value="発展">発展</option>
+          </select>
+        </label>
+        <label class="admin-label">
+          パターン
+          <select id="filter-pattern" class="admin-select">
+            <option value="all">すべて</option>
+            <option value="A">A：穴埋め</option>
+            <option value="B">B：正誤判定</option>
+            <option value="C">C：実行結果</option>
+            <option value="D">D：実行回数</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <div class="flex items-center justify-between mb-3">
+      <p class="text-sm font-bold" id="result-count"></p>
+      <button class="themed-btn-secondary px-3 py-2 text-xs font-bold" onclick="resetFilters()">絞り込み解除</button>
+    </div>
+
+    <section class="space-y-3" id="question-list"></section>
+  </main>
+
+  <script src="js/questions.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
