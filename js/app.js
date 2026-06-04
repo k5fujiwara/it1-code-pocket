@@ -47,6 +47,7 @@ const SESSION_KEY = 'quiz-saved-session-v1';
 const state = {
   langMode: 'python',
   difficulty: '基礎',
+  questionCount: 10,
   theme: 'simple',
   questions: [],
   currentIndex: 0,
@@ -59,10 +60,32 @@ const state = {
 function setTheme(theme) {
   state.theme = theme;
   document.body.setAttribute('data-theme', theme);
-  document.querySelectorAll('[data-theme-btn]').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.themeBtn === theme);
-  });
   localStorage.setItem('quiz-theme', theme);
+}
+
+function getAnsweredCount() {
+  if (state.questions.length > 0) {
+    return Math.min(state.questions.length, state.currentIndex + (state.answered ? 1 : 0));
+  }
+
+  const session = getSavedSession();
+  if (!session) return 0;
+  return Math.min(session.questionIds?.length || 0, session.currentIndex + (session.answered ? 1 : 0));
+}
+
+function getCurrentCorrectCount() {
+  if (state.questions.length > 0) return state.score;
+  const session = getSavedSession();
+  return session ? Number(session.score) || 0 : 0;
+}
+
+function updateHeaderStats() {
+  const stats = document.getElementById('header-stats');
+  if (!stats) return;
+  const answeredCount = getAnsweredCount();
+  const correctCount = getCurrentCorrectCount();
+  stats.textContent = `${correctCount} / ${answeredCount}`;
+  stats.classList.toggle('has-score', answeredCount > 0);
 }
 
 // ===== 設定選択 =====
@@ -80,12 +103,29 @@ function selectDifficulty(diff) {
   });
 }
 
+function selectQuestionCount(count) {
+  state.questionCount = count;
+  document.querySelectorAll('#question-count-group button').forEach(btn => {
+    btn.classList.toggle('selected', Number(btn.dataset.count) === count);
+  });
+}
+
+function shuffleQuestions(questions) {
+  const shuffled = [...questions];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 // ===== 画面遷移 =====
 function showScreen(id) {
   ['screen-top', 'screen-quiz', 'screen-result'].forEach(s => {
     document.getElementById(s).classList.toggle('hidden', s !== id);
   });
   document.body.classList.toggle('is-quiz-screen', id === 'screen-quiz');
+  updateHeaderStats();
 }
 
 function goHome() {
@@ -110,6 +150,7 @@ function saveSession() {
   const session = {
     langMode: state.langMode,
     difficulty: state.difficulty,
+    questionCount: state.questionCount,
     questionIds: state.questions.map(q => q.id),
     currentIndex: state.currentIndex,
     score: state.score,
@@ -119,11 +160,13 @@ function saveSession() {
   };
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   updateResumeCard();
+  updateHeaderStats();
 }
 
 function clearSession() {
   localStorage.removeItem(SESSION_KEY);
   updateResumeCard();
+  updateHeaderStats();
 }
 
 function updateResumeCard() {
@@ -140,18 +183,22 @@ function updateResumeCard() {
 
   const label = session.langMode === 'python' ? 'Python' : 'DNCL';
   const current = Math.min(session.currentIndex + 1, session.questionIds.length);
-  summary.textContent = `${label} / ${session.difficulty} / ${current}問目から再開できます（${session.score}点）`;
+  summary.textContent = `${label} / ${session.difficulty} / 全${session.questionIds.length}問 / ${current}問目から再開できます（${session.score}点）`;
   card.classList.remove('hidden');
 }
 
-function restoreSelections(langMode, difficulty) {
+function restoreSelections(langMode, difficulty, questionCount = state.questionCount) {
   state.langMode = langMode;
   state.difficulty = difficulty;
+  state.questionCount = Number(questionCount) || 10;
   document.querySelectorAll('#lang-mode-group button').forEach(btn => {
     btn.classList.toggle('selected', btn.dataset.lang === langMode);
   });
   document.querySelectorAll('#difficulty-group button').forEach(btn => {
     btn.classList.toggle('selected', btn.dataset.diff === difficulty);
+  });
+  document.querySelectorAll('#question-count-group button').forEach(btn => {
+    btn.classList.toggle('selected', Number(btn.dataset.count) === state.questionCount);
   });
 }
 
@@ -171,7 +218,7 @@ function resumeQuiz() {
     return;
   }
 
-  restoreSelections(session.langMode, session.difficulty);
+  restoreSelections(session.langMode, session.difficulty, session.questionCount || session.questionIds.length);
   state.questions = questions;
   state.currentIndex = Math.min(session.currentIndex, questions.length - 1);
   state.score = Number(session.score) || 0;
@@ -208,15 +255,16 @@ function deleteSavedSession() {
 
 // ===== クイズ開始 =====
 function startQuiz() {
-  state.questions = QUESTIONS.filter(q =>
+  const targetQuestions = QUESTIONS.filter(q =>
     q.langMode === state.langMode && q.difficulty === state.difficulty
   );
 
-  if (state.questions.length === 0) {
+  if (targetQuestions.length === 0) {
     alert('該当する問題がありません。言語モードまたは難易度を変更してください。');
     return;
   }
 
+  state.questions = shuffleQuestions(targetQuestions).slice(0, Math.min(state.questionCount, targetQuestions.length));
   state.currentIndex = 0;
   state.score = 0;
   state.answered = false;
@@ -224,6 +272,7 @@ function startQuiz() {
   showScreen('screen-quiz');
   renderQuestion();
   saveSession();
+  updateHeaderStats();
 }
 
 // ===== 問題表示 =====
@@ -350,6 +399,7 @@ function answer(selectedIndex) {
   details.classList.remove('hidden');
   document.getElementById('btn-next').classList.remove('hidden');
   saveSession();
+  updateHeaderStats();
 }
 
 function restoreAnsweredState(q) {
@@ -391,6 +441,7 @@ function nextQuestion() {
     state.selectedIndex = null;
     renderQuestion();
     saveSession();
+    updateHeaderStats();
   }
 }
 
@@ -412,6 +463,7 @@ function showResult() {
     setTheme(saved);
   }
   updateResumeCard();
+  updateHeaderStats();
   window.addEventListener('resize', () => {
     if (!state.questions.length || document.getElementById('screen-quiz').classList.contains('hidden')) return;
     renderChoices(state.questions[state.currentIndex]);

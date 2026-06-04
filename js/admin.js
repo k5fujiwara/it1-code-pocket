@@ -11,9 +11,6 @@ const filters = {
 
 function setTheme(theme) {
   document.body.setAttribute("data-theme", theme);
-  document.querySelectorAll("[data-theme-btn]").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.themeBtn === theme);
-  });
   localStorage.setItem("quiz-theme", theme);
 }
 

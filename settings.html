@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>設定 | 情報Ⅰ 第3問 対策クイズ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-theme="simple">
+
+  <header class="themed-header sticky top-0 z-50 px-4 py-3 flex items-center justify-between gap-2">
+    <div class="header-brand flex items-center gap-2 min-w-0">
+      <a href="index.html" class="header-back-btn" aria-label="トップへ戻る" title="トップへ戻る">‹</a>
+      <span class="app-title truncate">IT1-CODE-POCKET</span>
+    </div>
+  </header>
+
+  <main class="max-w-lg mx-auto px-4 pb-8 pt-4">
+    <section class="themed-card p-4 mb-4">
+      <h1 class="text-xl font-bold mb-1">デザイン設定</h1>
+      <p class="themed-text-muted text-sm">好きなテーマを選ぶと、アプリ全体に反映されます。</p>
+    </section>
+
+    <section class="space-y-3">
+      <button class="theme-option-card themed-card" data-theme-option="simple" onclick="chooseTheme('simple')">
+        <span class="theme-option-icon">📄</span>
+        <span class="theme-option-body">
+          <span class="theme-option-title">シンプル</span>
+          <span class="theme-option-desc">白背景とブルーで学習に集中しやすい標準テーマ。</span>
+        </span>
+      </button>
+
+      <button class="theme-option-card themed-card" data-theme-option="cool" onclick="chooseTheme('cool')">
+        <span class="theme-option-icon">💻</span>
+        <span class="theme-option-body">
+          <span class="theme-option-title">クールブラック</span>
+          <span class="theme-option-desc">黒背景とネオンカラーのサイバー風テーマ。</span>
+        </span>
+      </button>
+
+      <button class="theme-option-card themed-card" data-theme-option="pop" onclick="chooseTheme('pop')">
+        <span class="theme-option-icon">🎨</span>
+        <span class="theme-option-body">
+          <span class="theme-option-title">ポップ</span>
+          <span class="theme-option-desc">クリーム色とオレンジで親しみやすいゲーム風テーマ。</span>
+        </span>
+      </button>
+    </section>
+  </main>
+
+  <script src="js/settings.js"></script>
+</body>
+</html>

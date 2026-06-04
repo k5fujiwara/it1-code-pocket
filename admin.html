@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>問題管理 | 情報Ⅰ 第3問 対策クイズ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/styles.css">
@@ -10,14 +10,9 @@
 <body data-theme="simple">
 
   <header class="themed-header sticky top-0 z-50 px-4 py-3 flex items-center justify-between gap-2">
-    <div class="flex items-center gap-2 min-w-0">
-      <a href="index.html" class="text-sm font-bold shrink-0">← 戻る</a>
-      <span class="text-lg font-bold truncate">問題管理</span>
-    </div>
-    <div class="flex gap-1 shrink-0">
-      <button class="theme-switch-btn active" data-theme-btn="simple" onclick="setTheme('simple')">📄</button>
-      <button class="theme-switch-btn" data-theme-btn="cool" onclick="setTheme('cool')">💻</button>
-      <button class="theme-switch-btn" data-theme-btn="pop" onclick="setTheme('pop')">🎨</button>
+    <div class="header-brand flex items-center gap-2 min-w-0">
+      <a href="index.html" class="header-back-btn" aria-label="トップへ戻る" title="トップへ戻る">‹</a>
+      <span class="app-title truncate">IT1-CODE-POCKET</span>
     </div>
   </header>
 

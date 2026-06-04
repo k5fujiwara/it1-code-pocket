@@ -609,7 +609,7 @@ b = "I"
     choices: [
       `もし n ％ 2 == 0 ならば:
 ⎿ 表示する("偶数")`,
-      `もし n / 2 == 0 ならば:
+      `もし n ÷ 2 == 0 ならば:
 ⎿ 表示する("偶数")`,
       `もし n ％ 2 == 1 ならば:
 ⎿ 表示する("偶数")`,
@@ -676,13 +676,13 @@ i を 0 から 4 まで 1 ずつ増やしながら繰り返す:
     code: `Nums = [3, 9, 1, 6]
 # 最大値を表示する`,
     choices: [
-      `表示する(max(Nums))`,
-      `表示する(min(Nums))`,
+      `表示する(最大値(Nums))`,
+      `表示する(最小値(Nums))`,
       `表示する(要素数(Nums))`,
       `表示する(Nums[0])`
     ],
     correctIndex: 0,
-    explanation: "最大値を求めるには max(Nums) を使います。<br>この配列の最大値は <strong>9</strong> です。"
+    explanation: "最大値を求めるには 最大値(Nums) を使います。<br>この配列の最大値は <strong>9</strong> です。"
   },
   {
     id: 41,
@@ -746,7 +746,7 @@ i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す
 ⎿ total = total + Nums[i]`,
       `total = 1
 i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
-⎿ total = total * Nums[i]`,
+⎿ total = total × Nums[i]`,
       `total = 要素数(Nums)`,
       `total = Nums[0]`
     ],
@@ -815,13 +815,13 @@ i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す
     code: `Scores = [60, 80, 100]
 # avg に平均値を入れる`,
     choices: [
-      `avg = 合計(Scores) / 要素数(Scores)`,
-      `avg = 要素数(Scores) / 合計(Scores)`,
-      `avg = max(Scores) / 要素数(Scores)`,
+      `avg = 合計(Scores) ÷ 要素数(Scores)`,
+      `avg = 要素数(Scores) ÷ 合計(Scores)`,
+      `avg = 最大値(Scores) ÷ 要素数(Scores)`,
       `avg = Scores[0] + Scores[1] + Scores[2]`
     ],
     correctIndex: 0,
-    explanation: "平均値は「合計 ÷ 個数」です。<br>よって 合計(Scores) / 要素数(Scores) が正解です。"
+    explanation: "平均値は「合計 ÷ 個数」です。<br>よって 合計(Scores) ÷ 要素数(Scores) が正解です。"
   },
   {
     id: 49,
@@ -949,7 +949,7 @@ i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す
     code: `total = 0
 i を 1 から 3 まで 1 ずつ増やしながら繰り返す:
 ｜j を 1 から 2 まで 1 ずつ増やしながら繰り返す:
-⎿⎿ total = total + i * j
+⎿⎿ total = total + i × j
 表示する(total)`,
     choices: ["6", "12", "18", "24"],
     correctIndex: 2,
@@ -979,7 +979,7 @@ i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す
     patternLabel: "実行回数",
     difficulty: "発展",
     langMode: "dncl",
-    title: "whileループの回数",
+    title: "条件繰返しの回数",
     prompt: "次のプログラムにおいて、n = n ÷ 2 は何回実行されますか。",
     code: `n = 20
 n > 1 の間繰り返す:
@@ -1047,5 +1047,2063 @@ x = Table[ ア ]
     choices: ["[0,2]", "[1,2]", "[2,1]", "[1,3]"],
     correctIndex: 1,
     explanation: "2次元配列は Table[行,列] の形で表します。添字は0始まりなので、2行目・3列目は <strong>Table[1,2]</strong> です。"
+  },
+  {
+    id: 61,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "python",
+    title: "作業を早く空く担当者へ割り当てる",
+    prompt: "次のプログラムを実行したとき、print(available) の出力として正しいものを選びなさい。",
+    code: `days = [4, 1, 3, 1, 3, 4, 2, 4, 3]
+available = [1, 1, 1]
+
+for work in range(len(days)):
+    member = 0
+    for i in range(1, len(available)):
+        if available[i] < available[member]:
+            member = i
+    available[member] = available[member] + days[work]
+
+print(available)`,
+    choices: ["[8, 10, 10]", "[10, 10, 8]", "[9, 9, 10]", "[11, 8, 9]"],
+    correctIndex: 1,
+    explanation: "各作業を、現在もっとも早く空く担当者に割り当てます。<br>順に更新すると available は最終的に <strong>[10, 10, 8]</strong> になります。"
+  },
+  {
+    id: 62,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "python",
+    title: "最も早く空く担当者を探す条件",
+    prompt: "作業を最も早く空く担当者に割り当てるには、[ ア ] に入る条件として正しいものを選びなさい。",
+    code: `days = [4, 1, 3, 1, 3, 4]
+available = [1, 1, 1]
+
+for work in range(len(days)):
+    member = 0
+    for i in range(1, len(available)):
+        if [ ア ]:
+            member = i
+    available[member] = available[member] + days[work]
+
+print(available)`,
+    choices: [
+      "available[i] < available[member]",
+      "available[i] > available[member]",
+      "days[i] < days[member]",
+      "work < member"
+    ],
+    correctIndex: 0,
+    explanation: "最も早く空く担当者を探すので、候補 i の空き日 available[i] が現在の member より小さいかを調べます。"
+  },
+  {
+    id: 63,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "python",
+    title: "到着時刻と待ち時間",
+    prompt: "次のプログラムを実行したとき、print(longest) の出力値を選びなさい。",
+    code: `arrival = [0, 3, 4, 10, 11, 12]
+start = [0] * len(arrival)
+finish = [0] * len(arrival)
+
+start[0] = arrival[0]
+finish[0] = start[0] + 5
+
+for i in range(1, len(arrival)):
+    start[i] = max(arrival[i], finish[i - 1])
+    finish[i] = start[i] + 5
+
+longest = 0
+for i in range(len(arrival)):
+    longest = max(longest, start[i] - arrival[i])
+
+print(longest)`,
+    choices: ["6", "9", "13", "15"],
+    correctIndex: 2,
+    explanation: "前の人の終了時刻より早く到着した人は待ちます。<br>最後の人は 12 に到着し、25 に開始するので待ち時間は 13。最大は <strong>13</strong> です。"
+  },
+  {
+    id: 64,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "python",
+    title: "終了時刻を求める式",
+    prompt: "1人あたりの処理時間が service 分のとき、[ ア ] に入る式として正しいものを選びなさい。",
+    code: `arrival = [0, 3, 4, 10]
+service = 5
+start = [0] * len(arrival)
+finish = [0] * len(arrival)
+
+start[0] = arrival[0]
+finish[0] = start[0] + service
+
+for i in range(1, len(arrival)):
+    start[i] = max(arrival[i], finish[i - 1])
+    finish[i] = [ ア ]
+
+print(finish)`,
+    choices: [
+      "start[i] + service",
+      "arrival[i] + finish[i - 1]",
+      "finish[i - 1] + i",
+      "service - start[i]"
+    ],
+    correctIndex: 0,
+    explanation: "終了時刻は「開始時刻 + 処理時間」です。したがって finish[i] = <strong>start[i] + service</strong> です。"
+  },
+  {
+    id: 65,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "発展",
+    langMode: "python",
+    title: "二重ループと条件判定の実行回数",
+    prompt: "次のプログラムにおいて、count += 1 は何回実行されますか。",
+    code: `count = 0
+
+for day in range(1, 6):
+    for room in range(3):
+        if (day + room) % 2 == 0:
+            count += 1
+
+print(count)`,
+    choices: ["5回", "6回", "7回", "8回"],
+    correctIndex: 2,
+    explanation: "day は1〜5、room は0〜2です。<br>day+room が偶数になる組を数えると、1+2+1+2+1 = <strong>7回</strong> です。"
+  },
+  {
+    id: 66,
+    pattern: "B",
+    patternLabel: "正誤判定",
+    difficulty: "発展",
+    langMode: "python",
+    title: "条件を満たす区間数を数える",
+    prompt: "temps の中で、前日より気温が高くなった日数を count に入れるコードとして正しいものを選びなさい。",
+    code: `temps = [22, 24, 23, 27, 29, 28]
+# 前日より高くなった回数を count に入れる`,
+    choices: [
+      `count = 0
+for i in range(1, len(temps)):
+    if temps[i] > temps[i - 1]:
+        count += 1`,
+      `count = 0
+for i in range(len(temps)):
+    if temps[i] > temps[i + 1]:
+        count += 1`,
+      `count = 1
+for i in range(1, len(temps)):
+    if temps[i] < temps[i - 1]:
+        count += 1`,
+      `count = len(temps)`
+    ],
+    correctIndex: 0,
+    explanation: "前日と比較するため、i は1から始めます。<br>比較する式は temps[i] > temps[i - 1] です。"
+  },
+  {
+    id: 67,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "python",
+    title: "必要数を満たしたグループ数",
+    prompt: "次のプログラムを実行したとき、print(group, filled) の出力として正しいものを選びなさい。",
+    code: `seats = [2, 4, 1, 3, 2]
+need = [3, 5, 2]
+filled = [0] * len(need)
+group = 0
+
+for i in range(len(seats)):
+    filled[group] += seats[i]
+    if filled[group] >= need[group]:
+        group += 1
+    if group == len(need):
+        break
+
+print(group, filled)`,
+    choices: [
+      "1 [6, 0, 0]",
+      "2 [6, 6, 0]",
+      "2 [3, 5, 0]",
+      "3 [6, 6, 2]"
+    ],
+    correctIndex: 1,
+    explanation: "1つ目のグループは 2+4=6 で条件を満たします。<br>2つ目は 1+3+2=6 で条件を満たします。よって <strong>2 [6, 6, 0]</strong> です。"
+  },
+  {
+    id: 68,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "python",
+    title: "すべてのグループが完了したら抜ける条件",
+    prompt: "すべてのグループが必要数を満たしたら繰り返しを抜けるには、[ ア ] に何を入れればよいですか。",
+    code: `seats = [2, 4, 1, 3, 2]
+need = [3, 5, 2]
+filled = [0] * len(need)
+group = 0
+
+for i in range(len(seats)):
+    filled[group] += seats[i]
+    if filled[group] >= need[group]:
+        group += 1
+    if [ ア ]:
+        break
+
+print(group)`,
+    choices: [
+      "group == len(need)",
+      "group == len(seats)",
+      "filled[group] == 0",
+      "i == group"
+    ],
+    correctIndex: 0,
+    explanation: "group は完了したグループ数を表します。<br>完了数が need の個数と同じになれば、すべてのグループが完了しています。"
+  },
+  {
+    id: 69,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "python",
+    title: "2次元リストの行ごとの合計",
+    prompt: "次のプログラムを実行したとき、print(best) の出力値を選びなさい。",
+    code: `table = [
+    [0, 2, 1],
+    [3, 1, 0],
+    [2, 0, 4]
+]
+
+best = 0
+for r in range(len(table)):
+    total = 0
+    for c in range(len(table[r])):
+        if table[r][c] > 0:
+            total += table[r][c]
+    if total > best:
+        best = total
+
+print(best)`,
+    choices: ["3", "4", "6", "10"],
+    correctIndex: 2,
+    explanation: "各行の合計は、1行目が3、2行目が4、3行目が6です。<br>最大は <strong>6</strong> です。"
+  },
+  {
+    id: 70,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "発展",
+    langMode: "python",
+    title: "最大値が更新される回数",
+    prompt: "次のプログラムにおいて、best = n は何回実行されますか。",
+    code: `nums = [6, 2, 8, 8, 3, 9]
+best = 0
+count = 0
+
+for n in nums:
+    if n > best:
+        best = n
+        count += 1
+
+print(best, count)`,
+    choices: ["1回", "2回", "3回", "4回"],
+    correctIndex: 2,
+    explanation: "best は 6、8、9 のときに更新されます。<br>同じ8がもう一度出ても n > best ではないため更新されません。よって <strong>3回</strong> です。"
+  },
+  {
+    id: 71,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "python",
+    title: "担当者の最短空き日を探す",
+    prompt: "工芸品を、最も早く空く担当者へ順に割り当てる。内側のループで最短の空き日を持つ担当者を選ぶには、[ ア ] に何を入れればよいですか。",
+    code: `work_days = [4, 1, 3, 2, 5, 1]
+free_day = [1, 1, 1]
+
+for w in range(len(work_days)):
+    staff = 0
+    for i in range(1, len(free_day)):
+        if [ ア ]:
+            staff = i
+    free_day[staff] = free_day[staff] + work_days[w]
+
+print(free_day)`,
+    choices: [
+      "free_day[i] < free_day[staff]",
+      "free_day[i] > free_day[staff]",
+      "work_days[i] < work_days[staff]",
+      "i < staff",
+      "free_day[staff] < work_days[w]",
+      "work_days[w] < free_day[i]"
+    ],
+    correctIndex: 0,
+    explanation: "staff には「今のところ最も早く空く担当者」の添字を入れます。<br>候補 i の空き日 free_day[i] が、現在の staff の空き日 free_day[staff] より小さいときに staff を更新します。<br>したがって条件は <strong>free_day[i] < free_day[staff]</strong> です。"
+  },
+  {
+    id: 72,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "python",
+    title: "作業割当後の空き日",
+    prompt: "次のプログラムを実行したとき、print(free_day) の出力として正しいものを選びなさい。",
+    code: `work_days = [2, 5, 1, 4, 3, 2, 4]
+free_day = [1, 1, 1]
+
+for w in range(len(work_days)):
+    staff = 0
+    for i in range(1, len(free_day)):
+        if free_day[i] < free_day[staff]:
+            staff = i
+    free_day[staff] = free_day[staff] + work_days[w]
+
+print(free_day)`,
+    choices: [
+      "[8, 10, 6]",
+      "[9, 8, 5]",
+      "[7, 7, 8]",
+      "[10, 5, 7]",
+      "[6, 9, 7]",
+      "[9, 5, 8]"
+    ],
+    correctIndex: 0,
+    explanation: "free_day は担当者が次に空く日を表します。<br>同じ空き日の担当者が複数いる場合、このプログラムでは添字の小さい担当者が選ばれます。順に割り当てると、[1,1,1] → [3,1,1] → [3,6,1] → [3,6,2] → [3,6,6] → [6,6,6] → [8,6,6] → <strong>[8,10,6]</strong> です。"
+  },
+  {
+    id: 73,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "python",
+    title: "待ち時間を求める開始時刻",
+    prompt: "1つの窓口で順番に処理する。i番目の人の開始時刻 start[i] を正しく求めるには、[ ア ] に何を入れればよいですか。",
+    code: `arrival = [0, 2, 4, 9, 11]
+service = 5
+start = [0] * len(arrival)
+finish = [0] * len(arrival)
+
+start[0] = arrival[0]
+finish[0] = start[0] + service
+
+for i in range(1, len(arrival)):
+    start[i] = [ ア ]
+    finish[i] = start[i] + service
+
+print(start)`,
+    choices: [
+      "max(arrival[i], finish[i - 1])",
+      "min(arrival[i], finish[i - 1])",
+      "arrival[i] + service",
+      "finish[i - 1] - service",
+      "max(arrival[i - 1], finish[i])",
+      "arrival[i - 1] + finish[i - 1]"
+    ],
+    correctIndex: 0,
+    explanation: "その人が到着していて、かつ前の人の処理が終わっていないと開始できません。<br>よって開始時刻は「到着時刻」と「直前の終了時刻」の大きい方、つまり <strong>max(arrival[i], finish[i - 1])</strong> です。"
+  },
+  {
+    id: 74,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "python",
+    title: "最長待ち時間を求める",
+    prompt: "次のプログラムを実行したとき、print(longest) の出力値として正しいものを選びなさい。",
+    code: `arrival = [0, 3, 6, 7, 15, 16]
+service = 4
+start = [0] * len(arrival)
+finish = [0] * len(arrival)
+
+start[0] = arrival[0]
+finish[0] = start[0] + service
+
+for i in range(1, len(arrival)):
+    start[i] = max(arrival[i], finish[i - 1])
+    finish[i] = start[i] + service
+
+longest = 0
+for i in range(len(arrival)):
+    wait = start[i] - arrival[i]
+    if wait > longest:
+        longest = wait
+
+print(longest)`,
+    choices: ["0", "1", "2", "3", "4", "5"],
+    correctIndex: 5,
+    explanation: "開始時刻は [0,4,8,12,16,20] です。<br>待ち時間は [0,1,2,5,1,4] なので、最大は4番目の人の 12-7=<strong>5</strong> です。"
+  },
+  {
+    id: 75,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "発展",
+    langMode: "python",
+    title: "条件を満たす組の数",
+    prompt: "次のプログラムで、count += 1 は何回実行されますか。",
+    code: `scores = [
+    [2, 0, 1],
+    [0, 3, 2],
+    [4, 1, 0]
+]
+count = 0
+
+for r in range(len(scores)):
+    for c in range(len(scores[r])):
+        if scores[r][c] >= 2:
+            count += 1
+
+print(count)`,
+    choices: ["2回", "3回", "4回", "5回", "6回", "9回"],
+    correctIndex: 2,
+    explanation: "2以上の値は、2, 3, 2, 4 の4個です。<br>したがって count += 1 は <strong>4回</strong> 実行されます。"
+  },
+  {
+    id: 76,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "python",
+    title: "累積人数が定員を超える時点",
+    prompt: "次のプログラムを実行したとき、print(day) の出力値として正しいものを選びなさい。",
+    code: `visitors = [18, 22, 15, 30, 12, 20]
+limit = 70
+total = 0
+day = -1
+
+for i in range(len(visitors)):
+    total += visitors[i]
+    if total >= limit and day == -1:
+        day = i
+
+print(day)`,
+    choices: ["0", "1", "2", "3", "4", "5", "-1", "70"],
+    correctIndex: 3,
+    explanation: "累積は 18 → 40 → 55 → 85 と変化します。<br>初めて70以上になるのは i=3 のときです。よって出力は <strong>3</strong> です。"
+  },
+  {
+    id: 77,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "python",
+    title: "初めて条件を満たした位置だけを記録する",
+    prompt: "target 以上になった最初の添字だけを pos に入れるには、[ ア ] に何を入れればよいですか。",
+    code: `points = [12, 8, 15, 6, 20]
+target = 30
+total = 0
+pos = -1
+
+for i in range(len(points)):
+    total += points[i]
+    if total >= target and [ ア ]:
+        pos = i
+
+print(pos)`,
+    choices: [
+      "pos == -1",
+      "pos == i",
+      "pos >= 0",
+      "total == 0",
+      "points[i] == target",
+      "i == 0",
+      "target < 0",
+      "len(points) == pos"
+    ],
+    correctIndex: 0,
+    explanation: "pos は「まだ記録していない」ことを -1 で表しています。<br>一度 pos に添字を入れた後は更新したくないので、条件に <strong>pos == -1</strong> を加えます。"
+  },
+  {
+    id: 78,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "python",
+    title: "区間の長さの最大値",
+    prompt: "次のプログラムを実行したとき、print(longest) の出力値として正しいものを選びなさい。",
+    code: `busy = [1, 1, 0, 1, 1, 1, 0, 1]
+now = 0
+longest = 0
+
+for i in range(len(busy)):
+    if busy[i] == 1:
+        now += 1
+        if now > longest:
+            longest = now
+    else:
+        now = 0
+
+print(longest)`,
+    choices: ["0", "1", "2", "3", "4", "5", "6", "8"],
+    correctIndex: 3,
+    explanation: "1が連続する長さを数えています。<br>連続部分は [1,1] が長さ2、[1,1,1] が長さ3、最後の [1] が長さ1です。最大は <strong>3</strong> です。"
+  },
+  {
+    id: 79,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "python",
+    title: "2次元リストの列合計",
+    prompt: "各列の合計を col_sum に入れる。空欄 [ ア ] に入る式として正しいものを選びなさい。",
+    code: `table = [
+    [3, 1, 4],
+    [2, 5, 0],
+    [1, 2, 6]
+]
+col_sum = [0, 0, 0]
+
+for r in range(len(table)):
+    for c in range(len(table[r])):
+        col_sum[c] += [ ア ]
+
+print(col_sum)`,
+    choices: [
+      "table[r][c]",
+      "table[c][r]",
+      "table[r]",
+      "table[c]",
+      "col_sum[r]",
+      "col_sum[c]",
+      "r + c",
+      "len(table[c])"
+    ],
+    correctIndex: 0,
+    explanation: "r行c列の値を、c列目の合計 col_sum[c] に足します。<br>参照する値は <strong>table[r][c]</strong> です。"
+  },
+  {
+    id: 80,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "python",
+    title: "列合計の最大値",
+    prompt: "次のプログラムを実行したとき、print(best) の出力値として正しいものを選びなさい。",
+    code: `table = [
+    [3, 1, 4],
+    [2, 5, 0],
+    [1, 2, 6]
+]
+col_sum = [0, 0, 0]
+
+for r in range(len(table)):
+    for c in range(len(table[r])):
+        col_sum[c] += table[r][c]
+
+best = 0
+for x in col_sum:
+    if x > best:
+        best = x
+
+print(best)`,
+    choices: ["6", "7", "8", "9", "10", "11", "12", "21"],
+    correctIndex: 4,
+    explanation: "列ごとの合計は、1列目が 3+2+1=6、2列目が 1+5+2=8、3列目が 4+0+6=10 です。<br>最大値は <strong>10</strong> です。"
+  },
+  {
+    id: 81,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "担当者の最短空き日を探す",
+    prompt: "品物を、最も早く空く担当者へ順に割り当てる。内側の繰り返しで最短の空き日を持つ担当者を選ぶには、[ ア ] に何を入れればよいですか。",
+    code: `Work = [4, 1, 3, 2, 5, 1]
+Free = [1, 1, 1]
+
+w を 0 から 要素数(Work) - 1 まで 1 ずつ増やしながら繰り返す:
+｜staff = 0
+｜i を 1 から 要素数(Free) - 1 まで 1 ずつ増やしながら繰り返す:
+｜｜もし [ ア ] ならば:
+｜⎿⎿ staff = i
+⎿ Free[staff] = Free[staff] + Work[w]
+
+表示する(Free)`,
+    choices: [
+      "Free[i] < Free[staff]",
+      "Free[i] > Free[staff]",
+      "Work[i] < Work[staff]",
+      "i < staff",
+      "Free[staff] < Work[w]",
+      "Work[w] < Free[i]"
+    ],
+    correctIndex: 0,
+    explanation: "staff は「今のところ最も早く空く担当者」の添字です。<br>候補 i の空き日 Free[i] が、現在の staff の空き日 Free[staff] より小さいときに staff を更新します。よって <strong>Free[i] < Free[staff]</strong> が入ります。"
+  },
+  {
+    id: 82,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "作業割当後の空き日",
+    prompt: "次のプログラムを実行したとき、表示される Free として正しいものを選びなさい。",
+    code: `Work = [2, 5, 1, 4, 3, 2, 4]
+Free = [1, 1, 1]
+
+w を 0 から 要素数(Work) - 1 まで 1 ずつ増やしながら繰り返す:
+｜staff = 0
+｜i を 1 から 要素数(Free) - 1 まで 1 ずつ増やしながら繰り返す:
+｜｜もし Free[i] < Free[staff] ならば:
+｜⎿⎿ staff = i
+⎿ Free[staff] = Free[staff] + Work[w]
+
+表示する(Free)`,
+    choices: [
+      "[8, 10, 6]",
+      "[9, 8, 5]",
+      "[7, 7, 8]",
+      "[10, 5, 7]",
+      "[6, 9, 7]",
+      "[9, 5, 8]"
+    ],
+    correctIndex: 0,
+    explanation: "Free は担当者が次に空く日を表します。<br>同じ空き日の担当者が複数いる場合、このプログラムでは添字の小さい担当者が選ばれます。順に追うと、[1,1,1] → [3,1,1] → [3,6,1] → [3,6,2] → [3,6,6] → [6,6,6] → [8,6,6] → <strong>[8,10,6]</strong> です。"
+  },
+  {
+    id: 83,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "待ち時間を求める開始時刻",
+    prompt: "1つの窓口で順番に処理する。i番目の人の開始時刻 Start[i] を正しく求めるには、[ ア ] に何を入れればよいですか。",
+    code: `Arrive = [0, 2, 4, 9, 11]
+service = 5
+Start = [0, 0, 0, 0, 0]
+Finish = [0, 0, 0, 0, 0]
+
+Start[0] = Arrive[0]
+Finish[0] = Start[0] + service
+
+i を 1 から 要素数(Arrive) - 1 まで 1 ずつ増やしながら繰り返す:
+｜Start[i] = [ ア ]
+⎿ Finish[i] = Start[i] + service
+
+表示する(Start)`,
+    choices: [
+      "最大値(Arrive[i], Finish[i - 1])",
+      "最小値(Arrive[i], Finish[i - 1])",
+      "Arrive[i] + service",
+      "Finish[i - 1] - service",
+      "最大値(Arrive[i - 1], Finish[i])",
+      "Arrive[i - 1] + Finish[i - 1]"
+    ],
+    correctIndex: 0,
+    explanation: "その人が到着していて、前の人の処理も終わっている必要があります。<br>したがって開始時刻は「到着時刻」と「直前の終了時刻」の大きい方、つまり <strong>最大値(Arrive[i], Finish[i - 1])</strong> です。"
+  },
+  {
+    id: 84,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "最長待ち時間を求める",
+    prompt: "次のプログラムを実行したとき、表示される longest の値として正しいものを選びなさい。",
+    code: `Arrive = [0, 3, 6, 7, 15, 16]
+service = 4
+Start = [0, 0, 0, 0, 0, 0]
+Finish = [0, 0, 0, 0, 0, 0]
+
+Start[0] = Arrive[0]
+Finish[0] = Start[0] + service
+
+i を 1 から 要素数(Arrive) - 1 まで 1 ずつ増やしながら繰り返す:
+｜Start[i] = 最大値(Arrive[i], Finish[i - 1])
+⎿ Finish[i] = Start[i] + service
+
+longest = 0
+i を 0 から 要素数(Arrive) - 1 まで 1 ずつ増やしながら繰り返す:
+｜wait = Start[i] - Arrive[i]
+｜もし wait > longest ならば:
+⎿⎿ longest = wait
+
+表示する(longest)`,
+    choices: ["0", "1", "2", "3", "4", "5"],
+    correctIndex: 5,
+    explanation: "Start は [0,4,8,12,16,20] になります。<br>待ち時間は [0,1,2,5,1,4] なので、最大は 12-7=<strong>5</strong> です。"
+  },
+  {
+    id: 85,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "条件を満たす表の要素数",
+    prompt: "次のプログラムで、count = count + 1 は何回実行されますか。",
+    code: `Score = [
+  [2, 0, 1],
+  [0, 3, 2],
+  [4, 1, 0]
+]
+count = 0
+
+r を 0 から 要素数(Score) - 1 まで 1 ずつ増やしながら繰り返す:
+｜c を 0 から 要素数(Score[r]) - 1 まで 1 ずつ増やしながら繰り返す:
+｜｜もし Score[r][c] >= 2 ならば:
+⎿⎿⎿ count = count + 1
+
+表示する(count)`,
+    choices: ["2回", "3回", "4回", "5回", "6回", "9回"],
+    correctIndex: 2,
+    explanation: "表の中で2以上の値は、2, 3, 2, 4 の4個です。<br>そのため count = count + 1 は <strong>4回</strong> 実行されます。"
+  },
+  {
+    id: 86,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "累積人数が定員を超える時点",
+    prompt: "次のプログラムを実行したとき、表示される day の値として正しいものを選びなさい。",
+    code: `Visitors = [18, 22, 15, 30, 12, 20]
+limit = 70
+total = 0
+day = -1
+
+i を 0 から 要素数(Visitors) - 1 まで 1 ずつ増やしながら繰り返す:
+｜total = total + Visitors[i]
+｜もし total >= limit かつ day == -1 ならば:
+⎿⎿ day = i
+
+表示する(day)`,
+    choices: ["0", "1", "2", "3", "4", "5", "-1", "70"],
+    correctIndex: 3,
+    explanation: "累積は 18 → 40 → 55 → 85 と増えます。<br>初めて70以上になるのは i=3 のときなので、表示される値は <strong>3</strong> です。"
+  },
+  {
+    id: 87,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "初めて条件を満たした位置だけを記録する",
+    prompt: "target 以上になった最初の添字だけを pos に入れるには、[ ア ] に何を入れればよいですか。",
+    code: `Point = [12, 8, 15, 6, 20]
+target = 30
+total = 0
+pos = -1
+
+i を 0 から 要素数(Point) - 1 まで 1 ずつ増やしながら繰り返す:
+｜total = total + Point[i]
+｜もし total >= target かつ [ ア ] ならば:
+⎿⎿ pos = i
+
+表示する(pos)`,
+    choices: [
+      "pos == -1",
+      "pos == i",
+      "pos >= 0",
+      "total == 0",
+      "Point[i] == target",
+      "i == 0",
+      "target < 0",
+      "要素数(Point) == pos"
+    ],
+    correctIndex: 0,
+    explanation: "pos は「まだ記録していない」ことを -1 で表しています。<br>最初の1回だけ記録するには、条件に <strong>pos == -1</strong> を加えます。"
+  },
+  {
+    id: 88,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "連続している区間の最大長",
+    prompt: "次のプログラムを実行したとき、表示される longest の値として正しいものを選びなさい。",
+    code: `Busy = [1, 1, 0, 1, 1, 1, 0, 1]
+now = 0
+longest = 0
+
+i を 0 から 要素数(Busy) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Busy[i] == 1 ならば:
+｜｜now = now + 1
+｜｜もし now > longest ならば:
+｜⎿⎿ longest = now
+｜そうでなければ:
+⎿⎿ now = 0
+
+表示する(longest)`,
+    choices: ["0", "1", "2", "3", "4", "5", "6", "8"],
+    correctIndex: 3,
+    explanation: "1が続く長さを now で数え、最大値を longest に記録します。<br>連続部分の長さは 2、3、1 なので、最大は <strong>3</strong> です。"
+  },
+  {
+    id: 89,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "2次元配列の列合計",
+    prompt: "各列の合計を ColSum に入れる。空欄 [ ア ] に入る式として正しいものを選びなさい。",
+    code: `Table = [
+  [3, 1, 4],
+  [2, 5, 0],
+  [1, 2, 6]
+]
+ColSum = [0, 0, 0]
+
+r を 0 から 要素数(Table) - 1 まで 1 ずつ増やしながら繰り返す:
+｜c を 0 から 要素数(Table[r]) - 1 まで 1 ずつ増やしながら繰り返す:
+⎿⎿ ColSum[c] = ColSum[c] + [ ア ]
+
+表示する(ColSum)`,
+    choices: [
+      "Table[r][c]",
+      "Table[c][r]",
+      "Table[r]",
+      "Table[c]",
+      "ColSum[r]",
+      "ColSum[c]",
+      "r + c",
+      "要素数(Table[c])"
+    ],
+    correctIndex: 0,
+    explanation: "r行c列の値を、c列目の合計 ColSum[c] に足します。<br>参照する値は <strong>Table[r][c]</strong> です。"
+  },
+  {
+    id: 90,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "列合計の最大値",
+    prompt: "次のプログラムを実行したとき、表示される best の値として正しいものを選びなさい。",
+    code: `Table = [
+  [3, 1, 4],
+  [2, 5, 0],
+  [1, 2, 6]
+]
+ColSum = [0, 0, 0]
+
+r を 0 から 要素数(Table) - 1 まで 1 ずつ増やしながら繰り返す:
+｜c を 0 から 要素数(Table[r]) - 1 まで 1 ずつ増やしながら繰り返す:
+⎿⎿ ColSum[c] = ColSum[c] + Table[r][c]
+
+best = 0
+i を 0 から 要素数(ColSum) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし ColSum[i] > best ならば:
+⎿⎿ best = ColSum[i]
+
+表示する(best)`,
+    choices: ["6", "7", "8", "9", "10", "11", "12", "21"],
+    correctIndex: 4,
+    explanation: "列合計は、1列目が 3+2+1=6、2列目が 1+5+2=8、3列目が 4+0+6=10 です。<br>最大値は <strong>10</strong> です。"
+  },
+  {
+    id: 91,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "標準",
+    langMode: "python",
+    title: "偶数番目の要素を合計する",
+    prompt: "添字が偶数の要素だけを total に加えるには、[ ア ] に何を入れればよいですか。",
+    code: `nums = [5, 8, 3, 6, 7, 2]
+total = 0
+
+for i in range(len(nums)):
+    if [ ア ]:
+        total += nums[i]
+
+print(total)`,
+    choices: [
+      "i % 2 == 0",
+      "i % 2 == 1",
+      "nums[i] % 2 == 0",
+      "nums[i] % 2 == 1",
+      "i == nums[i]",
+      "i > nums[i]"
+    ],
+    correctIndex: 0,
+    explanation: "添字が偶数とは、i が 0, 2, 4, ... になる場合です。<br>2で割った余りが0なので、条件は <strong>i % 2 == 0</strong> です。"
+  },
+  {
+    id: 92,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "標準",
+    langMode: "python",
+    title: "条件によって足すか引くかを変える",
+    prompt: "次のプログラムを実行したとき、print(total) の出力値として正しいものを選びなさい。",
+    code: `nums = [4, 1, 7, 2, 5]
+total = 0
+
+for n in nums:
+    if n >= 5:
+        total += n
+    else:
+        total -= n
+
+print(total)`,
+    choices: ["0", "3", "5", "7", "9", "19"],
+    correctIndex: 2,
+    explanation: "5以上なら足し、5未満なら引きます。<br>total は 0-4-1+7-2+5 = <strong>5</strong> になります。"
+  },
+  {
+    id: 93,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "標準",
+    langMode: "python",
+    title: "2つの条件を同時に満たす回数",
+    prompt: "次のプログラムで、count += 1 は何回実行されますか。",
+    code: `nums = [2, 5, 8, 11, 14, 17]
+count = 0
+
+for n in nums:
+    if n % 3 == 2 and n > 10:
+        count += 1
+
+print(count)`,
+    choices: ["1回", "2回", "3回", "4回", "5回", "6回"],
+    correctIndex: 2,
+    explanation: "n % 3 == 2 かつ n > 10 を満たす値は 11, 14, 17 の3つです。<br>よって count += 1 は <strong>3回</strong> 実行されます。"
+  },
+  {
+    id: 94,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "標準",
+    langMode: "python",
+    title: "在庫の残りと少ない商品の数",
+    prompt: "次のプログラムを実行したとき、print(remain, count) の出力として正しいものを選びなさい。",
+    code: `stock = [12, 9, 15, 7, 10]
+sold = [3, 4, 5, 2, 6]
+remain = []
+count = 0
+
+for i in range(len(stock)):
+    remain.append(stock[i] - sold[i])
+    if remain[i] < 8:
+        count += 1
+
+print(remain, count)`,
+    choices: [
+      "[9, 5, 10, 5, 4] 3",
+      "[9, 5, 10, 5, 4] 2",
+      "[15, 13, 20, 9, 16] 0",
+      "[3, 4, 5, 2, 6] 5",
+      "[9, 5, 10, 5, 4] 5",
+      "[12, 9, 15, 7, 10] 3"
+    ],
+    correctIndex: 0,
+    explanation: "残りは順に 12-3=9, 9-4=5, 15-5=10, 7-2=5, 10-6=4 です。<br>8未満は 5, 5, 4 の3個なので、出力は <strong>[9, 5, 10, 5, 4] 3</strong> です。"
+  },
+  {
+    id: 95,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "標準",
+    langMode: "python",
+    title: "前日より増えた日を数える",
+    prompt: "前の値より大きくなった回数を数えるには、[ ア ] に何を入れればよいですか。",
+    code: `temps = [18, 20, 19, 22, 22, 25]
+count = 0
+
+for i in range(1, len(temps)):
+    if [ ア ]:
+        count += 1
+
+print(count)`,
+    choices: [
+      "temps[i] > temps[i - 1]",
+      "temps[i] < temps[i - 1]",
+      "temps[i] == temps[i - 1]",
+      "i > temps[i]",
+      "temps[i - 1] > i",
+      "temps[i] >= 0"
+    ],
+    correctIndex: 0,
+    explanation: "前の値は temps[i - 1]、現在の値は temps[i] です。<br>前より増えたかを調べる条件は <strong>temps[i] > temps[i - 1]</strong> です。"
+  },
+  {
+    id: 96,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "標準",
+    langMode: "python",
+    title: "指定された箱の数を増やす",
+    prompt: "次のプログラムを実行したとき、print(boxes) の出力として正しいものを選びなさい。",
+    code: `boxes = [3, 0, 2]
+moves = [1, 2, 0, 1]
+
+for m in moves:
+    boxes[m] += 1
+
+print(boxes)`,
+    choices: [
+      "[4, 2, 3]",
+      "[3, 2, 3]",
+      "[4, 1, 3]",
+      "[5, 1, 2]",
+      "[3, 1, 2]",
+      "[1, 2, 0]",
+      "[7, 4, 6]",
+      "[4, 3, 2]"
+    ],
+    correctIndex: 0,
+    explanation: "moves の値は、増やす箱の添字を表します。<br>添字1を2回、添字2を1回、添字0を1回増やすので、boxes は <strong>[4, 2, 3]</strong> になります。"
+  },
+  {
+    id: 97,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "標準",
+    langMode: "python",
+    title: "隣り合う要素を比較する範囲",
+    prompt: "data[i] と data[i + 1] を安全に比較するには、[ ア ] に何を入れればよいですか。",
+    code: `data = [3, 5, 4, 6, 8]
+pos = -1
+
+for i in [ ア ]:
+    if data[i] > data[i + 1]:
+        pos = i
+        break
+
+print(pos)`,
+    choices: [
+      "range(len(data) - 1)",
+      "range(len(data))",
+      "range(1, len(data))",
+      "range(len(data) + 1)",
+      "range(data[i])",
+      "range(0)",
+      "range(pos)",
+      "range(len(pos))"
+    ],
+    correctIndex: 0,
+    explanation: "data[i + 1] を使うため、i は最後の添字まで進めてはいけません。<br>最後に使える i は len(data)-2 なので、範囲は <strong>range(len(data) - 1)</strong> です。"
+  },
+  {
+    id: 98,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "標準",
+    langMode: "python",
+    title: "余りごとの個数を数える",
+    prompt: "次のプログラムを実行したとき、print(bucket) の出力として正しいものを選びなさい。",
+    code: `nums = [5, 8, 10, 12, 14, 17, 21]
+bucket = [0, 0, 0]
+
+for n in nums:
+    bucket[n % 3] += 1
+
+print(bucket)`,
+    choices: [
+      "[2, 1, 4]",
+      "[1, 2, 4]",
+      "[4, 1, 2]",
+      "[2, 4, 1]",
+      "[0, 3, 4]",
+      "[3, 2, 2]",
+      "[5, 8, 10]",
+      "[7, 0, 0]"
+    ],
+    correctIndex: 0,
+    explanation: "3で割った余りごとに数えます。<br>余り0は 12,21 の2個、余り1は 10 の1個、余り2は 5,8,14,17 の4個です。よって <strong>[2, 1, 4]</strong> です。"
+  },
+  {
+    id: 99,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "標準",
+    langMode: "python",
+    title: "値を半分にする繰り返し",
+    prompt: "次のプログラムで、count += 1 は何回実行されますか。",
+    code: `x = 48
+count = 0
+
+while x > 5:
+    x = x // 2
+    count += 1
+
+print(x, count)`,
+    choices: ["1回", "2回", "3回", "4回", "5回", "6回", "7回", "8回"],
+    correctIndex: 3,
+    explanation: "x は 48 → 24 → 12 → 6 → 3 と変化します。<br>x が3になると x > 5 を満たさないため停止します。count += 1 は <strong>4回</strong> 実行されます。"
+  },
+  {
+    id: 100,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "標準",
+    langMode: "python",
+    title: "目標に達したら繰り返しを止める",
+    prompt: "合計が target 以上になった時点で繰り返しを止めるには、[ ア ] に何を入れればよいですか。",
+    code: `items = [4, 7, 3, 6, 5]
+target = 18
+total = 0
+used = 0
+
+for i in range(len(items)):
+    total += items[i]
+    used += 1
+    if [ ア ]:
+        break
+
+print(used)`,
+    choices: [
+      "total >= target",
+      "total < target",
+      "items[i] == target",
+      "used == 0",
+      "i == len(items)",
+      "items[i] > total",
+      "target < 0",
+      "total == items[i]"
+    ],
+    correctIndex: 0,
+    explanation: "繰り返しを止めたいのは、ここまでの合計 total が目標 target に達したときです。<br>したがって条件は <strong>total >= target</strong> です。"
+  },
+  {
+    id: 101,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "偶数番目の要素を合計する",
+    prompt: "添字が偶数の要素だけを total に加えるには、[ ア ] に何を入れればよいですか。",
+    code: `Nums = [5, 8, 3, 6, 7, 2]
+total = 0
+
+i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし [ ア ] ならば:
+⎿⎿ total = total + Nums[i]
+
+表示する(total)`,
+    choices: [
+      "i ％ 2 == 0",
+      "i ％ 2 == 1",
+      "Nums[i] ％ 2 == 0",
+      "Nums[i] ％ 2 == 1",
+      "i == Nums[i]",
+      "i > Nums[i]"
+    ],
+    correctIndex: 0,
+    explanation: "添字が偶数とは、i が 0, 2, 4, ... になる場合です。<br>2で割った余りが0なので、条件は <strong>i ％ 2 == 0</strong> です。"
+  },
+  {
+    id: 102,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "条件によって足すか引くかを変える",
+    prompt: "次のプログラムを実行したとき、表示される total の値として正しいものを選びなさい。",
+    code: `Nums = [4, 1, 7, 2, 5]
+total = 0
+
+i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Nums[i] >= 5 ならば:
+｜⎿ total = total + Nums[i]
+｜そうでなければ:
+⎿⎿ total = total - Nums[i]
+
+表示する(total)`,
+    choices: ["0", "3", "5", "7", "9", "19"],
+    correctIndex: 2,
+    explanation: "5以上なら足し、5未満なら引きます。<br>total は 0-4-1+7-2+5 = <strong>5</strong> になります。"
+  },
+  {
+    id: 103,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "2つの条件を同時に満たす回数",
+    prompt: "次のプログラムで、count = count + 1 は何回実行されますか。",
+    code: `Nums = [2, 5, 8, 11, 14, 17]
+count = 0
+
+i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Nums[i] ％ 3 == 2 かつ Nums[i] > 10 ならば:
+⎿⎿ count = count + 1
+
+表示する(count)`,
+    choices: ["1回", "2回", "3回", "4回", "5回", "6回"],
+    correctIndex: 2,
+    explanation: "3で割った余りが2で、さらに10より大きい値は 11, 14, 17 の3つです。<br>よって count = count + 1 は <strong>3回</strong> 実行されます。"
+  },
+  {
+    id: 104,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "在庫の残りと少ない商品の数",
+    prompt: "次のプログラムを実行したとき、表示される Remain と count の組として正しいものを選びなさい。",
+    code: `Stock = [12, 9, 15, 7, 10]
+Sold = [3, 4, 5, 2, 6]
+Remain = [0, 0, 0, 0, 0]
+count = 0
+
+i を 0 から 要素数(Stock) - 1 まで 1 ずつ増やしながら繰り返す:
+｜Remain[i] = Stock[i] - Sold[i]
+｜もし Remain[i] < 8 ならば:
+⎿⎿ count = count + 1
+
+表示する(Remain, count)`,
+    choices: [
+      "[9, 5, 10, 5, 4] 3",
+      "[9, 5, 10, 5, 4] 2",
+      "[15, 13, 20, 9, 16] 0",
+      "[3, 4, 5, 2, 6] 5",
+      "[9, 5, 10, 5, 4] 5",
+      "[12, 9, 15, 7, 10] 3"
+    ],
+    correctIndex: 0,
+    explanation: "Remain は Stock から Sold を引いた値です。<br>順に [9, 5, 10, 5, 4] となり、8未満は 5, 5, 4 の3個です。よって <strong>[9, 5, 10, 5, 4] 3</strong> です。"
+  },
+  {
+    id: 105,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "前日より増えた日を数える",
+    prompt: "前の値より大きくなった回数を数えるには、[ ア ] に何を入れればよいですか。",
+    code: `Temps = [18, 20, 19, 22, 22, 25]
+count = 0
+
+i を 1 から 要素数(Temps) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし [ ア ] ならば:
+⎿⎿ count = count + 1
+
+表示する(count)`,
+    choices: [
+      "Temps[i] > Temps[i - 1]",
+      "Temps[i] < Temps[i - 1]",
+      "Temps[i] == Temps[i - 1]",
+      "i > Temps[i]",
+      "Temps[i - 1] > i",
+      "Temps[i] >= 0"
+    ],
+    correctIndex: 0,
+    explanation: "現在の値は Temps[i]、前の値は Temps[i - 1] です。<br>前より増えたかを調べる条件は <strong>Temps[i] > Temps[i - 1]</strong> です。"
+  },
+  {
+    id: 106,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "指定された箱の数を増やす",
+    prompt: "次のプログラムを実行したとき、表示される Boxes として正しいものを選びなさい。",
+    code: `Boxes = [3, 0, 2]
+Moves = [1, 2, 0, 1]
+
+i を 0 から 要素数(Moves) - 1 まで 1 ずつ増やしながら繰り返す:
+⎿ Boxes[Moves[i]] = Boxes[Moves[i]] + 1
+
+表示する(Boxes)`,
+    choices: [
+      "[4, 2, 3]",
+      "[3, 2, 3]",
+      "[4, 1, 3]",
+      "[5, 1, 2]",
+      "[3, 1, 2]",
+      "[1, 2, 0]",
+      "[7, 4, 6]",
+      "[4, 3, 2]"
+    ],
+    correctIndex: 0,
+    explanation: "Moves の値は、増やす箱の添字を表します。<br>添字1を2回、添字2を1回、添字0を1回増やすので、Boxes は <strong>[4, 2, 3]</strong> になります。"
+  },
+  {
+    id: 107,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "隣り合う要素を比較する範囲",
+    prompt: "Data[i] と Data[i + 1] を安全に比較するには、[ ア ] に何を入れればよいですか。",
+    code: `Data = [3, 5, 4, 6, 8]
+pos = -1
+
+i を [ ア ] まで 1 ずつ増やしながら繰り返す:
+｜もし Data[i] > Data[i + 1] ならば:
+｜｜pos = i
+⎿⎿ 繰り返しを抜ける
+
+表示する(pos)`,
+    choices: [
+      "0 から 要素数(Data) - 2",
+      "0 から 要素数(Data) - 1",
+      "1 から 要素数(Data) - 1",
+      "0 から 要素数(Data)",
+      "Data[i] から 要素数(Data)",
+      "0 から 0",
+      "pos から 要素数(Data) - 1",
+      "0 から 要素数(pos) - 1"
+    ],
+    correctIndex: 0,
+    explanation: "Data[i + 1] を使うため、i が最後の添字になると範囲外になります。<br>最後に使える i は 要素数(Data)-2 なので、範囲は <strong>0 から 要素数(Data) - 2</strong> です。"
+  },
+  {
+    id: 108,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "余りごとの個数を数える",
+    prompt: "次のプログラムを実行したとき、表示される Bucket として正しいものを選びなさい。",
+    code: `Nums = [5, 8, 10, 12, 14, 17, 21]
+Bucket = [0, 0, 0]
+
+i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+⎿ Bucket[Nums[i] ％ 3] = Bucket[Nums[i] ％ 3] + 1
+
+表示する(Bucket)`,
+    choices: [
+      "[2, 1, 4]",
+      "[1, 2, 4]",
+      "[4, 1, 2]",
+      "[2, 4, 1]",
+      "[0, 3, 4]",
+      "[3, 2, 2]",
+      "[5, 8, 10]",
+      "[7, 0, 0]"
+    ],
+    correctIndex: 0,
+    explanation: "3で割った余りごとに数えます。<br>余り0は 12,21 の2個、余り1は 10 の1個、余り2は 5,8,14,17 の4個です。よって <strong>[2, 1, 4]</strong> です。"
+  },
+  {
+    id: 109,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "値を半分にする繰り返し",
+    prompt: "次のプログラムで、count = count + 1 は何回実行されますか。",
+    code: `x = 48
+count = 0
+
+x > 5 の間繰り返す:
+｜x = x ÷ 2
+⎿ count = count + 1
+
+表示する(x, count)`,
+    choices: ["1回", "2回", "3回", "4回", "5回", "6回", "7回", "8回"],
+    correctIndex: 3,
+    explanation: "x は 48 → 24 → 12 → 6 → 3 と変化します。<br>x が3になると x > 5 を満たさないため停止します。count = count + 1 は <strong>4回</strong> 実行されます。"
+  },
+  {
+    id: 110,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "標準",
+    langMode: "dncl",
+    title: "目標に達したら繰り返しを止める",
+    prompt: "合計が target 以上になった時点で繰り返しを止めるには、[ ア ] に何を入れればよいですか。",
+    code: `Items = [4, 7, 3, 6, 5]
+target = 18
+total = 0
+used = 0
+
+i を 0 から 要素数(Items) - 1 まで 1 ずつ増やしながら繰り返す:
+｜total = total + Items[i]
+｜used = used + 1
+｜もし [ ア ] ならば:
+⎿⎿ 繰り返しを抜ける
+
+表示する(used)`,
+    choices: [
+      "total >= target",
+      "total < target",
+      "Items[i] == target",
+      "used == 0",
+      "i == 要素数(Items)",
+      "Items[i] > total",
+      "target < 0",
+      "total == Items[i]"
+    ],
+    correctIndex: 0,
+    explanation: "繰り返しを止めたいのは、ここまでの合計 total が目標 target に達したときです。<br>したがって条件は <strong>total >= target</strong> です。"
+  },
+  {
+    id: 111,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "リストから指定の値を取り出す",
+    prompt: "x に 18 を代入するには、[ ア ] に入る値として正しいものを選びなさい。",
+    code: `scores = [12, 15, 18, 20]
+x = scores[[ ア ]]
+print(x)`,
+    choices: ["0", "1", "2", "3", "4", "18"],
+    correctIndex: 2,
+    explanation: "Python のリストは添字が0から始まります。<br>scores[0]=12, scores[1]=15, scores[2]=18 なので、18を取り出す添字は <strong>2</strong> です。"
+  },
+  {
+    id: 112,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "変数の値を更新する",
+    prompt: "次のプログラムを実行したとき、print(x) の出力値として正しいものを選びなさい。",
+    code: `x = 6
+x = x + 3
+x = x * 2
+print(x)`,
+    choices: ["9", "12", "15", "18", "21", "36"],
+    correctIndex: 3,
+    explanation: "最初 x=6 です。<br>x=x+3 で9になり、x=x*2 で <strong>18</strong> になります。"
+  },
+  {
+    id: 113,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "for文の繰り返し回数",
+    prompt: "次のプログラムで、total += i は何回実行されますか。",
+    code: `total = 0
+
+for i in range(2, 7):
+    total += i
+
+print(total)`,
+    choices: ["2回", "3回", "4回", "5回", "6回", "7回"],
+    correctIndex: 3,
+    explanation: "range(2, 7) では、i は 2, 3, 4, 5, 6 と変化します。<br>したがって total += i は <strong>5回</strong> 実行されます。"
+  },
+  {
+    id: 114,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "条件を満たす値だけを足す",
+    prompt: "次のプログラムを実行したとき、print(total) の出力値として正しいものを選びなさい。",
+    code: `nums = [3, 8, 5, 10, 2]
+total = 0
+
+for n in nums:
+    if n >= 5:
+        total += n
+
+print(total)`,
+    choices: ["13", "15", "18", "20", "23", "28"],
+    correctIndex: 4,
+    explanation: "5以上の値は 8, 5, 10 です。<br>合計は 8+5+10=<strong>23</strong> です。"
+  },
+  {
+    id: 115,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "合計を求める代入文",
+    prompt: "リストの値を順に total に加えるには、[ ア ] に何を入れればよいですか。",
+    code: `nums = [2, 4, 6]
+total = 0
+
+for n in nums:
+    [ ア ]
+
+print(total)`,
+    choices: [
+      "total += n",
+      "total = n",
+      "n += total",
+      "total -= n",
+      "print(n)",
+      "nums += n"
+    ],
+    correctIndex: 0,
+    explanation: "total に n を加えて更新するので、代入文は <strong>total += n</strong> です。<br>これは total = total + n と同じ意味です。"
+  },
+  {
+    id: 116,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "リストの値を1つだけ更新する",
+    prompt: "次のプログラムを実行したとき、print(data) の出力として正しいものを選びなさい。",
+    code: `data = [4, 7, 1, 9]
+data[2] = data[2] + 5
+print(data)`,
+    choices: [
+      "[4, 7, 6, 9]",
+      "[4, 12, 1, 9]",
+      "[4, 7, 1, 14]",
+      "[9, 7, 1, 9]",
+      "[4, 7, 5, 9]",
+      "[4, 7, 1, 9]",
+      "[6, 7, 1, 9]",
+      "[4, 6, 1, 9]"
+    ],
+    correctIndex: 0,
+    explanation: "data[2] は3番目の値で、最初は1です。<br>1+5=6 になるので、リストは <strong>[4, 7, 6, 9]</strong> になります。"
+  },
+  {
+    id: 117,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "リスト全体を添字で調べる",
+    prompt: "リストの全要素を添字 i で順に調べるには、[ ア ] に何を入れればよいですか。",
+    code: `data = [6, 2, 9, 4]
+total = 0
+
+for i in [ ア ]:
+    total += data[i]
+
+print(total)`,
+    choices: [
+      "range(len(data))",
+      "range(len(data) - 1)",
+      "range(1, len(data))",
+      "range(data)",
+      "range(total)",
+      "range(0)",
+      "range(len(i))",
+      "range(data[i])"
+    ],
+    correctIndex: 0,
+    explanation: "添字は 0 から len(data)-1 までです。<br>その範囲を順に作るには <strong>range(len(data))</strong> を使います。"
+  },
+  {
+    id: 118,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "偶数だけを数える",
+    prompt: "次のプログラムを実行したとき、print(count) の出力値として正しいものを選びなさい。",
+    code: `nums = [1, 4, 6, 7, 10]
+count = 0
+
+for n in nums:
+    if n % 2 == 0:
+        count += 1
+
+print(count)`,
+    choices: ["0", "1", "2", "3", "4", "5", "6", "10"],
+    correctIndex: 3,
+    explanation: "偶数は 4, 6, 10 の3つです。<br>したがって count は <strong>3</strong> になります。"
+  },
+  {
+    id: 119,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "条件が成り立つ回数",
+    prompt: "次のプログラムで、count += 1 は何回実行されますか。",
+    code: `scores = [45, 80, 62, 59, 70]
+count = 0
+
+for s in scores:
+    if s >= 60:
+        count += 1
+
+print(count)`,
+    choices: ["0回", "1回", "2回", "3回", "4回", "5回", "60回", "70回"],
+    correctIndex: 3,
+    explanation: "60以上の点数は 80, 62, 70 の3つです。<br>よって count += 1 は <strong>3回</strong> 実行されます。"
+  },
+  {
+    id: 120,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "python",
+    title: "文字列を条件で数える",
+    prompt: "次のプログラムを実行したとき、print(count) の出力値として正しいものを選びなさい。",
+    code: `letters = ["A", "B", "A", "C", "A"]
+count = 0
+
+for x in letters:
+    if x == "A":
+        count += 1
+
+print(count)`,
+    choices: ["0", "1", "2", "3", "4", "5", "A", "B"],
+    correctIndex: 3,
+    explanation: "letters の中で \"A\" は1番目、3番目、5番目にあります。<br>合計3個なので、出力は <strong>3</strong> です。"
+  },
+  {
+    id: 121,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "配列から指定の値を取り出す",
+    prompt: "x に 18 を代入するには、[ ア ] に入る値として正しいものを選びなさい。",
+    code: `Scores = [12, 15, 18, 20]
+x = Scores[[ ア ]]
+表示する(x)`,
+    choices: ["0", "1", "2", "3", "4", "18"],
+    correctIndex: 2,
+    explanation: "添字は0から始まります。<br>Scores[0]=12, Scores[1]=15, Scores[2]=18 なので、18を取り出す添字は <strong>2</strong> です。"
+  },
+  {
+    id: 122,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "変数の値を更新する",
+    prompt: "次のプログラムを実行したとき、表示される x の値として正しいものを選びなさい。",
+    code: `x = 6
+x = x + 3
+x = x × 2
+表示する(x)`,
+    choices: ["9", "12", "15", "18", "21", "36"],
+    correctIndex: 3,
+    explanation: "最初 x=6 です。<br>x=x+3 で9になり、x=x×2 で <strong>18</strong> になります。"
+  },
+  {
+    id: 123,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "繰り返しの回数",
+    prompt: "次のプログラムで、total = total + i は何回実行されますか。",
+    code: `total = 0
+
+i を 2 から 6 まで 1 ずつ増やしながら繰り返す:
+⎿ total = total + i
+
+表示する(total)`,
+    choices: ["2回", "3回", "4回", "5回", "6回", "7回"],
+    correctIndex: 3,
+    explanation: "i は 2, 3, 4, 5, 6 と変化します。<br>したがって total = total + i は <strong>5回</strong> 実行されます。"
+  },
+  {
+    id: 124,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "条件を満たす値だけを足す",
+    prompt: "次のプログラムを実行したとき、表示される total の値として正しいものを選びなさい。",
+    code: `Nums = [3, 8, 5, 10, 2]
+total = 0
+
+i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Nums[i] >= 5 ならば:
+⎿⎿ total = total + Nums[i]
+
+表示する(total)`,
+    choices: ["13", "15", "18", "20", "23", "28"],
+    correctIndex: 4,
+    explanation: "5以上の値は 8, 5, 10 です。<br>合計は 8+5+10=<strong>23</strong> です。"
+  },
+  {
+    id: 125,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "合計を求める代入文",
+    prompt: "配列の値を順に total に加えるには、[ ア ] に何を入れればよいですか。",
+    code: `Nums = [2, 4, 6]
+total = 0
+
+i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+⎿ [ ア ]
+
+表示する(total)`,
+    choices: [
+      "total = total + Nums[i]",
+      "total = Nums[i]",
+      "Nums[i] = total + Nums[i]",
+      "total = total - Nums[i]",
+      "表示する(Nums[i])",
+      "Nums = Nums + i"
+    ],
+    correctIndex: 0,
+    explanation: "total に Nums[i] を加えて更新するので、代入文は <strong>total = total + Nums[i]</strong> です。"
+  },
+  {
+    id: 126,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "配列の値を1つだけ更新する",
+    prompt: "次のプログラムを実行したとき、表示される Data として正しいものを選びなさい。",
+    code: `Data = [4, 7, 1, 9]
+Data[2] = Data[2] + 5
+表示する(Data)`,
+    choices: [
+      "[4, 7, 6, 9]",
+      "[4, 12, 1, 9]",
+      "[4, 7, 1, 14]",
+      "[9, 7, 1, 9]",
+      "[4, 7, 5, 9]",
+      "[4, 7, 1, 9]",
+      "[6, 7, 1, 9]",
+      "[4, 6, 1, 9]"
+    ],
+    correctIndex: 0,
+    explanation: "Data[2] は3番目の値で、最初は1です。<br>1+5=6 になるので、Data は <strong>[4, 7, 6, 9]</strong> になります。"
+  },
+  {
+    id: 127,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "配列全体を添字で調べる",
+    prompt: "配列の全要素を添字 i で順に調べるには、[ ア ] に何を入れればよいですか。",
+    code: `Data = [6, 2, 9, 4]
+total = 0
+
+i を [ ア ] まで 1 ずつ増やしながら繰り返す:
+⎿ total = total + Data[i]
+
+表示する(total)`,
+    choices: [
+      "0 から 要素数(Data) - 1",
+      "0 から 要素数(Data) - 2",
+      "1 から 要素数(Data) - 1",
+      "Data から 要素数(Data)",
+      "total から 要素数(Data)",
+      "0 から 0",
+      "0 から 要素数(i) - 1",
+      "Data[i] から 要素数(Data)"
+    ],
+    correctIndex: 0,
+    explanation: "添字は 0 から 要素数(Data)-1 までです。<br>全要素を調べる範囲は <strong>0 から 要素数(Data) - 1</strong> です。"
+  },
+  {
+    id: 128,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "偶数だけを数える",
+    prompt: "次のプログラムを実行したとき、表示される count の値として正しいものを選びなさい。",
+    code: `Nums = [1, 4, 6, 7, 10]
+count = 0
+
+i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Nums[i] ％ 2 == 0 ならば:
+⎿⎿ count = count + 1
+
+表示する(count)`,
+    choices: ["0", "1", "2", "3", "4", "5", "6", "10"],
+    correctIndex: 3,
+    explanation: "偶数は 4, 6, 10 の3つです。<br>したがって count は <strong>3</strong> になります。"
+  },
+  {
+    id: 129,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "条件が成り立つ回数",
+    prompt: "次のプログラムで、count = count + 1 は何回実行されますか。",
+    code: `Scores = [45, 80, 62, 59, 70]
+count = 0
+
+i を 0 から 要素数(Scores) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Scores[i] >= 60 ならば:
+⎿⎿ count = count + 1
+
+表示する(count)`,
+    choices: ["0回", "1回", "2回", "3回", "4回", "5回", "60回", "70回"],
+    correctIndex: 3,
+    explanation: "60以上の点数は 80, 62, 70 の3つです。<br>よって count = count + 1 は <strong>3回</strong> 実行されます。"
+  },
+  {
+    id: 130,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "基礎",
+    langMode: "dncl",
+    title: "文字列を条件で数える",
+    prompt: "次のプログラムを実行したとき、表示される count の値として正しいものを選びなさい。",
+    code: `Letters = ["A", "B", "A", "C", "A"]
+count = 0
+
+i を 0 から 要素数(Letters) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Letters[i] == "A" ならば:
+⎿⎿ count = count + 1
+
+表示する(count)`,
+    choices: ["0", "1", "2", "3", "4", "5", "A", "B"],
+    correctIndex: 3,
+    explanation: "Letters の中で \"A\" は1番目、3番目、5番目にあります。<br>合計3個なので、表示される値は <strong>3</strong> です。"
+  },
+  {
+    id: 131,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "作業を早く空く担当者へ割り当てる",
+    prompt: "次のプログラムを実行したとき、表示される Available として正しいものを選びなさい。",
+    code: `Days = [4, 1, 3, 1, 3, 4, 2, 4, 3]
+Available = [1, 1, 1]
+
+work を 0 から 要素数(Days) - 1 まで 1 ずつ増やしながら繰り返す:
+｜member = 0
+｜i を 1 から 要素数(Available) - 1 まで 1 ずつ増やしながら繰り返す:
+｜｜もし Available[i] < Available[member] ならば:
+｜⎿⎿ member = i
+⎿ Available[member] = Available[member] + Days[work]
+
+表示する(Available)`,
+    choices: ["[8, 10, 10]", "[10, 10, 8]", "[9, 9, 10]", "[11, 8, 9]"],
+    correctIndex: 1,
+    explanation: "各作業を、現在もっとも早く空く担当者に割り当てます。<br>順に更新すると Available は最終的に <strong>[10, 10, 8]</strong> になります。"
+  },
+  {
+    id: 132,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "最も早く空く担当者を探す条件",
+    prompt: "作業を最も早く空く担当者に割り当てるには、[ ア ] に入る条件として正しいものを選びなさい。",
+    code: `Days = [4, 1, 3, 1, 3, 4]
+Available = [1, 1, 1]
+
+work を 0 から 要素数(Days) - 1 まで 1 ずつ増やしながら繰り返す:
+｜member = 0
+｜i を 1 から 要素数(Available) - 1 まで 1 ずつ増やしながら繰り返す:
+｜｜もし [ ア ] ならば:
+｜⎿⎿ member = i
+⎿ Available[member] = Available[member] + Days[work]
+
+表示する(Available)`,
+    choices: [
+      "Available[i] < Available[member]",
+      "Available[i] > Available[member]",
+      "Days[i] < Days[member]",
+      "work < member"
+    ],
+    correctIndex: 0,
+    explanation: "最も早く空く担当者を探すので、候補 i の空き日 Available[i] が現在の member より小さいかを調べます。"
+  },
+  {
+    id: 133,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "到着時刻と待ち時間",
+    prompt: "次のプログラムを実行したとき、表示される longest の値として正しいものを選びなさい。",
+    code: `Arrival = [0, 3, 4, 10, 11, 12]
+Start = [0, 0, 0, 0, 0, 0]
+Finish = [0, 0, 0, 0, 0, 0]
+
+Start[0] = Arrival[0]
+Finish[0] = Start[0] + 5
+
+i を 1 から 要素数(Arrival) - 1 まで 1 ずつ増やしながら繰り返す:
+｜Start[i] = 最大値(Arrival[i], Finish[i - 1])
+⎿ Finish[i] = Start[i] + 5
+
+longest = 0
+i を 0 から 要素数(Arrival) - 1 まで 1 ずつ増やしながら繰り返す:
+⎿ longest = 最大値(longest, Start[i] - Arrival[i])
+
+表示する(longest)`,
+    choices: ["6", "9", "13", "15"],
+    correctIndex: 2,
+    explanation: "前の人の終了時刻より早く到着した人は待ちます。<br>最後の人は 12 に到着し、25 に開始するので待ち時間は 13。最大は <strong>13</strong> です。"
+  },
+  {
+    id: 134,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "終了時刻を求める式",
+    prompt: "1人あたりの処理時間が service 分のとき、[ ア ] に入る式として正しいものを選びなさい。",
+    code: `Arrival = [0, 3, 4, 10]
+service = 5
+Start = [0, 0, 0, 0]
+Finish = [0, 0, 0, 0]
+
+Start[0] = Arrival[0]
+Finish[0] = Start[0] + service
+
+i を 1 から 要素数(Arrival) - 1 まで 1 ずつ増やしながら繰り返す:
+｜Start[i] = 最大値(Arrival[i], Finish[i - 1])
+⎿ Finish[i] = [ ア ]
+
+表示する(Finish)`,
+    choices: [
+      "Start[i] + service",
+      "Arrival[i] + Finish[i - 1]",
+      "Finish[i - 1] + i",
+      "service - Start[i]"
+    ],
+    correctIndex: 0,
+    explanation: "終了時刻は「開始時刻 + 処理時間」です。したがって Finish[i] = <strong>Start[i] + service</strong> です。"
+  },
+  {
+    id: 135,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "二重の繰り返しと条件判定の実行回数",
+    prompt: "次のプログラムにおいて、count = count + 1 は何回実行されますか。",
+    code: `count = 0
+
+day を 1 から 5 まで 1 ずつ増やしながら繰り返す:
+｜room を 0 から 2 まで 1 ずつ増やしながら繰り返す:
+｜｜もし (day + room) ％ 2 == 0 ならば:
+⎿⎿⎿ count = count + 1
+
+表示する(count)`,
+    choices: ["5回", "6回", "7回", "8回"],
+    correctIndex: 2,
+    explanation: "day は1〜5、room は0〜2です。<br>day+room が偶数になる組を数えると、1+2+1+2+1 = <strong>7回</strong> です。"
+  },
+  {
+    id: 136,
+    pattern: "B",
+    patternLabel: "正誤判定",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "前日より高くなった回数を数える",
+    prompt: "Temps の中で、前日より気温が高くなった日数を count に入れるコードとして正しいものを選びなさい。",
+    code: `Temps = [22, 24, 23, 27, 29, 28]
+# 前日より高くなった回数を count に入れる`,
+    choices: [
+      `count = 0
+i を 1 から 要素数(Temps) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Temps[i] > Temps[i - 1] ならば:
+⎿⎿ count = count + 1`,
+      `count = 0
+i を 0 から 要素数(Temps) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Temps[i] > Temps[i + 1] ならば:
+⎿⎿ count = count + 1`,
+      `count = 1
+i を 1 から 要素数(Temps) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Temps[i] < Temps[i - 1] ならば:
+⎿⎿ count = count + 1`,
+      `count = 要素数(Temps)`
+    ],
+    correctIndex: 0,
+    explanation: "前日と比較するため、i は1から始めます。<br>比較する式は Temps[i] > Temps[i - 1] です。"
+  },
+  {
+    id: 137,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "必要数を満たしたグループ数",
+    prompt: "次のプログラムを実行したとき、表示される group と Filled の組として正しいものを選びなさい。",
+    code: `Seats = [2, 4, 1, 3, 2]
+Need = [3, 5, 2]
+Filled = [0, 0, 0]
+group = 0
+
+i を 0 から 要素数(Seats) - 1 まで 1 ずつ増やしながら繰り返す:
+｜Filled[group] = Filled[group] + Seats[i]
+｜もし Filled[group] >= Need[group] ならば:
+｜⎿ group = group + 1
+｜もし group == 要素数(Need) ならば:
+⎿⎿ 繰り返しを抜ける
+
+表示する(group, Filled)`,
+    choices: [
+      "1 [6, 0, 0]",
+      "2 [6, 6, 0]",
+      "2 [3, 5, 0]",
+      "3 [6, 6, 2]"
+    ],
+    correctIndex: 1,
+    explanation: "1つ目のグループは 2+4=6 で条件を満たします。<br>2つ目は 1+3+2=6 で条件を満たします。よって <strong>2 [6, 6, 0]</strong> です。"
+  },
+  {
+    id: 138,
+    pattern: "A",
+    patternLabel: "穴埋め",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "すべてのグループが完了したら抜ける条件",
+    prompt: "すべてのグループが必要数を満たしたら繰り返しを抜けるには、[ ア ] に何を入れればよいですか。",
+    code: `Seats = [2, 4, 1, 3, 2]
+Need = [3, 5, 2]
+Filled = [0, 0, 0]
+group = 0
+
+i を 0 から 要素数(Seats) - 1 まで 1 ずつ増やしながら繰り返す:
+｜Filled[group] = Filled[group] + Seats[i]
+｜もし Filled[group] >= Need[group] ならば:
+｜⎿ group = group + 1
+｜もし [ ア ] ならば:
+⎿⎿ 繰り返しを抜ける
+
+表示する(group)`,
+    choices: [
+      "group == 要素数(Need)",
+      "group == 要素数(Seats)",
+      "Filled[group] == 0",
+      "i == group"
+    ],
+    correctIndex: 0,
+    explanation: "group は完了したグループ数を表します。<br>完了数が Need の個数と同じになれば、すべてのグループが完了しています。"
+  },
+  {
+    id: 139,
+    pattern: "C",
+    patternLabel: "実行結果",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "2次元配列の行ごとの合計",
+    prompt: "次のプログラムを実行したとき、表示される best の値として正しいものを選びなさい。",
+    code: `Table = [
+  [0, 2, 1],
+  [3, 1, 0],
+  [2, 0, 4]
+]
+
+best = 0
+r を 0 から 要素数(Table) - 1 まで 1 ずつ増やしながら繰り返す:
+｜total = 0
+｜c を 0 から 要素数(Table[r]) - 1 まで 1 ずつ増やしながら繰り返す:
+｜｜もし Table[r][c] > 0 ならば:
+｜⎿⎿ total = total + Table[r][c]
+｜もし total > best ならば:
+⎿⎿ best = total
+
+表示する(best)`,
+    choices: ["3", "4", "6", "10"],
+    correctIndex: 2,
+    explanation: "各行の合計は、1行目が3、2行目が4、3行目が6です。<br>最大は <strong>6</strong> です。"
+  },
+  {
+    id: 140,
+    pattern: "D",
+    patternLabel: "実行回数",
+    difficulty: "発展",
+    langMode: "dncl",
+    title: "最大値が更新される回数",
+    prompt: "次のプログラムにおいて、best = Nums[i] は何回実行されますか。",
+    code: `Nums = [6, 2, 8, 8, 3, 9]
+best = 0
+count = 0
+
+i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Nums[i] > best ならば:
+｜｜best = Nums[i]
+⎿⎿ count = count + 1
+
+表示する(best, count)`,
+    choices: ["1回", "2回", "3回", "4回"],
+    correctIndex: 2,
+    explanation: "best は 6、8、9 のときに更新されます。<br>同じ8がもう一度出ても Nums[i] > best ではないため更新されません。よって <strong>3回</strong> です。"
   }
 ];

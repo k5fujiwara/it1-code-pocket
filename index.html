@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>情報Ⅰ 第3問 対策クイズ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/styles.css">
@@ -11,13 +11,15 @@
 
   <!-- ヘッダー -->
   <header class="themed-header sticky top-0 z-50 px-4 py-3 flex items-center justify-between gap-2">
-    <div class="flex items-center gap-2 min-w-0">
-      <span class="text-lg font-bold truncate" id="header-title">📱 情報Ⅰ 第3問</span>
+    <div class="header-brand flex items-center gap-2 min-w-0">
+      <span class="app-title truncate" id="header-title">IT1-CODE-POCKET</span>
     </div>
-    <div class="flex gap-1 shrink-0">
-      <button class="theme-switch-btn active" data-theme-btn="simple" onclick="setTheme('simple')">📄</button>
-      <button class="theme-switch-btn" data-theme-btn="cool" onclick="setTheme('cool')">💻</button>
-      <button class="theme-switch-btn" data-theme-btn="pop" onclick="setTheme('pop')">🎨</button>
+    <div class="header-quiz-actions">
+      <button class="header-quiz-action-btn" onclick="suspendQuiz()">中断して保存</button>
+      <button class="header-quiz-action-btn" onclick="abandonQuiz()">トップへ戻る</button>
+    </div>
+    <div class="header-stats shrink-0" id="header-stats">
+      0 / 0
     </div>
   </header>
 
@@ -48,12 +50,12 @@
             🐍 Pythonモード
           </button>
           <button class="themed-btn-secondary w-full py-3 px-4 text-left text-sm" data-lang="dncl" onclick="selectLangMode('dncl')">
-            🌰 DNCL（どんぐり）モード
+            🌰 DNCL（どんくり）モード
           </button>
         </div>
       </div>
 
-      <div class="themed-card p-4 mb-6">
+      <div class="themed-card p-4 mb-4">
         <h2 class="font-bold mb-3 text-sm">📊 難易度</h2>
         <div class="grid grid-cols-3 gap-2" id="difficulty-group">
           <button class="themed-btn-secondary selected py-3 text-sm font-bold" data-diff="基礎" onclick="selectDifficulty('基礎')">基礎</button>
@@ -62,11 +64,30 @@
         </div>
       </div>
 
+      <div class="themed-card p-4 mb-6">
+        <h2 class="font-bold mb-3 text-sm">🔢 問題数</h2>
+        <div class="grid grid-cols-4 gap-2" id="question-count-group">
+          <button class="themed-btn-secondary py-3 text-sm font-bold" data-count="5" onclick="selectQuestionCount(5)">5問</button>
+          <button class="themed-btn-secondary selected py-3 text-sm font-bold" data-count="10" onclick="selectQuestionCount(10)">10問</button>
+          <button class="themed-btn-secondary py-3 text-sm font-bold" data-count="20" onclick="selectQuestionCount(20)">20問</button>
+          <button class="themed-btn-secondary py-3 text-sm font-bold" data-count="40" onclick="selectQuestionCount(40)">40問</button>
+        </div>
+        <p class="themed-text-muted text-xs mt-2">選択した条件の問題数が足りない場合は、出せる最大数まで出題します。</p>
+      </div>
+
       <button class="themed-btn-primary w-full py-4 text-lg font-bold" onclick="startQuiz()">
         🚀 スタート！
       </button>
-      <a href="admin.html" class="themed-btn-secondary block w-full py-3 mt-3 text-center text-sm font-bold">
-        問題一覧を確認する
+      <div class="grid grid-cols-2 gap-2 mt-3">
+        <a href="settings.html" class="themed-btn-secondary block w-full py-3 text-center text-sm font-bold">
+          ⚙️ 設定
+        </a>
+        <a href="admin.html" class="themed-btn-secondary block w-full py-3 text-center text-sm font-bold">
+          問題一覧
+        </a>
+      </div>
+      <a href="notation.html" class="themed-btn-secondary block w-full py-3 mt-2 text-center text-sm font-bold">
+        📘 共通テスト用プログラム表記の解説
       </a>
     </section>
 
