@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>重要アルゴリズム解説 | IT1-CODE-POCKET</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-theme="simple">
+
+  <header class="themed-header sticky top-0 z-50 px-4 py-3 flex items-center justify-between gap-2">
+    <div class="header-brand flex items-center gap-2 min-w-0">
+      <a href="index.html" class="header-back-btn" aria-label="トップへ戻る" title="トップへ戻る">‹</a>
+      <span class="app-title truncate">IT1-CODE-POCKET</span>
+    </div>
+  </header>
+
+  <main class="notation-shell max-w-5xl mx-auto px-4 pb-8 pt-4">
+    <section class="themed-card p-4 mb-4">
+      <h1 class="text-xl font-bold mb-1">重要アルゴリズム解説</h1>
+      <p class="themed-text-muted text-sm leading-relaxed">
+        共通テスト「情報Ⅰ」第3問の学習に向けて、学んでおくと理解に役立つアルゴリズムを、覚えるポイント・コード例・実行結果・処理の流れで確認できます。
+      </p>
+    </section>
+
+    <section class="notation-grid algorithm-grid">
+      <details class="notation-card algorithm-card themed-card" id="linear">
+        <summary class="algorithm-summary"><span>1 線形探索</span></summary>
+        <div class="algorithm-detail">
+        <p>先頭から順番に target と比較します。未整列の配列でも使えます。</p>
+        <div class="algorithm-meta">
+          <p><strong>学習ポイント：</strong>添字の増え方、発見時の終了条件、重複がある場合の返り値</p>
+          <p><strong>暗記事項：</strong>「先頭から順に比較」「未整列でも使える」</p>
+        </div>
+        <pre class="code-block">Nums = [4, 9, 2, 9, 6]
+target = 9
+pos = -1
+
+i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし Nums[i] == target かつ pos == -1 ならば:
+⎿⎿ pos = i
+
+表示する(pos)</pre>
+        <div class="algorithm-output">実行結果：1</div>
+        <ol class="algorithm-flow">
+          <li>Nums[0] から順に target と比較する。</li>
+          <li>最初に見つけた位置だけを pos に記録する。</li>
+          <li>見つからなかった場合は pos が -1 のままになる。</li>
+        </ol>
+        </div>
+      </details>
+
+      <details class="notation-card algorithm-card themed-card" id="binary">
+        <summary class="algorithm-summary"><span>2 二分探索</span></summary>
+        <div class="algorithm-detail">
+        <p>整列済みの配列に対して、中央を調べながら探索範囲を半分にします。</p>
+        <div class="algorithm-meta">
+          <p><strong>学習ポイント：</strong>low / high / mid の更新、左右どちらを捨てるか、整列済み前提</p>
+          <p><strong>暗記事項：</strong>「整列済みでないと使えない」「中央比較で半分に絞る」</p>
+        </div>
+        <pre class="code-block">Nums = [2, 5, 8, 11, 14, 20]
+target = 14
+low = 0
+high = 要素数(Nums) - 1
+pos = -1
+
+low <= high の間繰り返す:
+｜mid = (low + high) ÷ 2
+｜もし Nums[mid] == target ならば:
+｜｜pos = mid
+｜｜繰り返しを抜ける
+｜もし Nums[mid] < target ならば:
+｜｜low = mid + 1
+｜そうでなければ:
+⎿⎿ high = mid - 1
+
+表示する(pos)</pre>
+        <div class="algorithm-output">実行結果：4</div>
+        <ol class="algorithm-flow">
+          <li>中央 mid を調べる。</li>
+          <li>target が中央より大きければ左側を捨てる。</li>
+          <li>target が中央より小さければ右側を捨てる。</li>
+        </ol>
+        </div>
+      </details>
+
+      <details class="notation-card algorithm-card themed-card" id="bubble">
+        <summary class="algorithm-summary"><span>3 交換法</span></summary>
+        <div class="algorithm-detail">
+        <p>隣り合う値を比較し、順序が逆なら交換します。1パスごとに大きい値が後ろへ送られます。</p>
+        <div class="algorithm-meta">
+          <p><strong>学習ポイント：</strong>1パスごとにどの端が確定するか、隣接比較、交換回数の追跡</p>
+          <p><strong>暗記事項：</strong>「隣どうしを比較」「大きい値を後ろへ送る」</p>
+        </div>
+        <pre class="code-block">Nums = [5, 2, 4, 1]
+swap = 0
+
+i を 0 から 要素数(Nums) - 2 まで 1 ずつ増やしながら繰り返す:
+｜j を 0 から 要素数(Nums) - 2 - i まで 1 ずつ増やしながら繰り返す:
+｜｜もし Nums[j] > Nums[j + 1] ならば:
+｜｜｜temp = Nums[j]
+｜｜｜Nums[j] = Nums[j + 1]
+｜｜｜Nums[j + 1] = temp
+⎿⎿⎿ swap = swap + 1
+
+表示する(Nums, swap)</pre>
+        <div class="algorithm-output">実行結果：[1, 2, 4, 5]  /  5</div>
+        <ol class="algorithm-flow">
+          <li>隣の2つを比較する。</li>
+          <li>左が大きければ交換する。</li>
+          <li>1回の外側ループで、右端から順に値が確定する。</li>
+        </ol>
+        </div>
+      </details>
+
+      <details class="notation-card algorithm-card themed-card" id="selection">
+        <summary class="algorithm-summary"><span>4 選択法</span></summary>
+        <div class="algorithm-detail">
+        <p>未整列部分から最小値の位置を探し、先頭側と交換します。</p>
+        <div class="algorithm-meta">
+          <p><strong>学習ポイント：</strong>未整列部分から最小値を選ぶ流れ、最小値位置の更新、最後に1回交換</p>
+          <p><strong>暗記事項：</strong>「最小値の位置を覚える」「1パスで1個確定」</p>
+        </div>
+        <pre class="code-block">Nums = [5, 2, 4, 1]
+
+i を 0 から 要素数(Nums) - 2 まで 1 ずつ増やしながら繰り返す:
+｜min_pos = i
+｜j を i + 1 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+｜｜もし Nums[j] < Nums[min_pos] ならば:
+｜⎿⎿ min_pos = j
+｜temp = Nums[i]
+｜Nums[i] = Nums[min_pos]
+⎿ Nums[min_pos] = temp
+
+表示する(Nums)</pre>
+        <div class="algorithm-output">実行結果：[1, 2, 4, 5]</div>
+        <ol class="algorithm-flow">
+          <li>未整列部分の先頭を仮の最小値にする。</li>
+          <li>残りを調べて、より小さい値の位置を覚える。</li>
+          <li>1パスの最後に1回だけ交換する。</li>
+        </ol>
+        </div>
+      </details>
+
+      <details class="notation-card algorithm-card themed-card" id="montecarlo">
+        <summary class="algorithm-summary"><span>5 モンテカルロ法</span></summary>
+        <div class="algorithm-detail">
+        <p>乱数を使って試行を繰り返し、条件を満たす割合から値を近似します。</p>
+        <div class="algorithm-meta">
+          <p><strong>学習ポイント：</strong>乱数生成、条件判定、命中数カウント、比率から近似値へ変換</p>
+          <p><strong>暗記事項：</strong>「精密解ではなく近似」「試行回数を増やすと安定」</p>
+        </div>
+        <pre class="code-block">inside = 0
+trial = 1000
+
+i を 1 から trial まで 1 ずつ増やしながら繰り返す:
+｜x = 0以上1未満の乱数
+｜y = 0以上1未満の乱数
+｜もし x × x + y × y <= 1 ならば:
+⎿⎿ inside = inside + 1
+
+pi = 4 × inside ÷ trial
+表示する(pi)</pre>
+        <div class="algorithm-output">実行結果例：3.14 に近い値</div>
+        <ol class="algorithm-flow">
+          <li>正方形の中にランダムな点を打つ。</li>
+          <li>円の中に入った点を数える。</li>
+          <li>命中割合から円周率などを近似する。</li>
+        </ol>
+        </div>
+      </details>
+
+      <details class="notation-card algorithm-card themed-card" id="queue">
+        <summary class="algorithm-summary"><span>6 待ち行列シミュレーション</span></summary>
+        <div class="algorithm-detail">
+        <p>到着時刻、開始時刻、終了時刻、待ち時間を順番に更新します。</p>
+        <div class="algorithm-meta">
+          <p><strong>学習ポイント：</strong>到着・開始・終了・待ち時間の列更新、最大値の意味</p>
+          <p><strong>暗記事項：</strong>「開始時刻 = 最大値(到着時刻, 前客終了時刻)」</p>
+        </div>
+        <pre class="code-block">Arrive = [0, 3, 6, 7]
+service = 4
+Start = [0, 0, 0, 0]
+Finish = [0, 0, 0, 0]
+
+Start[0] = Arrive[0]
+Finish[0] = Start[0] + service
+
+i を 1 から 要素数(Arrive) - 1 まで 1 ずつ増やしながら繰り返す:
+｜Start[i] = 最大値(Arrive[i], Finish[i - 1])
+⎿ Finish[i] = Start[i] + service
+
+表示する(Start)</pre>
+        <div class="algorithm-output">実行結果：[0, 4, 8, 12]</div>
+        <ol class="algorithm-flow">
+          <li>最初の人は到着したらすぐ開始する。</li>
+          <li>2人目以降は、到着時刻と前の終了時刻を比べる。</li>
+          <li>遅い方が開始時刻になる。</li>
+        </ol>
+        </div>
+      </details>
+
+      <details class="notation-card algorithm-card themed-card" id="motion">
+        <summary class="algorithm-summary"><span>7 運動シミュレーション</span></summary>
+        <div class="algorithm-detail">
+        <p>位置や速度を、決められた順番で繰り返し更新します。更新順が結果に影響します。</p>
+        <div class="algorithm-meta">
+          <p><strong>学習ポイント：</strong>変数更新の順序、終了条件、表示タイミング</p>
+          <p><strong>暗記事項：</strong>「更新順が変わると結果も変わる」</p>
+        </div>
+        <pre class="code-block">x = 0
+v = 4
+t = 0
+
+x < 10 の間繰り返す:
+｜x = x + v
+｜v = v - 1
+⎿ t = t + 1
+
+表示する(x, v, t)</pre>
+        <div class="algorithm-output">実行結果：10  /  0  /  4</div>
+        <ol class="algorithm-flow">
+          <li>位置 x を速度 v だけ進める。</li>
+          <li>速度 v を変化させる。</li>
+          <li>終了条件を満たすまで、同じ順番で更新する。</li>
+        </ol>
+        </div>
+      </details>
+    </section>
+  </main>
+  <script>
+    const savedTheme = localStorage.getItem('quiz-theme');
+    if (['simple', 'cool', 'pop'].includes(savedTheme)) {
+      document.body.setAttribute('data-theme', savedTheme);
+    }
+  </script>
+</body>
+</html>
