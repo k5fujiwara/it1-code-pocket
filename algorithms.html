@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>重要アルゴリズム解説 | IT1-CODE-POCKET</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/theme-init.js"></script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body data-theme="simple">
@@ -229,11 +230,7 @@ x < 10 の間繰り返す:
       </details>
     </section>
   </main>
-  <script>
-    const savedTheme = localStorage.getItem('quiz-theme');
-    if (['simple', 'cool', 'pop'].includes(savedTheme)) {
-      document.body.setAttribute('data-theme', savedTheme);
-    }
-  </script>
+  <div id="site-footer"></div>
+  <script src="js/footer.js"></script>
 </body>
 </html>
