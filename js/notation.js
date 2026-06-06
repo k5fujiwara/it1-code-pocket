@@ -76,6 +76,7 @@ const notationExamples = {
 function applySavedTheme() {
   const savedTheme = localStorage.getItem("quiz-theme");
   const theme = ["simple", "cool", "pop"].includes(savedTheme) ? savedTheme : "simple";
+  document.documentElement.setAttribute("data-theme", theme);
   document.body.setAttribute("data-theme", theme);
 }
 
