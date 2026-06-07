@@ -17,10 +17,9 @@ function renderSiteFooter() {
   const shareLinks = isTopPage
     ? `
       <div class="site-footer-share" aria-label="SNSで共有">
-        <span class="site-footer-share-title">共有</span>
-        <a href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">X</a>
-        <a href="https://social-plugins.line.me/lineit/share?url=${shareUrl}" target="_blank" rel="noopener noreferrer">LINE</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a class="site-footer-share-btn share-x" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Xで共有</a>
+        <a class="site-footer-share-btn share-line" href="https://social-plugins.line.me/lineit/share?url=${shareUrl}" target="_blank" rel="noopener noreferrer">LINEで共有</a>
+        <a class="site-footer-share-btn share-facebook" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Facebook</a>
       </div>
     `
     : '';

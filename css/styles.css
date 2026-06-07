@@ -672,32 +672,45 @@ body.is-quiz-screen #screen-quiz {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  margin-bottom: 0.9rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.site-footer-share-title {
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.site-footer-share a {
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
+.site-footer-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 0.45rem;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
   color: #fff;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 800;
   line-height: 1;
-  padding: 0.38rem 0.65rem;
+  width: 6.4rem;
+  padding: 0.58rem 0.7rem;
   text-decoration: none;
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
 }
 
-.site-footer-share a:hover {
-  border-color: rgba(255, 255, 255, 0.72);
-  background: rgba(255, 255, 255, 0.14);
+.site-footer-share-btn:hover {
   color: #fff;
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.share-x {
+  background: #111;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.share-line {
+  background: #06c755;
+}
+
+.share-facebook {
+  background: #1877f2;
 }
 
 .site-footer-links {
