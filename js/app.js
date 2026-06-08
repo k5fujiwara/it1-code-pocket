@@ -43,11 +43,13 @@ function playWrongSound() {
 
 // ===== アプリ状態 =====
 const SESSION_KEY = 'quiz-saved-session-v1';
+const REVIEW_KEY = 'quiz-review-question-ids-v1';
 
 const state = {
   langMode: 'python',
   difficulty: '基礎',
   questionCount: 10,
+  quizMode: 'normal',
   theme: 'simple',
   questions: [],
   currentIndex: 0,
@@ -132,6 +134,109 @@ function showScreen(id) {
 function goHome() {
   showScreen('screen-top');
   updateResumeCard();
+  updateReviewCard();
+}
+
+function openLearningStatusModal(mode = 'all') {
+  const modal = document.getElementById('learning-status-modal');
+  const title = document.getElementById('learning-status-title');
+  const resumeCard = document.getElementById('resume-card');
+  const reviewCard = document.getElementById('review-card');
+  if (!modal) return;
+  updateResumeCard();
+  updateReviewCard();
+  if (title) {
+    title.textContent = mode === 'resume' ? '前回の続き' : mode === 'review' ? '復習リスト' : '学習状況';
+  }
+  if (resumeCard && reviewCard) {
+    resumeCard.classList.toggle('hidden', mode === 'review');
+    reviewCard.classList.toggle('hidden', mode === 'resume');
+  }
+  modal.classList.remove('hidden');
+}
+
+function closeLearningStatusModal() {
+  const modal = document.getElementById('learning-status-modal');
+  if (!modal) return;
+  modal.classList.add('hidden');
+}
+
+function updateLearningStatusTrigger() {
+  const actions = document.getElementById('learning-status-actions');
+  const sessionButton = document.getElementById('status-session-btn');
+  const reviewButton = document.getElementById('status-review-btn');
+  if (!actions || !sessionButton || !reviewButton) return;
+
+  const session = getSavedSession();
+  const hasSession = Boolean(session && Array.isArray(session.questionIds) && session.questionIds.length > 0);
+  const questionMap = new Map(QUESTIONS.map(q => [q.id, q]));
+  const reviewCount = getReviewQuestionIds().filter(id => questionMap.has(id)).length;
+
+  sessionButton.classList.toggle('hidden', !hasSession);
+  reviewButton.classList.toggle('hidden', reviewCount === 0);
+  reviewButton.textContent = `復習 ${reviewCount}`;
+  actions.classList.toggle('hidden', !hasSession && reviewCount === 0);
+  if (!hasSession && reviewCount === 0) {
+    closeLearningStatusModal();
+  }
+}
+
+// ===== 復習リスト =====
+function getReviewQuestionIds() {
+  try {
+    const raw = localStorage.getItem(REVIEW_KEY);
+    const ids = raw ? JSON.parse(raw) : [];
+    return Array.isArray(ids) ? ids.filter(Number.isInteger) : [];
+  } catch {
+    localStorage.removeItem(REVIEW_KEY);
+    return [];
+  }
+}
+
+function saveReviewQuestionIds(ids) {
+  const uniqueIds = [...new Set(ids)].filter(Number.isInteger);
+  localStorage.setItem(REVIEW_KEY, JSON.stringify(uniqueIds));
+  updateReviewCard();
+}
+
+function addReviewQuestion(questionId) {
+  saveReviewQuestionIds([...getReviewQuestionIds(), questionId]);
+}
+
+function removeReviewQuestion(questionId) {
+  saveReviewQuestionIds(getReviewQuestionIds().filter(id => id !== questionId));
+}
+
+function updateReviewCard() {
+  const card = document.getElementById('review-card');
+  const summary = document.getElementById('review-summary');
+  if (!card || !summary) return;
+
+  const questionMap = new Map(QUESTIONS.map(q => [q.id, q]));
+  const validIds = getReviewQuestionIds().filter(id => questionMap.has(id));
+  if (validIds.length !== getReviewQuestionIds().length) {
+    saveReviewQuestionIds(validIds);
+    return;
+  }
+
+  if (validIds.length === 0) {
+    card.classList.add('hidden');
+    summary.textContent = '';
+    updateLearningStatusTrigger();
+    return;
+  }
+
+  summary.textContent = `現在 ${validIds.length} 問を復習できます。正解できた問題は復習リストから外れます。`;
+  card.classList.remove('hidden');
+  updateLearningStatusTrigger();
+}
+
+function clearReviewQuestions() {
+  const ok = confirm('復習リストをリセットしますか？');
+  if (!ok) return;
+  localStorage.removeItem(REVIEW_KEY);
+  updateReviewCard();
+  updateLearningStatusTrigger();
 }
 
 // ===== 中断・再開 =====
@@ -152,6 +257,7 @@ function saveSession() {
     langMode: state.langMode,
     difficulty: state.difficulty,
     questionCount: state.questionCount,
+    quizMode: state.quizMode,
     questionIds: state.questions.map(q => q.id),
     currentIndex: state.currentIndex,
     score: state.score,
@@ -179,13 +285,19 @@ function updateResumeCard() {
   if (!session || !Array.isArray(session.questionIds) || session.questionIds.length === 0) {
     card.classList.add('hidden');
     summary.textContent = '';
+    updateLearningStatusTrigger();
     return;
   }
 
   const label = session.langMode === 'python' ? 'Python' : 'DNCL';
   const current = Math.min(session.currentIndex + 1, session.questionIds.length);
-  summary.textContent = `${label} / ${session.difficulty} / 全${session.questionIds.length}問 / ${current}問目から再開できます（${session.score}点）`;
+  if (session.quizMode === 'review') {
+    summary.textContent = `復習 / 全${session.questionIds.length}問 / ${current}問目から再開できます（${session.score}点）`;
+  } else {
+    summary.textContent = `${label} / ${session.difficulty} / 全${session.questionIds.length}問 / ${current}問目から再開できます（${session.score}点）`;
+  }
   card.classList.remove('hidden');
+  updateLearningStatusTrigger();
 }
 
 function restoreSelections(langMode, difficulty, questionCount = state.questionCount) {
@@ -219,12 +331,14 @@ function resumeQuiz() {
     return;
   }
 
+  state.quizMode = session.quizMode === 'review' ? 'review' : 'normal';
   restoreSelections(session.langMode, session.difficulty, session.questionCount || session.questionIds.length);
   state.questions = questions;
   state.currentIndex = Math.min(session.currentIndex, questions.length - 1);
   state.score = Number(session.score) || 0;
   state.answered = Boolean(session.answered);
   state.selectedIndex = Number.isInteger(session.selectedIndex) ? session.selectedIndex : null;
+  closeLearningStatusModal();
   showScreen('screen-quiz');
   renderQuestion();
 }
@@ -245,6 +359,7 @@ function abandonQuiz() {
   state.score = 0;
   state.answered = false;
   state.selectedIndex = null;
+  state.quizMode = 'normal';
   showScreen('screen-top');
 }
 
@@ -252,6 +367,7 @@ function deleteSavedSession() {
   const ok = confirm('保存中のクイズを削除しますか？');
   if (!ok) return;
   clearSession();
+  updateLearningStatusTrigger();
 }
 
 // ===== クイズ開始 =====
@@ -266,14 +382,47 @@ function startQuiz() {
   }
 
   state.questions = shuffleQuestions(targetQuestions).slice(0, Math.min(state.questionCount, targetQuestions.length));
+  state.quizMode = 'normal';
   state.currentIndex = 0;
   state.score = 0;
   state.answered = false;
   state.selectedIndex = null;
+  closeLearningStatusModal();
   showScreen('screen-quiz');
   renderQuestion();
   saveSession();
   updateHeaderStats();
+}
+
+function startReviewQuiz() {
+  const questionMap = new Map(QUESTIONS.map(q => [q.id, q]));
+  const reviewQuestions = getReviewQuestionIds().map(id => questionMap.get(id)).filter(Boolean);
+
+  if (reviewQuestions.length === 0) {
+    alert('復習できる問題はまだありません。クイズで間違えた問題がここに保存されます。');
+    updateReviewCard();
+    return;
+  }
+
+  state.questions = shuffleQuestions(reviewQuestions);
+  state.quizMode = 'review';
+  state.currentIndex = 0;
+  state.score = 0;
+  state.answered = false;
+  state.selectedIndex = null;
+  closeLearningStatusModal();
+  showScreen('screen-quiz');
+  renderQuestion();
+  saveSession();
+  updateHeaderStats();
+}
+
+function retryQuiz() {
+  if (state.quizMode === 'review') {
+    startReviewQuiz();
+    return;
+  }
+  startQuiz();
 }
 
 // ===== 問題表示 =====
@@ -292,7 +441,7 @@ function renderQuestion() {
     promptEl.classList.add('hidden');
   }
 
-  renderNotices();
+  renderNotices(q);
   renderCode(q);
   renderChoices(q);
 
@@ -306,15 +455,15 @@ function renderQuestion() {
   }
 }
 
-function renderNotices() {
+function renderNotices(q) {
   const area = document.getElementById('notice-area');
   area.innerHTML = '';
   const notices = [];
 
-  if (state.langMode === 'python') {
+  if (q.langMode === 'python') {
     notices.push('⚠️ 注意: Pythonの配列（リスト）のインデックス（添字）は【0】から開始します。');
   }
-  if (state.langMode === 'dncl') {
+  if (q.langMode === 'dncl') {
     notices.push('⚠️ 注意: 共通テスト用プログラム表記の配列の添字は、特に説明がない場合【0】から開始します。');
   }
 
@@ -378,12 +527,14 @@ function answer(selectedIndex) {
 
   if (isCorrect) {
     state.score++;
+    removeReviewQuestion(q.id);
     playCorrectSound();
     const fb = document.getElementById('feedback-area');
     fb.className = 'feedback-ok mb-3 text-center py-3 font-bold text-lg';
     fb.textContent = '🎉 OK！ 正解！';
     fb.classList.remove('hidden');
   } else {
+    addReviewQuestion(q.id);
     playWrongSound();
     const fb = document.getElementById('feedback-area');
     fb.className = 'feedback-ng mb-3 text-center py-3 font-bold text-lg';
@@ -455,6 +606,7 @@ function showResult() {
   document.getElementById('result-detail').textContent = `正答率 ${pct}%`;
   document.getElementById('result-emoji').textContent = pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '💪';
   document.getElementById('progress-fill').style.width = '100%';
+  updateReviewCard();
 }
 
 // ===== 初期化 =====
@@ -464,7 +616,11 @@ function showResult() {
     setTheme(saved);
   }
   updateResumeCard();
+  updateReviewCard();
   updateHeaderStats();
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeLearningStatusModal();
+  });
   window.addEventListener('resize', () => {
     if (!state.questions.length || document.getElementById('screen-quiz').classList.contains('hidden')) return;
     renderChoices(state.questions[state.currentIndex]);

@@ -156,6 +156,166 @@ body {
   box-shadow: var(--shadow);
 }
 
+.learning-status-actions {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 48vw;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.learning-status-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28rem;
+  min-height: 2rem;
+  border: 1px solid rgba(34, 211, 238, 0.75);
+  border-radius: 0.62rem;
+  background: #0b1220;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 0 16px rgba(34, 211, 238, 0.28);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+  padding: 0.48rem 0.58rem;
+  text-align: center;
+  animation: float-status-button 2.8s ease-in-out infinite;
+  transition: transform 0.12s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.learning-status-btn::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 999px;
+  background: #84ff50;
+  box-shadow: 0 0 10px rgba(132, 255, 80, 0.9);
+}
+
+.learning-status-btn:active {
+  transform: scale(0.96);
+}
+
+.learning-status-btn:hover {
+  filter: brightness(1.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 18px rgba(0, 0, 0, 0.28), 0 0 20px rgba(34, 211, 238, 0.36);
+}
+
+.learning-status-btn-session {
+  border-color: rgba(34, 211, 238, 0.82);
+  background: #0b1220;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 7px 14px rgba(0, 0, 0, 0.26), 0 0 16px rgba(34, 211, 238, 0.28);
+}
+
+.learning-status-btn-review {
+  border-color: rgba(132, 255, 80, 0.82);
+  background: #0b1220;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 7px 14px rgba(0, 0, 0, 0.26), 0 0 16px rgba(132, 255, 80, 0.22);
+  animation-delay: 0.35s;
+}
+
+@keyframes float-status-button {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .learning-status-btn {
+    animation: none;
+  }
+}
+
+.learning-status-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.learning-status-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.68);
+  border: 0;
+}
+
+.learning-status-panel {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  border: 1px solid var(--accent);
+  border-radius: 1.2rem;
+  background: var(--bg-card);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
+  color: var(--text);
+  padding: 1rem;
+}
+
+.learning-status-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.learning-status-kicker {
+  color: var(--accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.learning-status-close {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.learning-status-section {
+  border: 1px solid var(--border);
+  border-radius: 0.95rem;
+  background: var(--bg);
+  padding: 0.95rem;
+}
+
+.learning-status-section + .learning-status-section {
+  margin-top: 0.75rem;
+}
+
+body.is-quiz-screen .learning-status-actions {
+  display: none;
+}
+
+.learning-status-actions.hidden,
+.learning-status-modal.hidden,
+.learning-status-section.hidden,
+.learning-status-btn.hidden {
+  display: none;
+}
+
 .themed-btn-primary {
   background: var(--accent);
   color: #fff;
@@ -314,6 +474,8 @@ details.explanation .explanation-body {
 
 .header-quiz-actions {
   display: none;
+  flex: 0 0 auto;
+  gap: 0.35rem;
 }
 
 .header-quiz-action-btn {
@@ -323,7 +485,8 @@ details.explanation .explanation-body {
   color: inherit;
   font-size: 0.78rem;
   font-weight: 700;
-  padding: 0.45rem 0.8rem;
+  min-width: 3.8rem;
+  padding: 0.45rem 0.95rem;
   white-space: nowrap;
 }
 
@@ -351,6 +514,10 @@ body.is-quiz-screen .header-stats.has-score {
   display: block;
 }
 
+body.is-quiz-screen .header-quiz-actions {
+  display: flex;
+}
+
 @media (max-width: 767px) {
   :root {
     --header-base-height: 3.75rem;
@@ -367,8 +534,9 @@ body.is-quiz-screen .header-stats.has-score {
     max-width: 58vw;
   }
 
-  .themed-header > .header-brand {
-    max-width: 100%;
+  .themed-header > .header-brand:first-child {
+    max-width: none;
+    min-width: 0;
   }
 
   body.is-quiz-screen .themed-header > .flex:first-child {
@@ -376,8 +544,19 @@ body.is-quiz-screen .header-stats.has-score {
   }
 
   .app-title {
-    font-size: 0.98rem;
+    font-size: 0.92rem;
     letter-spacing: 0.01em;
+  }
+
+  .learning-status-actions {
+    gap: 0.28rem;
+    max-width: 43vw;
+  }
+
+  .learning-status-btn {
+    min-height: 1.85rem;
+    font-size: 0.66rem;
+    padding: 0.42rem 0.48rem;
   }
 
   .header-back-btn {
@@ -394,12 +573,14 @@ body.is-quiz-screen .header-stats.has-score {
     text-align: center;
   }
 
+  .header-quiz-actions {
+    gap: 0.3rem;
+  }
+
   .header-quiz-action-btn {
-    max-width: 34vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
     font-size: 0.72rem;
-    padding: 0.38rem 0.55rem;
+    min-width: 3.4rem;
+    padding: 0.38rem 0.68rem;
   }
 }
 
@@ -435,7 +616,7 @@ body.is-quiz-screen .quiz-progress {
 }
 
 body.is-quiz-screen #screen-quiz {
-  padding-top: calc(4px + 3.85rem);
+  padding-top: 0.75rem;
 }
 
 .quiz-prompt {
@@ -759,27 +940,11 @@ body.is-quiz-screen .site-footer {
   }
 }
 
-body.is-quiz-screen .quiz-actions {
-  position: fixed;
-  top: calc(var(--header-total-height) + 4px);
-  left: 0;
-  right: 0;
-  z-index: 40;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  margin: 0;
-  padding: 0.5rem calc(1rem + var(--safe-right)) 0.5rem calc(1rem + var(--safe-left));
-}
-
 @media (min-width: 768px) {
   body.is-quiz-screen .header-quiz-actions {
     display: flex;
     gap: 0.45rem;
     margin-left: auto;
-  }
-
-  body.is-quiz-screen .quiz-actions {
-    display: none;
   }
 
   body.is-quiz-screen #screen-quiz {
@@ -790,15 +955,6 @@ body.is-quiz-screen .quiz-actions {
 @media (min-width: 900px) {
   body.is-quiz-screen .app-shell {
     max-width: 1120px;
-  }
-
-  .quiz-actions {
-    position: static;
-    background: transparent;
-    border-bottom: 0;
-    max-width: 420px;
-    margin-left: auto;
-    padding: 0;
   }
 
   body.is-quiz-screen #screen-quiz {
