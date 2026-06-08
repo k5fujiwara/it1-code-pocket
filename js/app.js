@@ -252,6 +252,7 @@ function getSavedSession() {
 
 function saveSession() {
   if (!state.questions.length) return;
+  if (state.quizMode === 'review') return;
 
   const session = {
     langMode: state.langMode,
@@ -344,6 +345,19 @@ function resumeQuiz() {
 }
 
 function suspendQuiz() {
+  if (state.quizMode === 'review') {
+    alert('復習はトップ画面の復習リストから再開できます。');
+    state.questions = [];
+    state.currentIndex = 0;
+    state.score = 0;
+    state.answered = false;
+    state.selectedIndex = null;
+    state.quizMode = 'normal';
+    showScreen('screen-top');
+    updateResumeCard();
+    updateReviewCard();
+    return;
+  }
   saveSession();
   alert('現在の進行状況を保存しました。トップ画面から再開できます。');
   showScreen('screen-top');
@@ -351,9 +365,11 @@ function suspendQuiz() {
 }
 
 function abandonQuiz() {
-  const ok = confirm('現在のクイズを終了してトップへ戻りますか？保存済みの中断データも削除されます。');
+  const ok = confirm('現在のクイズを終了してトップへ戻りますか？');
   if (!ok) return;
-  clearSession();
+  if (state.quizMode !== 'review') {
+    clearSession();
+  }
   state.questions = [];
   state.currentIndex = 0;
   state.score = 0;
@@ -361,10 +377,12 @@ function abandonQuiz() {
   state.selectedIndex = null;
   state.quizMode = 'normal';
   showScreen('screen-top');
+  updateResumeCard();
+  updateReviewCard();
 }
 
 function deleteSavedSession() {
-  const ok = confirm('保存中のクイズを削除しますか？');
+  const ok = confirm('中断したクイズを削除しますか？');
   if (!ok) return;
   clearSession();
   updateLearningStatusTrigger();
@@ -413,7 +431,6 @@ function startReviewQuiz() {
   closeLearningStatusModal();
   showScreen('screen-quiz');
   renderQuestion();
-  saveSession();
   updateHeaderStats();
 }
 
@@ -598,7 +615,11 @@ function nextQuestion() {
 }
 
 function showResult() {
-  clearSession();
+  if (state.quizMode !== 'review') {
+    clearSession();
+  } else {
+    updateResumeCard();
+  }
   showScreen('screen-result');
   const total = state.questions.length;
   const pct = Math.round((state.score / total) * 100);
