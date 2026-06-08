@@ -527,8 +527,9 @@ body.is-quiz-screen .header-stats.has-score {
     max-width: 58vw;
   }
 
-  .themed-header > .header-brand {
-    max-width: 100%;
+  .themed-header > .header-brand:first-child {
+    max-width: none;
+    min-width: 0;
   }
 
   body.is-quiz-screen .themed-header > .flex:first-child {
@@ -536,8 +537,19 @@ body.is-quiz-screen .header-stats.has-score {
   }
 
   .app-title {
-    font-size: 0.98rem;
+    font-size: 0.92rem;
     letter-spacing: 0.01em;
+  }
+
+  .learning-status-actions {
+    gap: 0.28rem;
+    max-width: 43vw;
+  }
+
+  .learning-status-btn {
+    min-height: 1.85rem;
+    font-size: 0.66rem;
+    padding: 0.42rem 0.48rem;
   }
 
   .header-back-btn {
