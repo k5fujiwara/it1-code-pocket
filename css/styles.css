@@ -474,6 +474,8 @@ details.explanation .explanation-body {
 
 .header-quiz-actions {
   display: none;
+  flex: 0 0 auto;
+  gap: 0.35rem;
 }
 
 .header-quiz-action-btn {
@@ -483,7 +485,8 @@ details.explanation .explanation-body {
   color: inherit;
   font-size: 0.78rem;
   font-weight: 700;
-  padding: 0.45rem 0.8rem;
+  min-width: 3.8rem;
+  padding: 0.45rem 0.95rem;
   white-space: nowrap;
 }
 
@@ -509,6 +512,10 @@ body.is-quiz-screen .header-stats {
 
 body.is-quiz-screen .header-stats.has-score {
   display: block;
+}
+
+body.is-quiz-screen .header-quiz-actions {
+  display: flex;
 }
 
 @media (max-width: 767px) {
@@ -566,12 +573,14 @@ body.is-quiz-screen .header-stats.has-score {
     text-align: center;
   }
 
+  .header-quiz-actions {
+    gap: 0.3rem;
+  }
+
   .header-quiz-action-btn {
-    max-width: 34vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
     font-size: 0.72rem;
-    padding: 0.38rem 0.55rem;
+    min-width: 3.4rem;
+    padding: 0.38rem 0.68rem;
   }
 }
 
@@ -607,7 +616,7 @@ body.is-quiz-screen .quiz-progress {
 }
 
 body.is-quiz-screen #screen-quiz {
-  padding-top: calc(4px + 3.85rem);
+  padding-top: 0.75rem;
 }
 
 .quiz-prompt {
@@ -931,27 +940,11 @@ body.is-quiz-screen .site-footer {
   }
 }
 
-body.is-quiz-screen .quiz-actions {
-  position: fixed;
-  top: calc(var(--header-total-height) + 4px);
-  left: 0;
-  right: 0;
-  z-index: 40;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  margin: 0;
-  padding: 0.5rem calc(1rem + var(--safe-right)) 0.5rem calc(1rem + var(--safe-left));
-}
-
 @media (min-width: 768px) {
   body.is-quiz-screen .header-quiz-actions {
     display: flex;
     gap: 0.45rem;
     margin-left: auto;
-  }
-
-  body.is-quiz-screen .quiz-actions {
-    display: none;
   }
 
   body.is-quiz-screen #screen-quiz {
@@ -962,15 +955,6 @@ body.is-quiz-screen .quiz-actions {
 @media (min-width: 900px) {
   body.is-quiz-screen .app-shell {
     max-width: 1120px;
-  }
-
-  .quiz-actions {
-    position: static;
-    background: transparent;
-    border-bottom: 0;
-    max-width: 420px;
-    margin-left: auto;
-    padding: 0;
   }
 
   body.is-quiz-screen #screen-quiz {

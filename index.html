@@ -38,12 +38,12 @@
       <span class="app-title truncate" id="header-title">IT1-CODE-POCKET</span>
     </div>
     <div id="learning-status-actions" class="learning-status-actions hidden" aria-label="学習状況">
-      <button id="status-session-btn" class="learning-status-btn learning-status-btn-session hidden" onclick="resumeQuiz()" type="button">再開</button>
-      <button id="status-review-btn" class="learning-status-btn learning-status-btn-review hidden" onclick="startReviewQuiz()" type="button">復習 0</button>
+      <button id="status-session-btn" class="learning-status-btn learning-status-btn-session hidden" onclick="openLearningStatusModal('resume')" type="button">再開</button>
+      <button id="status-review-btn" class="learning-status-btn learning-status-btn-review hidden" onclick="openLearningStatusModal('review')" type="button">復習 0</button>
     </div>
     <div class="header-quiz-actions">
-      <button class="header-quiz-action-btn" onclick="suspendQuiz()">中断して保存</button>
-      <button class="header-quiz-action-btn" onclick="abandonQuiz()">トップへ戻る</button>
+      <button class="header-quiz-action-btn" onclick="suspendQuiz()">中断</button>
+      <button class="header-quiz-action-btn" onclick="abandonQuiz()">戻る</button>
     </div>
     <div class="header-stats shrink-0" id="header-stats">
       0 / 0
@@ -115,11 +115,6 @@
         <div class="progress-fill" id="progress-fill" style="width:0%"></div>
       </div>
 
-      <div class="quiz-actions grid grid-cols-2 gap-2 mb-3">
-        <button class="themed-btn-secondary py-2.5 text-sm font-bold" onclick="suspendQuiz()">中断して保存</button>
-        <button class="themed-btn-secondary py-2.5 text-sm font-bold" onclick="abandonQuiz()">トップへ戻る</button>
-      </div>
-
       <div class="quiz-desktop-grid">
         <div class="quiz-main-pane">
           <h2 class="font-bold text-base mb-2" id="quiz-title"></h2>
@@ -182,7 +177,7 @@
 
       <div id="resume-card" class="learning-status-section hidden">
         <div>
-          <h3 class="font-bold mb-1">保存中のクイズがあります</h3>
+          <h3 class="font-bold mb-1">中断したクイズ</h3>
           <p class="themed-text-muted text-sm" id="resume-summary"></p>
         </div>
         <div class="grid grid-cols-2 gap-2 mt-3">

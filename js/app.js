@@ -137,11 +137,21 @@ function goHome() {
   updateReviewCard();
 }
 
-function openLearningStatusModal() {
+function openLearningStatusModal(mode = 'all') {
   const modal = document.getElementById('learning-status-modal');
+  const title = document.getElementById('learning-status-title');
+  const resumeCard = document.getElementById('resume-card');
+  const reviewCard = document.getElementById('review-card');
   if (!modal) return;
   updateResumeCard();
   updateReviewCard();
+  if (title) {
+    title.textContent = mode === 'resume' ? '前回の続き' : mode === 'review' ? '復習リスト' : '学習状況';
+  }
+  if (resumeCard && reviewCard) {
+    resumeCard.classList.toggle('hidden', mode === 'review');
+    reviewCard.classList.toggle('hidden', mode === 'resume');
+  }
   modal.classList.remove('hidden');
 }
 
