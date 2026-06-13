@@ -31,6 +31,7 @@ function renderSiteFooter() {
       ${shareLinks}
       <nav class="site-footer-links" aria-label="サイト情報">
         <a href="about.html">このサイトについて</a>
+        <a href="operator.html">運営者情報</a>
         <a href="privacy.html">プライバシーポリシー</a>
         <a href="contact.html">お問い合わせ</a>
         <a href="terms.html">利用規約・免責事項</a>

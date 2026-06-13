@@ -895,11 +895,11 @@ body.is-quiz-screen #screen-quiz {
 }
 
 .site-footer-links {
-  display: grid;
-  grid-template-columns: repeat(2, max-content);
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem 1.1rem;
-  max-width: 100%;
+  gap: 0.55rem 1.25rem;
+  max-width: 25rem;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 0.75rem;
