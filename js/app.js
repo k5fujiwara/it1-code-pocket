@@ -290,7 +290,11 @@ function updateResumeCard() {
     return;
   }
 
-  const label = session.langMode === 'python' ? 'Python' : 'DNCL';
+  const label = {
+    python: 'Python',
+    javascript: 'JavaScript',
+    dncl: 'DNCL'
+  }[session.langMode] || session.langMode;
   const current = Math.min(session.currentIndex + 1, session.questionIds.length);
   if (session.quizMode === 'review') {
     summary.textContent = `復習 / 全${session.questionIds.length}問 / ${current}問目から再開できます（${session.score}点）`;
@@ -479,6 +483,9 @@ function renderNotices(q) {
 
   if (q.langMode === 'python') {
     notices.push('⚠️ 注意: Pythonの配列（リスト）のインデックス（添字）は【0】から開始します。');
+  }
+  if (q.langMode === 'javascript') {
+    notices.push('⚠️ 注意: JavaScriptの配列のインデックス（添字）は【0】から開始します。表示には console.log() を使います。');
   }
   if (q.langMode === 'dncl') {
     notices.push('⚠️ 注意: 共通テスト用プログラム表記の配列の添字は、特に説明がない場合【0】から開始します。');
