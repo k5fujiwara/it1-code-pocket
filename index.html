@@ -8,8 +8,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
-  <title>情報Ⅰ 第3問 対策クイズ</title>
-  <meta name="description" content="IT1-CODE-POCKETは、共通テスト「情報Ⅰ」第3問のプログラミング・アルゴリズム対策をスマホで学べるクイズアプリです。PythonとDNCLの問題を選んで演習できます。">
+  <link rel="canonical" href="https://it1-code-pocket.com/">
+  <title>情報Ⅰ 第3問 対策クイズ | IT1-CODE-POCKET</title>
+  <meta name="description" content="IT1-CODE-POCKETは、共通テスト「情報Ⅰ」第3問のプログラミング・アルゴリズム対策をスマホで学べるクイズアプリです。Python、JavaScript、DNCLの問題を選んで演習できます。">
   <meta property="og:site_name" content="IT1-CODE-POCKET">
   <meta property="og:title" content="IT1-CODE-POCKET | 情報Ⅰ 第3問対策">
   <meta property="og:description" content="共通テスト「情報Ⅰ」第3問のプログラミング・アルゴリズム対策をスマホで学べるクイズアプリです。">
@@ -26,6 +27,42 @@
   <meta name="twitter:description" content="共通テスト「情報Ⅰ」第3問のプログラミング・アルゴリズム対策をスマホで学べるクイズアプリです。">
   <meta name="twitter:image" content="https://it1-code-pocket.com/assets/ogp-card.png">
   <meta name="twitter:image:alt" content="IT1-CODE-POCKET 情報Ⅰ 第3問 プログラミング・アルゴリズム対策">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://it1-code-pocket.com/#website",
+        "name": "IT1-CODE-POCKET",
+        "url": "https://it1-code-pocket.com/",
+        "inLanguage": "ja",
+        "description": "共通テスト「情報Ⅰ」第3問のプログラミング・アルゴリズム対策をスマートフォンで学べるクイズ学習サイトです。"
+      },
+      {
+        "@type": "EducationalApplication",
+        "@id": "https://it1-code-pocket.com/#app",
+        "name": "IT1-CODE-POCKET",
+        "url": "https://it1-code-pocket.com/",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "ja",
+        "educationalLevel": "HighSchool",
+        "learningResourceType": "Quiz",
+        "teaches": [
+          "情報Ⅰ",
+          "プログラミング",
+          "アルゴリズム",
+          "Python",
+          "JavaScript",
+          "DNCL"
+        ],
+        "description": "Python、JavaScript、DNCLの問題を通して、共通テスト「情報Ⅰ」第3問で問われる配列、条件分岐、繰り返し、探索、集計を練習できます。",
+        "isAccessibleForFree": true
+      }
+    ]
+  }
+  </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6924336257757707"
     crossorigin="anonymous"></script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -61,54 +98,95 @@
         <p class="themed-text-muted text-sm">共通テスト「情報Ⅰ」第3問 対策</p>
       </div>
 
-      <div class="themed-card p-4 mb-4">
-        <h2 class="font-bold mb-3 text-sm">🌐 言語モード</h2>
-        <div class="grid grid-cols-1 gap-2" id="lang-mode-group">
-          <button class="themed-btn-secondary selected w-full py-3 px-4 text-left text-sm" data-lang="python" onclick="selectLangMode('python')">
-            🐍 Pythonモード
+      <div class="top-layout">
+        <div class="top-action-panel">
+          <div class="themed-card p-4 mb-4">
+            <h2 class="font-bold mb-3 text-sm">🌐 言語モード</h2>
+            <div class="grid grid-cols-1 gap-2" id="lang-mode-group">
+              <button class="themed-btn-secondary selected w-full py-3 px-4 text-left text-sm" data-lang="python" onclick="selectLangMode('python')">
+                🐍 Pythonモード
+              </button>
+              <button class="themed-btn-secondary w-full py-3 px-4 text-left text-sm" data-lang="javascript" onclick="selectLangMode('javascript')">
+                🟨 JavaScriptモード
+              </button>
+              <button class="themed-btn-secondary w-full py-3 px-4 text-left text-sm" data-lang="dncl" onclick="selectLangMode('dncl')">
+                🌰 DNCL（どんくり）モード
+              </button>
+            </div>
+          </div>
+
+          <div class="themed-card p-4 mb-4">
+            <h2 class="font-bold mb-3 text-sm">📊 難易度</h2>
+            <div class="grid grid-cols-3 gap-2" id="difficulty-group">
+              <button class="themed-btn-secondary selected py-3 text-sm font-bold" data-diff="基礎" onclick="selectDifficulty('基礎')">基礎</button>
+              <button class="themed-btn-secondary py-3 text-sm font-bold" data-diff="標準" onclick="selectDifficulty('標準')">標準</button>
+              <button class="themed-btn-secondary py-3 text-sm font-bold" data-diff="発展" onclick="selectDifficulty('発展')">発展</button>
+            </div>
+          </div>
+
+          <div class="themed-card p-4 mb-6">
+            <h2 class="font-bold mb-3 text-sm">🔢 問題数</h2>
+            <div class="grid grid-cols-4 gap-2" id="question-count-group">
+              <button class="themed-btn-secondary py-3 text-sm font-bold" data-count="5" onclick="selectQuestionCount(5)">5問</button>
+              <button class="themed-btn-secondary selected py-3 text-sm font-bold" data-count="10" onclick="selectQuestionCount(10)">10問</button>
+              <button class="themed-btn-secondary py-3 text-sm font-bold" data-count="20" onclick="selectQuestionCount(20)">20問</button>
+              <button class="themed-btn-secondary py-3 text-sm font-bold" data-count="40" onclick="selectQuestionCount(40)">40問</button>
+            </div>
+          </div>
+
+          <button class="themed-btn-primary w-full py-4 text-lg font-bold" onclick="startQuiz()">
+            🚀 スタート！
           </button>
-          <button class="themed-btn-secondary w-full py-3 px-4 text-left text-sm" data-lang="javascript" onclick="selectLangMode('javascript')">
-            🟨 JavaScriptモード
-          </button>
-          <button class="themed-btn-secondary w-full py-3 px-4 text-left text-sm" data-lang="dncl" onclick="selectLangMode('dncl')">
-            🌰 DNCL（どんくり）モード
-          </button>
+          <div class="mt-3">
+            <a href="settings.html" class="themed-btn-secondary block w-full py-3 text-center text-sm font-bold">
+              ⚙️ 設定
+            </a>
+          </div>
+          <a href="algorithms.html" class="themed-btn-secondary block w-full py-3 mt-2 text-center text-sm font-bold">
+            🧭 重要アルゴリズム解説
+          </a>
+          <a href="notation.html" class="themed-btn-secondary block w-full py-3 mt-2 text-center text-sm font-bold">
+            📘 共通テスト用プログラム表記の解説
+          </a>
+        </div>
+
+        <div class="top-info-panel">
+          <section class="themed-card p-5 leading-relaxed">
+            <h2 class="text-lg font-bold mb-3">IT1-CODE-POCKETで学べること</h2>
+            <p class="mb-3">
+              IT1-CODE-POCKETは、共通テスト「情報Ⅰ」の第3問で問われやすいプログラミングとアルゴリズムの考え方を、スマートフォンで短時間ずつ練習できる学習サイトです。
+              単に答えを覚えるのではなく、配列の添字、条件分岐、繰り返し、変数の更新、探索、集計、シミュレーションなど、プログラムを読むための基本動作を確認できるように構成しています。
+            </p>
+            <p>
+              問題は「基礎」「標準」「発展」に分け、Python、JavaScript、共通テスト用プログラム表記（DNCL）を選んで演習できます。
+              同じ考え方を複数の表記で見比べることで、特定の文法だけでなく、処理の流れそのものを理解しやすくすることを目指しています。
+            </p>
+          </section>
+
+          <section class="themed-card p-5 mt-4 leading-relaxed">
+            <h2 class="text-lg font-bold mb-3">おすすめの使い方</h2>
+            <ol class="space-y-2 list-decimal pl-5">
+              <li>まずは「基礎」を5問または10問で解き、配列・条件分岐・繰り返しの読み方を確認します。</li>
+              <li>慣れてきたら「標準」で、合計、最大値、探索、条件付きカウントなどの頻出処理を練習します。</li>
+              <li>最後に「発展」で、二重ループ、待ち行列、割り当て、表形式データの処理など、長めのプログラムに挑戦します。</li>
+              <li>間違えた問題は復習機能に残るため、翌日以降にもう一度解き直すと定着しやすくなります。</li>
+            </ol>
+          </section>
+
+          <section class="themed-card p-5 mt-4 leading-relaxed">
+            <h2 class="text-lg font-bold mb-3">学習ガイド</h2>
+            <p class="mb-3">
+              クイズだけでなく、情報Ⅰ 第3問の学習方針や各言語の読み方も整理しています。演習前の確認や、間違えた後の復習に活用してください。
+            </p>
+            <div class="grid grid-cols-1 gap-2 top-guide-links">
+              <a href="study-guide.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">情報Ⅰ 第3問の勉強法</a>
+              <a href="python-guide.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">Pythonで押さえる基礎文法</a>
+              <a href="javascript-guide.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">JavaScriptの配列・条件分岐・繰り返し</a>
+              <a href="dncl-guide.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">DNCL表記の読み方</a>
+            </div>
+          </section>
         </div>
       </div>
-
-      <div class="themed-card p-4 mb-4">
-        <h2 class="font-bold mb-3 text-sm">📊 難易度</h2>
-        <div class="grid grid-cols-3 gap-2" id="difficulty-group">
-          <button class="themed-btn-secondary selected py-3 text-sm font-bold" data-diff="基礎" onclick="selectDifficulty('基礎')">基礎</button>
-          <button class="themed-btn-secondary py-3 text-sm font-bold" data-diff="標準" onclick="selectDifficulty('標準')">標準</button>
-          <button class="themed-btn-secondary py-3 text-sm font-bold" data-diff="発展" onclick="selectDifficulty('発展')">発展</button>
-        </div>
-      </div>
-
-      <div class="themed-card p-4 mb-6">
-        <h2 class="font-bold mb-3 text-sm">🔢 問題数</h2>
-        <div class="grid grid-cols-4 gap-2" id="question-count-group">
-          <button class="themed-btn-secondary py-3 text-sm font-bold" data-count="5" onclick="selectQuestionCount(5)">5問</button>
-          <button class="themed-btn-secondary selected py-3 text-sm font-bold" data-count="10" onclick="selectQuestionCount(10)">10問</button>
-          <button class="themed-btn-secondary py-3 text-sm font-bold" data-count="20" onclick="selectQuestionCount(20)">20問</button>
-          <button class="themed-btn-secondary py-3 text-sm font-bold" data-count="40" onclick="selectQuestionCount(40)">40問</button>
-        </div>
-      </div>
-
-      <button class="themed-btn-primary w-full py-4 text-lg font-bold" onclick="startQuiz()">
-        🚀 スタート！
-      </button>
-      <div class="mt-3">
-        <a href="settings.html" class="themed-btn-secondary block w-full py-3 text-center text-sm font-bold">
-          ⚙️ 設定
-        </a>
-      </div>
-      <a href="algorithms.html" class="themed-btn-secondary block w-full py-3 mt-2 text-center text-sm font-bold">
-        🧭 重要アルゴリズム解説
-      </a>
-      <a href="notation.html" class="themed-btn-secondary block w-full py-3 mt-2 text-center text-sm font-bold">
-        📘 共通テスト用プログラム表記の解説
-      </a>
     </section>
 
     <!-- ===== クイズ画面 ===== -->
