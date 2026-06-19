@@ -113,6 +113,13 @@ function selectQuestionCount(count) {
   });
 }
 
+function applyInitialLangModeFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const lang = params.get('lang');
+  if (!['python', 'javascript', 'dncl'].includes(lang)) return;
+  selectLangMode(lang);
+}
+
 function shuffleQuestions(questions) {
   const shuffled = [...questions];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -643,6 +650,7 @@ function showResult() {
   if (saved && ['simple', 'cool', 'pop'].includes(saved)) {
     setTheme(saved);
   }
+  applyInitialLangModeFromUrl();
   updateResumeCard();
   updateReviewCard();
   updateHeaderStats();

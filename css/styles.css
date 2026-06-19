@@ -926,6 +926,61 @@ body.is-quiz-screen .site-footer {
 }
 
 @media (min-width: 900px) {
+  body:not(.is-quiz-screen) .app-shell {
+    max-width: 1120px;
+  }
+
+  #screen-top > .text-center {
+    margin-bottom: 2rem;
+  }
+
+  #screen-top h1 {
+    font-size: 2.35rem;
+    line-height: 1.18;
+  }
+
+  #screen-top > .text-center p {
+    font-size: 1rem;
+  }
+
+  .top-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(20rem, 0.88fr);
+    grid-template-areas: "info action";
+    align-items: start;
+    gap: 1.25rem;
+  }
+
+  .top-info-panel {
+    grid-area: info;
+    min-width: 0;
+  }
+
+  .top-action-panel {
+    position: sticky;
+    top: calc(var(--header-total-height) + 1rem);
+    grid-area: action;
+    min-width: 0;
+  }
+
+  .top-action-panel .themed-card {
+    margin-bottom: 0.9rem;
+  }
+
+  .top-action-panel .themed-card:last-of-type {
+    margin-bottom: 1rem;
+  }
+
+  .top-info-panel .themed-card:first-child {
+    margin-top: 0;
+  }
+
+  .top-guide-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
   .notation-nav {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
