@@ -527,6 +527,19 @@
   gap: 0.4rem;
 }
 
+/* 変数が5つあるページ用（low / mid / high / pos / 比較）。 */
+.sim-vars-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.sim-vars-5 .sim-var-name {
+  font-size: 0.64rem;
+}
+
+.sim-vars-5 .sim-var-value {
+  font-size: 0.9rem;
+}
+
 .sim-var {
   display: flex;
   align-items: center;
@@ -598,6 +611,22 @@
 }
 
 .sim-result[hidden] {
+  display: none;
+}
+
+/* 前提が崩れているときの注意（未整列の配列など）。 */
+.sim-warn-box {
+  border: 1px solid var(--warning-text);
+  border-radius: var(--btn-radius);
+  background: var(--warning-bg);
+  color: var(--warning-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.65;
+  padding: 0.5rem 0.65rem;
+}
+
+.sim-warn-box[hidden] {
   display: none;
 }
 
@@ -804,6 +833,16 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.3rem;
+}
+
+/* 場面が5つあるページ用。 */
+.sim-chips-scene-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.sim-chips-scene-5 .sim-chip {
+  font-size: 0.72rem;
+  padding: 0.35rem 0.1rem;
 }
 
 .sim-chip {

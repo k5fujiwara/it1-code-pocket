@@ -299,32 +299,17 @@
 
   /** 配列のマスを作り直す。値が変わったときだけ呼ぶ。 */
   function renderArray(nums) {
-    refs.array.innerHTML = '';
     // 要素数が多くても横スクロールにならないよう、マスの大きさを先に決める。
     window.SimUI.fitArray(refs.array, nums.length, cellOptions());
-    nums.forEach((value, index) => {
-      const cell = document.createElement('li');
-      cell.className = 'sim-cell';
-      cell.setAttribute('data-state', 'idle');
-      cell.innerHTML =
-        '<span class="sim-cell-cursor">i▼</span>' +
-        `<span class="sim-cell-box">${value}</span>` +
-        `<span class="sim-cell-index">[${index}]</span>`;
-      refs.array.appendChild(cell);
-    });
+    window.SimUI.buildCells(refs.array, nums);
   }
 
   function renderStep(step, index, total) {
     if (!step) return;
 
-    const cells = refs.array.querySelectorAll('.sim-cell');
-    cells.forEach((cell, k) => {
-      cell.setAttribute('data-state', step.cells[k] || 'idle');
-      if (step.cursor === k) {
-        cell.setAttribute('data-cursor', 'true');
-      } else {
-        cell.removeAttribute('data-cursor');
-      }
+    window.SimUI.paintCells(refs.array, {
+      cells: step.cells,
+      markers: step.cursor === null ? {} : { [step.cursor]: 'i▼' },
     });
 
     window.SimUI.setActiveLine(refs.code, step.line);

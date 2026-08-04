@@ -224,6 +224,61 @@
     observer.observe(element);
   }
 
+  /** 配列のマスを組み立てる。値が変わったときだけ呼ぶ。 */
+  function buildCells(arrayEl, values) {
+    if (!arrayEl) return;
+    arrayEl.innerHTML = '';
+    values.forEach((value, index) => {
+      const cell = document.createElement('li');
+      cell.className = 'sim-cell';
+      cell.setAttribute('data-state', 'idle');
+
+      const cursor = document.createElement('span');
+      cursor.className = 'sim-cell-cursor';
+
+      const box = document.createElement('span');
+      box.className = 'sim-cell-box';
+      box.textContent = String(value);
+
+      const label = document.createElement('span');
+      label.className = 'sim-cell-index';
+      label.textContent = `[${index}]`;
+
+      cell.appendChild(cursor);
+      cell.appendChild(box);
+      cell.appendChild(label);
+      arrayEl.appendChild(cell);
+    });
+  }
+
+  /**
+   * 1ステップ分の見た目を反映する。
+   * step.cells  … マスごとの状態（idle / active / miss / found / dup / skip）
+   * step.markers… マスの上に出す目印（{ 添字: "i▼" } など）
+   * step.values … 値が入れ替わる場合の表示値
+   */
+  function paintCells(arrayEl, step) {
+    if (!arrayEl || !step) return;
+    const cells = arrayEl.querySelectorAll('.sim-cell');
+    cells.forEach((cell, index) => {
+      cell.setAttribute('data-state', (step.cells && step.cells[index]) || 'idle');
+
+      const marker = step.markers ? step.markers[index] || '' : '';
+      const cursor = cell.querySelector('.sim-cell-cursor');
+      if (cursor) cursor.textContent = marker;
+      if (marker) {
+        cell.setAttribute('data-cursor', 'true');
+      } else {
+        cell.removeAttribute('data-cursor');
+      }
+
+      if (step.values) {
+        const box = cell.querySelector('.sim-cell-box');
+        if (box) box.textContent = String(step.values[index]);
+      }
+    });
+  }
+
   /** 実行中の行だけ data-active を立てる。 */
   function setActiveLine(container, lineIndex) {
     if (!container) return;
@@ -474,6 +529,8 @@
     SPEEDS: SPEEDS,
     renderCode: renderCode,
     setActiveLine: setActiveLine,
+    buildCells: buildCells,
+    paintCells: paintCells,
     fitArray: fitArray,
     bindResize: bindResize,
     observeWidth: observeWidth,
