@@ -11,7 +11,7 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="canonical" href="https://it1-code-pocket.com/sim-binary-search.html">
   <title>二分探索シミュレーター｜範囲が半分に絞られる様子を確認 | IT1-CODE-POCKET</title>
-  <meta name="description" content="二分探索の動きを1ステップずつ目で見て確認できるシミュレーターです。要素数を4〜10個から選び、low・mid・high の動きと候補が半分に減っていく様子を追えます。整列されていない配列では失敗すること、mid + 1 / mid - 1 を忘れると無限ループになることも実際に確かめられます。擬似コード（DNCL）／Python／JavaScript のコードと計算量、共通テスト情報Ⅰの出題ポイントも解説します。">
+  <meta name="description" content="二分探索の動きを1ステップずつ確認できるシミュレーター。low・mid・high の動きと候補が半分に減る様子、整列していないと失敗する理由、± 1 を忘れると終わらない理由まで確かめられます。">
   <meta property="og:site_name" content="IT1-CODE-POCKET">
   <meta property="og:title" content="二分探索シミュレーター｜範囲が半分に絞られる様子を確認">
   <meta property="og:description" content="low・mid・high の動きと、候補が半分ずつ減っていく様子を1ステップずつ確認できるシミュレーター。整列前提の理由も実演します。">
@@ -166,7 +166,7 @@
           </div>
         </div>
 
-        <div class="sim-setup-row sim-setup-row-stack">
+        <div class="sim-setup-row">
           <span class="sim-setup-label" id="sim-scenario-label">場面</span>
           <div class="sim-chips sim-chips-scene sim-chips-scene-5" role="group" aria-labelledby="sim-scenario-label">
             <button type="button" class="sim-chip" data-sim-scenario="middle" aria-pressed="true" aria-label="中央にある（1回で見つかる）">中央</button>
@@ -210,12 +210,12 @@
               <ul class="sim-array" id="sim-array" aria-live="off"></ul>
             </div>
             <ul class="sim-legend">
-              <li><span class="sim-legend-swatch" data-state="active"></span>いま調べる（mid）</li>
+              <li><span class="sim-legend-swatch" data-state="active"></span>調べる(M)</li>
               <li><span class="sim-legend-swatch" data-state="idle"></span>候補</li>
-              <li><span class="sim-legend-swatch" data-state="skip"></span>候補から外れた</li>
-              <li><span class="sim-legend-swatch" data-state="found"></span>見つかった</li>
+              <li><span class="sim-legend-swatch" data-state="skip"></span>除外</li>
+              <li><span class="sim-legend-swatch" data-state="found"></span>発見</li>
             </ul>
-            <p class="sim-hint">L＝low（範囲の下端）／M＝mid（中央）／H＝high（範囲の上端）</p>
+            <p class="sim-hint">L＝low（下端）／M＝mid（中央）／H＝high（上端）</p>
           </div>
         </div>
 

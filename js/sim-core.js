@@ -119,6 +119,22 @@
       this.goto(0);
     }
 
+    /**
+     * 指定した印が付いた次のステップまで一気に進む。
+     * 整列のように1ステップが細かいとき、「1パスぶん」まとめて送るために使う。
+     */
+    skipTo(flag) {
+      this.pause();
+      for (let i = this.index + 1; i < this.steps.length; i += 1) {
+        if (this.steps[i] && this.steps[i][flag]) {
+          this.goto(i);
+          return true;
+        }
+      }
+      if (!this.atEnd) this.goto(this.steps.length - 1);
+      return false;
+    }
+
     /** 再生中に速度を変えても止まらないように、タイマーを張り直す。 */
     setSpeed(key) {
       this.interval = SPEEDS[key] || SPEEDS.normal;
@@ -424,6 +440,13 @@
         else if (action === 'next') player.next();
         else if (action === 'prev') player.prev();
         else if (action === 'reset') player.reset();
+      });
+    });
+
+    // まとめ送り（例：data-sim-skip="passEnd" で1パスぶん進む）
+    scope.querySelectorAll('[data-sim-skip]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        player.skipTo(btn.getAttribute('data-sim-skip'));
       });
     });
 

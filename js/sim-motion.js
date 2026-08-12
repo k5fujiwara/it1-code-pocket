@@ -197,6 +197,7 @@
   function collectRefs() {
     refs.line = document.getElementById('sim-line');
     refs.ticks = document.getElementById('sim-line-ticks');
+    refs.legendGoal = document.getElementById('sim-legend-goal');
     refs.tableBody = document.getElementById('sim-table-body');
     refs.code = document.getElementById('sim-code');
     refs.message = document.getElementById('sim-message-text');
@@ -236,6 +237,9 @@
     const condition = CONDITIONS[state.condition];
 
     refs.line.innerHTML = '<span class="sim-line-rail"></span>';
+
+    // ゴール線が無い条件（v > 0）のときは、凡例からも消す。
+    if (refs.legendGoal) refs.legendGoal.hidden = condition.goal === null;
 
     if (condition.goal !== null) {
       const goal = document.createElement('span');

@@ -11,7 +11,7 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="canonical" href="https://it1-code-pocket.com/sim-bubble-sort.html">
   <title>交換法（バブルソート）シミュレーター｜入れ替わる様子を確認 | IT1-CODE-POCKET</title>
-  <meta name="description" content="交換法（バブルソート）の動きを1ステップずつ目で見て確認できるシミュレーターです。要素数を4〜10個から選び、隣どうしの比較・temp を使った入れ替え・1パスごとに右端が確定していく様子・交換回数と比較回数を追えます。逆順や整列済みでの違い、早期終了、擬似コード／Python／JavaScript のコードと計算量、共通テスト情報Ⅰの出題ポイントも解説します。">
+  <meta name="description" content="交換法（バブルソート）の動きを1ステップずつ確認できるシミュレーター。マスが実際に入れ替わる様子、1パスごとに右端が確定する流れ、比較回数と交換回数の違いを目で見て確認できます。">
   <meta property="og:site_name" content="IT1-CODE-POCKET">
   <meta property="og:title" content="交換法（バブルソート）シミュレーター｜入れ替わる様子を確認">
   <meta property="og:description" content="隣どうしの比較と入れ替え、1パスごとに右端が確定していく様子を1ステップずつ確認できるシミュレーター。交換回数の数え方も分かります。">
@@ -198,7 +198,8 @@
           <div class="sim-board">
             <div class="sim-board-head">
               <span class="sim-board-title">配列 Nums</span>
-              <button type="button" class="sim-mini-btn" data-sim-random>並びを作り直す</button>
+              <button type="button" class="sim-mini-btn" data-sim-skip="passEnd">1パス進む ››</button>
+              <button type="button" class="sim-mini-btn" data-sim-random>作り直す</button>
             </div>
             <div class="sim-array-wrap">
               <ul class="sim-array" id="sim-array" aria-live="off"></ul>
@@ -209,7 +210,7 @@
               <li><span class="sim-legend-swatch" data-state="fixed"></span>確定</li>
               <li><span class="sim-legend-swatch" data-state="idle"></span>未確定</li>
             </ul>
-            <p class="sim-hint">j▼ は比較している左側のマスです。右隣とペアで比べます。</p>
+            <p class="sim-hint">j▼ と右隣のマスをペアで比べます。</p>
           </div>
         </div>
 

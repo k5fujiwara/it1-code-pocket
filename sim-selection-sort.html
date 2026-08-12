@@ -11,7 +11,7 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="canonical" href="https://it1-code-pocket.com/sim-selection-sort.html">
   <title>選択法（選択ソート）シミュレーター｜最小値を探して交換 | IT1-CODE-POCKET</title>
-  <meta name="description" content="選択法（選択ソート）の動きを1ステップずつ目で見て確認できるシミュレーターです。要素数を4〜10個から選び、min_pos が最小値の位置を追いかける様子、1パスで1回だけ交換すること、比較回数と交換回数の違いを確認できます。交換法との比較、擬似コード／Python／JavaScript のコードと計算量、共通テスト情報Ⅰの出題ポイントも解説します。">
+  <meta name="description" content="選択法（選択ソート）の動きを1ステップずつ確認できるシミュレーター。min_pos が最小値の位置を追いかける様子と、1パスで1回だけ交換する流れ、交換法との違いを確認できます。">
   <meta property="og:site_name" content="IT1-CODE-POCKET">
   <meta property="og:title" content="選択法（選択ソート）シミュレーター｜最小値を探して交換">
   <meta property="og:description" content="min_pos が最小値の位置を追いかける様子と、1パスで1回だけ交換する流れを1ステップずつ確認できるシミュレーター。">
@@ -198,18 +198,19 @@
           <div class="sim-board">
             <div class="sim-board-head">
               <span class="sim-board-title">配列 Nums</span>
-              <button type="button" class="sim-mini-btn" data-sim-random>並びを作り直す</button>
+              <button type="button" class="sim-mini-btn" data-sim-skip="passEnd">1つ確定まで ››</button>
+              <button type="button" class="sim-mini-btn" data-sim-random>作り直す</button>
             </div>
             <div class="sim-array-wrap">
               <ul class="sim-array" id="sim-array" aria-live="off"></ul>
             </div>
             <ul class="sim-legend">
-              <li><span class="sim-legend-swatch" data-state="active"></span>比べている（j）</li>
-              <li><span class="sim-legend-swatch" data-state="dup"></span>最小値の候補</li>
+              <li><span class="sim-legend-swatch" data-state="active"></span>比較(j)</li>
+              <li><span class="sim-legend-swatch" data-state="dup"></span>最小の候補</li>
               <li><span class="sim-legend-swatch" data-state="swap"></span>交換</li>
               <li><span class="sim-legend-swatch" data-state="fixed"></span>確定</li>
             </ul>
-            <p class="sim-hint">i＝これから確定させる位置／m＝最小値の位置（min_pos）／j＝いま調べている位置</p>
+            <p class="sim-hint">i＝確定させる位置／m＝min_pos／j＝調べている位置</p>
           </div>
         </div>
 

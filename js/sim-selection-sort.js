@@ -235,7 +235,9 @@
       fixedCount = i + 1;
       minPos = null;
       snap({
-        line: mode === 'skipSame' ? L.count : L.count,
+        line: L.count,
+        // 「1つ確定」ごとにここまで一気に送れるようにする印
+        passEnd: true,
         message:
           `添字 ${i} に ${values[i]} が確定しました。` +
           (i + 1 < size - 1
@@ -250,6 +252,7 @@
     scanning = null;
     snap({
       line: L.print,
+      passEnd: true,
       result: `[${values.join(', ')}]  /  交換 ${swaps} 回  /  比較 ${compares} 回`,
       message:
         `整列が終わりました。[${values.join(', ')}] になり、交換は ${swaps} 回、比較は ${compares} 回でした。` +

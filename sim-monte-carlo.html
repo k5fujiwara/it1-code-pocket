@@ -10,7 +10,7 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="canonical" href="https://it1-code-pocket.com/sim-monte-carlo.html">
   <title>モンテカルロ法シミュレーター｜乱数で円周率を求める | IT1-CODE-POCKET</title>
-  <meta name="description" content="モンテカルロ法で円周率を求める様子を1ステップずつ確認できるシミュレーターです。試行回数を10〜1000回から選び、正方形に打った点が円の内側に入る割合から π が近似されていく過程を目で見られます。乱数の使い方、x×x+y×y<=1 の判定、4×inside÷trial の式、擬似コード／Python／JavaScript のコード、共通テスト情報Ⅰの出題ポイントも解説します。">
+  <meta name="description" content="モンテカルロ法で円周率を求める様子を1ステップずつ確認できるシミュレーター。試行回数10〜1000回を選び、点が円の内側に入る割合から π が近似される過程を散布図で見られます。">
   <meta property="og:site_name" content="IT1-CODE-POCKET">
   <meta property="og:title" content="モンテカルロ法シミュレーター｜乱数で円周率を求める">
   <meta property="og:description" content="正方形に打った点が円の内側に入る割合から円周率が近似されていく様子を、1ステップずつ確認できるシミュレーター。">
@@ -153,18 +153,15 @@
       <div class="sim-setup">
         <div class="sim-setup-row sim-setup-row-stack">
           <span class="sim-setup-label" id="sim-trials-label">試行回数（回）</span>
-          <div class="sim-chips sim-chips-scene sim-chips-scene-5" role="group" aria-labelledby="sim-trials-label">
+          <div class="sim-chips sim-chips-scene sim-chips-scene-6" role="group" aria-labelledby="sim-trials-label">
             <button type="button" class="sim-chip sim-chip-num" data-sim-trials="10" aria-pressed="false" aria-label="10回">10</button>
             <button type="button" class="sim-chip sim-chip-num" data-sim-trials="20" aria-pressed="true" aria-label="20回">20</button>
             <button type="button" class="sim-chip sim-chip-num" data-sim-trials="50" aria-pressed="false" aria-label="50回">50</button>
             <button type="button" class="sim-chip sim-chip-num" data-sim-trials="100" aria-pressed="false" aria-label="100回">100</button>
             <button type="button" class="sim-chip sim-chip-num" data-sim-trials="500" aria-pressed="false" aria-label="500回">500</button>
-            <button type="button" class="sim-chip sim-chip-num sim-chip-wide" data-sim-trials="1000" aria-pressed="false" aria-label="1000回">1000</button>
+            <button type="button" class="sim-chip sim-chip-num" data-sim-trials="1000" aria-pressed="false" aria-label="1000回">1000</button>
           </div>
         </div>
-        <p class="sim-setup-note">
-          20回までは1試行ずつ、それより多いときはまとめて進みます。「打ち直す」で別の乱数を試せます。
-        </p>
       </div>
 
       <div class="sim-view-tabs" data-sim-view-tabs role="tablist" aria-label="表示を切り替え">
@@ -193,7 +190,7 @@
             <ul class="sim-plot-legend">
               <li><span class="sim-plot-swatch" data-hit="in"></span>円の内側</li>
               <li><span class="sim-plot-swatch" data-hit="out"></span>円の外側</li>
-              <li><span class="sim-plot-swatch" data-hit="new"></span>いま打った点</li>
+              <li><span class="sim-plot-swatch" data-hit="new"></span>いま打った点（枠つき）</li>
             </ul>
           </div>
         </div>
@@ -296,7 +293,7 @@
 
       <h3>試行回数を増やすとどうなるか</h3>
       <p>
-        シミュレーターで試行回数を 10 → 100 → 1000 と切り替えてみてください。
+        シミュレーターは20回までは1試行ずつ、それより多いときはまとめて進みます。試行回数を 10 → 100 → 1000 と切り替えてみてください。
         回数が少ないうちは近似値が 2.8 や 3.6 のように大きくぶれますが、回数を増やすと
         <strong>3.14 前後に落ち着いていく</strong>ことが分かります。
       </p>
@@ -305,6 +302,61 @@
         乱数を使うので、同じ試行回数でも実行するたびに結果が変わります。「打ち直す」ボタンで確かめてください。
         誤差はおおよそ<strong>試行回数の平方根に反比例</strong>するため、精度を10倍にするには試行回数を100倍にする必要があります。
       </div>
+
+      <h3>ここで使う「乱数」とは</h3>
+      <p>
+        乱数とは、次にどの値が出るか決まっていない数のことです。ただしコンピュータが作る乱数は、
+        実際には<strong>計算式で作られた「擬似乱数」</strong>で、見かけ上ばらばらに見えるだけです。
+        そのため「同じ出発点（シード）を与えれば同じ並びが再現できる」という性質を持ちます。
+      </p>
+      <p>
+        情報Ⅰでは「0以上1未満の乱数」という書き方がよく出ます。ここで<strong>1が含まれない</strong>点が大切です。
+        たとえばサイコロを作るなら <code>整数部分(乱数 × 6) + 1</code> と書きます。
+        1が含まれてしまうと 7 が出る可能性が生まれるため、範囲の指定は必ず確認してください。
+      </p>
+
+      <h3>試行回数と精度の目安</h3>
+      <p>
+        実際にどのくらいの精度になるのか、目安を持っておくと問題文の判断が速くなります。
+      </p>
+      <div class="sim-table-wrap">
+        <table class="sim-table">
+          <thead>
+            <tr>
+              <th scope="col">試行回数</th>
+              <th scope="col">よくある結果の範囲</th>
+              <th scope="col">小数第何位まで信頼できるか</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">10 回</th>
+              <td data-label="よくある結果の範囲">2.0 〜 4.0</td>
+              <td data-label="小数第何位まで信頼できるか">整数の桁すら怪しい</td>
+            </tr>
+            <tr>
+              <th scope="row">100 回</th>
+              <td data-label="よくある結果の範囲">2.9 〜 3.4</td>
+              <td data-label="小数第何位まで信頼できるか">おおよそ「3」と分かる程度</td>
+            </tr>
+            <tr>
+              <th scope="row">1,000 回</th>
+              <td data-label="よくある結果の範囲">3.05 〜 3.25</td>
+              <td data-label="小数第何位まで信頼できるか">小数第1位（3.1）くらい</td>
+            </tr>
+            <tr>
+              <th scope="row">100,000 回</th>
+              <td data-label="よくある結果の範囲">3.135 〜 3.150</td>
+              <td data-label="小数第何位まで信頼できるか">小数第2位（3.14）くらい</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <strong>10倍にしても1桁ぶんの精度は増えません。</strong>
+        誤差が試行回数の平方根に反比例するため、1桁増やすには回数を100倍にする必要があります。
+        シミュレーターで10回と1000回を交互に試すと、この差を実感できます。
+      </p>
 
       <h3>他にどんなことに使えるか</h3>
       <p>

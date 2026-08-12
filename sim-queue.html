@@ -10,7 +10,7 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="canonical" href="https://it1-code-pocket.com/sim-queue.html">
   <title>待ち行列シミュレーター｜開始・終了・待ち時間を1人ずつ求める | IT1-CODE-POCKET</title>
-  <meta name="description" content="待ち行列シミュレーションの動きを1ステップずつ確認できるシミュレーターです。人数と混み具合、対応時間を選び、開始時刻 = 最大値(到着時刻, 前の人の終了時刻) の式で待ち時間が積み上がっていく様子を帯グラフと表で確認できます。擬似コード／Python／JavaScript のコードと、共通テスト情報Ⅰの出題ポイントも解説します。">
+  <meta name="description" content="待ち行列シミュレーションを1ステップずつ確認できるシミュレーター。「開始時刻 = 最大値(到着時刻, 前の人の終了時刻)」の式で待ち時間が積み上がる様子を、帯グラフと表で確認できます。">
   <meta property="og:site_name" content="IT1-CODE-POCKET">
   <meta property="og:title" content="待ち行列シミュレーター｜開始・終了・待ち時間を1人ずつ求める">
   <meta property="og:description" content="開始時刻 = 最大値(到着時刻, 前の人の終了時刻) の式で待ち時間が決まる様子を、帯グラフと表で1ステップずつ確認できます。">
@@ -153,11 +153,12 @@
       <div class="sim-setup">
         <div class="sim-setup-row">
           <span class="sim-setup-label" id="sim-people-label">人数</span>
-          <div class="sim-chips sim-chips-scene sim-chips-scene-5" role="group" aria-labelledby="sim-people-label">
+          <div class="sim-chips sim-chips-scene sim-chips-scene-6" role="group" aria-labelledby="sim-people-label">
             <button type="button" class="sim-chip sim-chip-num" data-sim-people="3" aria-pressed="false" aria-label="3人">3</button>
             <button type="button" class="sim-chip sim-chip-num" data-sim-people="4" aria-pressed="true" aria-label="4人">4</button>
             <button type="button" class="sim-chip sim-chip-num" data-sim-people="5" aria-pressed="false" aria-label="5人">5</button>
             <button type="button" class="sim-chip sim-chip-num" data-sim-people="6" aria-pressed="false" aria-label="6人">6</button>
+            <button type="button" class="sim-chip sim-chip-num" data-sim-people="7" aria-pressed="false" aria-label="7人">7</button>
             <button type="button" class="sim-chip sim-chip-num" data-sim-people="8" aria-pressed="false" aria-label="8人">8</button>
           </div>
         </div>
@@ -201,8 +202,8 @@
             <div class="sim-timeline" id="sim-timeline"></div>
             <div class="sim-timeline-axis" id="sim-timeline-axis"></div>
             <ul class="sim-plot-legend">
-              <li><span class="sim-plot-swatch" data-hit="new"></span>待っている時間</li>
-              <li><span class="sim-plot-swatch" data-hit="service"></span>対応してもらう時間</li>
+              <li><span class="sim-plot-swatch" data-hit="wait"></span>待ち時間</li>
+              <li><span class="sim-plot-swatch" data-hit="service"></span>対応中</li>
             </ul>
           </div>
         </div>

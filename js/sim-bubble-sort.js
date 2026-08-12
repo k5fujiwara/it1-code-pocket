@@ -213,6 +213,8 @@
       inner = null;
       snap({
         line: L.inner,
+        // 「1パス進む」でここまで一気に送れるようにする印
+        passEnd: true,
         message:
           `${i + 1} 回目のパスが終わりました。` +
           `未確定部分でいちばん大きい ${values[fixedFrom]} が添字 ${fixedFrom} に確定しました。` +
@@ -230,6 +232,7 @@
           fixedFrom = 0;
           snap({
             line: L.brk,
+            passEnd: true,
             message: `残りを調べる必要がないので、繰り返しを抜けます。比較は ${compares} 回で終わりました。`,
           });
           broke = true;
@@ -247,6 +250,7 @@
     inner = null;
     snap({
       line: L.print,
+      passEnd: true,
       result: `[${values.join(', ')}]  /  交換 ${swaps} 回  /  比較 ${compares} 回`,
       message:
         `整列が終わりました。[${values.join(', ')}] になり、交換は ${swaps} 回、比較は ${compares} 回でした。`,

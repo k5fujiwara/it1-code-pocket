@@ -72,6 +72,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="js/theme-init.js"></script>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/simulation.css">
 </head>
 <body data-theme="simple">
 
@@ -161,6 +162,143 @@
         <p class="algorithm-index-summary">位置と速度を、決められた順番で繰り返し更新していきます。更新の順番を入れ替えると結果が変わる点が最大の注意点で、終了条件と表示のタイミングもよく問われます。</p>
         <a href="sim-motion.html" class="algorithm-sim-link">解説とシミュレーターを見る</a>
       </article>
+    </section>
+
+    <section class="themed-card p-4 mt-4 sim-doc">
+      <p class="sim-kicker">COMPARE</p>
+      <h2>どれを使うか：見分け方のまとめ</h2>
+      <p>
+        7つのアルゴリズムは、はたらきで3つのグループに分かれます。
+        問題文から「どのアルゴリズムの話か」を見抜けると、聞かれていることが一気に見えるようになります。
+      </p>
+
+      <h3>探索：目的の値を見つける</h3>
+      <div class="sim-table-wrap">
+        <table class="sim-table">
+          <thead>
+            <tr>
+              <th scope="col">項目</th>
+              <th scope="col">線形探索</th>
+              <th scope="col">二分探索</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">前提</th>
+              <td data-label="線形探索">なし（並びは自由）</td>
+              <td data-label="二分探索"><strong>整列済み</strong>でないと使えない</td>
+            </tr>
+            <tr>
+              <th scope="row">進め方</th>
+              <td data-label="線形探索">先頭から1つずつ比べる</td>
+              <td data-label="二分探索">中央と比べて半分を捨てる</td>
+            </tr>
+            <tr>
+              <th scope="row">最悪の比較回数</th>
+              <td data-label="線形探索">n 回</td>
+              <td data-label="二分探索">約 log2(n) + 1 回</td>
+            </tr>
+            <tr>
+              <th scope="row">1000個のとき</th>
+              <td data-label="線形探索">最悪1000回</td>
+              <td data-label="二分探索">約10回</td>
+            </tr>
+            <tr>
+              <th scope="row">覚える変数</th>
+              <td data-label="線形探索">i、pos</td>
+              <td data-label="二分探索">low、high、mid、pos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <strong>選び方：</strong>1回だけ探すなら整列の手間がいらない線形探索、同じデータを何度も探すなら整列してから二分探索が有利です。
+        「整列にかかる手間」と「探索を何回行うか」を比べる、という考え方が問われます。
+      </p>
+
+      <h3>整列：小さい順に並べ替える</h3>
+      <div class="sim-table-wrap">
+        <table class="sim-table">
+          <thead>
+            <tr>
+              <th scope="col">項目</th>
+              <th scope="col">交換法</th>
+              <th scope="col">選択法</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">やること</th>
+              <td data-label="交換法">隣どうしを比べて逆なら交換</td>
+              <td data-label="選択法">最小値を探して1回だけ交換</td>
+            </tr>
+            <tr>
+              <th scope="row">確定する向き</th>
+              <td data-label="交換法"><strong>右端</strong>（最大値）から</td>
+              <td data-label="選択法"><strong>左端</strong>（最小値）から</td>
+            </tr>
+            <tr>
+              <th scope="row">比較回数</th>
+              <td data-label="交換法">n(n-1)/2 回</td>
+              <td data-label="選択法">n(n-1)/2 回（同じ）</td>
+            </tr>
+            <tr>
+              <th scope="row">交換回数（最大）</th>
+              <td data-label="交換法">n(n-1)/2 回</td>
+              <td data-label="選択法">n - 1 回</td>
+            </tr>
+            <tr>
+              <th scope="row">覚える変数</th>
+              <td data-label="交換法">なし（その場で交換）</td>
+              <td data-label="選択法">min_pos（最小値の位置）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <strong>見分け方：</strong>コードに <code>min_pos</code> のような「位置を覚える変数」があれば選択法、
+        隣どうし（<code>Nums[j]</code> と <code>Nums[j + 1]</code>）を比べていれば交換法です。
+        どちらも計算量は O(n²) で、<strong>交換が少ないほうが必ず速いとは言えません</strong>。
+      </p>
+
+      <h3>シミュレーション：現実の動きを数で追う</h3>
+      <div class="sim-table-wrap">
+        <table class="sim-table">
+          <thead>
+            <tr>
+              <th scope="col">種類</th>
+              <th scope="col">中心になる考え方</th>
+              <th scope="col">答えの性質</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">モンテカルロ法</th>
+              <td data-label="中心になる考え方">乱数で試行し、条件を満たす割合を数える</td>
+              <td data-label="答えの性質"><strong>近似</strong>（毎回変わる）</td>
+            </tr>
+            <tr>
+              <th scope="row">待ち行列</th>
+              <td data-label="中心になる考え方">開始 = 最大値(到着, 前の人の終了)</td>
+              <td data-label="答えの性質">計算どおりの値</td>
+            </tr>
+            <tr>
+              <th scope="row">運動</th>
+              <td data-label="中心になる考え方">位置と速度を決めた順に更新する</td>
+              <td data-label="答えの性質">更新順で変わる</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        シミュレーションは<strong>「1回の繰り返しで何をするか」を1行ずつ追えるか</strong>が勝負です。
+        乱数が出てきたらモンテカルロ法、時刻の列が出てきたら待ち行列、位置と速度が出てきたら運動、と見当をつけて表を書き始めましょう。
+      </p>
+      <div class="sim-note">
+        <strong>共通する学習法：</strong>どのアルゴリズムでも、紙に<strong>変数の欄を作って1行ずつ埋める</strong>のがいちばん確実です。
+        各詳細ページのシミュレーターは、その作業を画面上で再現したものです。
+        まず自分で予測し、そのあと答え合わせに使ってください。
+      </div>
     </section>
 
     <section class="themed-card p-4 mt-4">
