@@ -408,6 +408,8 @@
 }
 
 .sim-cell-box {
+  /* 入れ替えアニメーションで重なり順を指定するため。 */
+  position: relative;
   display: grid;
   place-items: center;
   width: 100%;
@@ -465,6 +467,77 @@
   opacity: 0.4;
 }
 
+/*
+  整列で入れ替えている2つ。
+  transform はアニメーション（下の @keyframes）が使うため、ここでは指定しない。
+  指定すると、動き終わったあとに位置が飛んでしまう。
+*/
+.sim-cell[data-state="swap"] .sim-cell-box {
+  border-color: var(--warning-text);
+  background: var(--warning-bg);
+  color: var(--warning-text);
+  box-shadow: var(--shadow);
+}
+
+/*
+  入れ替えの動き。左のマスは上を通って右へ、右のマスは下をくぐって左へ。
+  移動先でそのまま止まる（animation-fill-mode: forwards）ので、
+  JS が「位置を戻して値を入れ替える」瞬間に見た目が変わらない。
+  移動距離は JS が --sim-swap-shift に入れる。
+*/
+@keyframes sim-swap-over {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(calc(var(--sim-swap-shift, 0px) / 2), -0.95rem) scale(1.08);
+  }
+  100% {
+    transform: translate(var(--sim-swap-shift, 0px), 0) scale(1);
+  }
+}
+
+@keyframes sim-swap-under {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(calc(var(--sim-swap-shift, 0px) / 2), 0.2rem);
+  }
+  100% {
+    transform: translate(var(--sim-swap-shift, 0px), 0);
+  }
+}
+
+.sim-cell-box.is-swap-over,
+.sim-cell-box.is-swap-under {
+  animation-duration: 380ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.sim-cell-box.is-swap-over {
+  animation-name: sim-swap-over;
+  z-index: 3;
+}
+
+.sim-cell-box.is-swap-under {
+  animation-name: sim-swap-under;
+  z-index: 2;
+}
+
+/* 整列で位置が確定したマス。 */
+.sim-cell[data-state="fixed"] .sim-cell-box {
+  border-color: var(--success);
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.sim-cell[data-state="fixed"] .sim-cell-index {
+  color: var(--success);
+  font-weight: 800;
+}
+
 .sim-cell[data-state="found"] .sim-cell-index,
 .sim-cell[data-state="active"] .sim-cell-index {
   color: var(--accent);
@@ -519,12 +592,40 @@
   background: var(--warning-bg);
 }
 
+.sim-legend-swatch[data-state="swap"] {
+  border-color: var(--warning-text);
+  background: var(--warning-bg);
+}
+
+.sim-legend-swatch[data-state="fixed"] {
+  border-color: var(--success);
+  background: var(--success-bg);
+}
+
+.sim-legend-swatch[data-state="skip"] {
+  border-style: dashed;
+  opacity: 0.5;
+}
+
 /* 変数の状態（1行に収める） */
 
 .sim-vars {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.4rem;
+}
+
+/* 変数が4つあるページ用（i / j / 比較 / 交換）。 */
+.sim-vars-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.sim-vars-4 .sim-var-name {
+  font-size: 0.66rem;
+}
+
+.sim-vars-4 .sim-var-value {
+  font-size: 0.95rem;
 }
 
 /* 変数が5つあるページ用（low / mid / high / pos / 比較）。 */
@@ -1352,6 +1453,11 @@
   .sim-code-line,
   .sim-btn {
     transition: none;
+  }
+
+  .sim-cell-box.is-swap-over,
+  .sim-cell-box.is-swap-under {
+    animation: none;
   }
 
   .sim-cell[data-state="active"] .sim-cell-box,
