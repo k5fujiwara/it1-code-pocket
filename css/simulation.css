@@ -1002,6 +1002,412 @@
   padding: 0.35rem 0.1rem;
 }
 
+/* ---------- 散布図（モンテカルロ法） ---------- */
+
+.sim-plot-wrap {
+  display: grid;
+  place-items: center;
+  padding: 0.2rem 0;
+}
+
+.sim-plot {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  height: auto;
+  border-radius: var(--btn-radius);
+  background: var(--bg-card);
+}
+
+.sim-plot-frame {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.sim-plot-area {
+  fill: var(--accent-light);
+  opacity: 0.55;
+}
+
+.sim-plot-arc {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+/* 点の大きさ（r）は JS が属性で指定する。CSS の r は対応が古い環境で効かないため。 */
+.sim-plot-dot[data-hit="in"] {
+  fill: var(--success);
+}
+
+.sim-plot-dot[data-hit="out"] {
+  fill: var(--text-muted);
+  opacity: 0.75;
+}
+
+/* いま打ったばかりの点は大きく目立たせる。 */
+.sim-plot-dot[data-hit="new-in"],
+.sim-plot-dot[data-hit="new-out"] {
+  stroke: var(--warning-text);
+  stroke-width: 1.2;
+}
+
+.sim-plot-dot[data-hit="new-in"] {
+  fill: var(--success);
+}
+
+.sim-plot-dot[data-hit="new-out"] {
+  fill: var(--warning-bg);
+}
+
+.sim-plot-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.sim-plot-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.sim-plot-swatch {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+}
+
+.sim-plot-swatch[data-hit="in"] {
+  background: var(--success);
+}
+
+.sim-plot-swatch[data-hit="out"] {
+  background: var(--text-muted);
+}
+
+.sim-plot-swatch[data-hit="new"] {
+  background: var(--warning-bg);
+  border: 1.5px solid var(--warning-text);
+}
+
+.sim-plot-swatch[data-hit="service"] {
+  border-radius: 0.2rem;
+  background: var(--accent);
+}
+
+/* 近似値の大きな表示 */
+.sim-estimate {
+  display: grid;
+  gap: 0.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--btn-radius);
+  background: var(--bg);
+  padding: 0.5rem 0.6rem;
+  text-align: center;
+}
+
+.sim-estimate-label {
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.sim-estimate-value {
+  color: var(--accent);
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.sim-estimate-sub {
+  color: var(--text-muted);
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.7rem;
+}
+
+/* ---------- 時間の帯グラフ（待ち行列） ---------- */
+
+.sim-timeline {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.sim-timeline-row {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sim-timeline-label {
+  color: var(--text-muted);
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.sim-timeline-track {
+  position: relative;
+  height: 1.5rem;
+  border-radius: 0.3rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.sim-timeline-bar {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  border-radius: 0.25rem;
+  transition: left 0.25s ease, width 0.25s ease;
+}
+
+/* 待っている時間 */
+.sim-timeline-bar[data-kind="wait"] {
+  background: var(--warning-bg);
+  border: 1px dashed var(--warning-text);
+}
+
+/* 対応してもらっている時間 */
+.sim-timeline-bar[data-kind="service"] {
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  overflow: hidden;
+}
+
+[data-theme="cool"] .sim-timeline-bar[data-kind="service"] {
+  color: #0a0a0f;
+}
+
+/* 到着した時刻の目印 */
+.sim-timeline-arrive {
+  position: absolute;
+  top: -0.15rem;
+  bottom: -0.15rem;
+  width: 2px;
+  background: var(--text-muted);
+}
+
+.sim-timeline-row[data-state="active"] .sim-timeline-track {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-light);
+}
+
+.sim-timeline-row[data-state="active"] .sim-timeline-label {
+  color: var(--accent);
+}
+
+.sim-timeline-row[data-state="pending"] {
+  opacity: 0.4;
+}
+
+.sim-timeline-axis {
+  position: relative;
+  height: 1rem;
+  margin-left: 2.8rem;
+}
+
+.sim-timeline-tick {
+  position: absolute;
+  top: 0;
+  color: var(--text-muted);
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.6rem;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* 数値だけの表は、スマホでも表のまま見せる（積み直すと縦に長くなるため） */
+@media (max-width: 640px) {
+  .sim-table-compact,
+  .sim-table-compact thead,
+  .sim-table-compact tbody,
+  .sim-table-compact tr {
+    display: revert;
+  }
+
+  .sim-table-compact {
+    display: table;
+    width: 100%;
+    font-size: 0.72rem;
+  }
+
+  .sim-table-compact th,
+  .sim-table-compact td {
+    display: table-cell;
+    width: auto;
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.2rem;
+    text-align: center;
+  }
+
+  .sim-table-compact td::before {
+    content: none;
+  }
+
+  .sim-table-compact tr {
+    border: 0;
+    margin: 0;
+  }
+
+  .sim-table-compact thead {
+    display: table-header-group;
+  }
+
+  .sim-table-compact tbody {
+    display: table-row-group;
+  }
+}
+
+.sim-table-compact {
+  min-width: 0;
+}
+
+.sim-table-compact th,
+.sim-table-compact td {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.sim-table-compact tbody tr[data-state="active"] td,
+.sim-table-compact tbody tr[data-state="active"] th {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.sim-table-compact tbody tr[data-state="pending"] {
+  opacity: 0.45;
+}
+
+/* ---------- 数直線（運動シミュレーション） ---------- */
+
+.sim-line-wrap {
+  padding: 0.9rem 0.9rem 0.2rem;
+}
+
+.sim-line {
+  position: relative;
+  height: 2.4rem;
+}
+
+.sim-line-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1.1rem;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+/* 終了条件のしきい値（ゴール） */
+.sim-line-goal {
+  position: absolute;
+  top: 0.35rem;
+  bottom: 0.35rem;
+  width: 2px;
+  background: var(--success);
+}
+
+.sim-line-goal-label {
+  position: absolute;
+  top: -0.75rem;
+  color: var(--success);
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* 通ってきた位置 */
+.sim-line-trail {
+  position: absolute;
+  top: 1rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-left: -0.275rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent-light);
+  opacity: 0.75;
+}
+
+/* いまの位置 */
+.sim-line-point {
+  position: absolute;
+  top: 0.45rem;
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  margin-left: -0.775rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.64rem;
+  font-weight: 800;
+  box-shadow: var(--shadow);
+  transition: left 0.25s ease;
+}
+
+[data-theme="cool"] .sim-line-point {
+  color: #0a0a0f;
+}
+
+.sim-line-point[data-reached="true"] {
+  background: var(--success);
+}
+
+/* 速度を表す矢印 */
+.sim-line-arrow {
+  position: absolute;
+  top: 1.05rem;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--warning-text);
+  opacity: 0.8;
+  transition: left 0.25s ease, width 0.25s ease;
+}
+
+.sim-line-arrow[data-dir="back"] {
+  background: var(--error);
+}
+
+.sim-line-ticks {
+  position: relative;
+  height: 1rem;
+  margin: 0 0.9rem;
+}
+
+.sim-line-tick {
+  position: absolute;
+  top: 0;
+  color: var(--text-muted);
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.6rem;
+  transform: translateX(-50%);
+}
+
 /* ---------- 手入力・ログ ---------- */
 
 .sim-field {
@@ -1427,6 +1833,11 @@
   .sim-view {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: start;
+  }
+
+  /* 表示が3つあるページ用（帯グラフ・表・コード）。 */
+  .sim-view-3 {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.1fr);
   }
 
   .sim-panel {
