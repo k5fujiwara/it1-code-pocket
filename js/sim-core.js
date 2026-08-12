@@ -119,6 +119,22 @@
       this.goto(0);
     }
 
+    /**
+     * 指定した印が付いた次のステップまで一気に進む。
+     * 整列のように1ステップが細かいとき、「1パスぶん」まとめて送るために使う。
+     */
+    skipTo(flag) {
+      this.pause();
+      for (let i = this.index + 1; i < this.steps.length; i += 1) {
+        if (this.steps[i] && this.steps[i][flag]) {
+          this.goto(i);
+          return true;
+        }
+      }
+      if (!this.atEnd) this.goto(this.steps.length - 1);
+      return false;
+    }
+
     /** 再生中に速度を変えても止まらないように、タイマーを張り直す。 */
     setSpeed(key) {
       this.interval = SPEEDS[key] || SPEEDS.normal;
@@ -224,6 +240,166 @@
     observer.observe(element);
   }
 
+  /** 配列のマスを組み立てる。値が変わったときだけ呼ぶ。 */
+  function buildCells(arrayEl, values) {
+    if (!arrayEl) return;
+    arrayEl.innerHTML = '';
+    values.forEach((value, index) => {
+      const cell = document.createElement('li');
+      cell.className = 'sim-cell';
+      cell.setAttribute('data-state', 'idle');
+
+      const cursor = document.createElement('span');
+      cursor.className = 'sim-cell-cursor';
+
+      const box = document.createElement('span');
+      box.className = 'sim-cell-box';
+      box.textContent = String(value);
+
+      const label = document.createElement('span');
+      label.className = 'sim-cell-index';
+      label.textContent = `[${index}]`;
+
+      cell.appendChild(cursor);
+      cell.appendChild(box);
+      cell.appendChild(label);
+      arrayEl.appendChild(cell);
+    });
+  }
+
+  /** 実行中の入れ替えアニメーション（同時に1つだけ動かす）。 */
+  let swapAnimation = null;
+
+  /** 動いている途中で次のステップに進んだら、その場で片付ける。 */
+  function cancelSwapAnimation() {
+    if (swapAnimation) swapAnimation.finish();
+  }
+
+  /**
+   * 2つのマスが入れ替わる様子を動かして見せる。
+   * 値だけが切り替わると分かりにくいので、
+   * 左のマスは上を通って右へ、右のマスは下をくぐって左へ動かす。
+   *
+   * 動きは CSS の @keyframes（animation-fill-mode: forwards）で行い、
+   * 移動しきった位置で止める。そのうえで
+   * 「マスを元の位置に戻す」と「値を入れ替える」を同じ瞬間に行うため、
+   * 見た目は「入れ替わった場所に数字が収まった」状態のまま変わらない。
+   *
+   * 離れた位置どうしの交換（選択法）にも使えるよう、添字は隣どうしに限らない。
+   */
+  function animateSwap(arrayEl, indexA, indexB, beforeValues, options) {
+    cancelSwapAnimation();
+    if (!arrayEl || indexA === indexB) return;
+
+    const opts = Object.assign({ duration: 380 }, options || {});
+    const reduceMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || opts.duration <= 0) return;
+
+    const cells = arrayEl.querySelectorAll('.sim-cell');
+    const leftIndex = Math.min(indexA, indexB);
+    const rightIndex = Math.max(indexA, indexB);
+    const leftCell = cells[leftIndex];
+    const rightCell = cells[rightIndex];
+    if (!leftCell || !rightCell) return;
+
+    const leftBox = leftCell.querySelector('.sim-cell-box');
+    const rightBox = rightCell.querySelector('.sim-cell-box');
+    if (!leftBox || !rightBox) return;
+
+    // 入れ替えたあとの値（paintCells が入れた値）を控えておく。
+    const afterLeft = leftBox.textContent;
+    const afterRight = rightBox.textContent;
+
+    // いったん入れ替え前の値に戻してから動かす。
+    leftBox.textContent = String(beforeValues[leftIndex]);
+    rightBox.textContent = String(beforeValues[rightIndex]);
+
+    const style = window.getComputedStyle(arrayEl);
+    const size =
+      parseFloat(style.getPropertyValue('--sim-cell-size')) || leftBox.offsetWidth || 48;
+    const gap = parseFloat(style.getPropertyValue('--sim-cell-gap')) || 6;
+    const distance = (rightIndex - leftIndex) * (size + gap);
+
+    leftBox.style.setProperty('--sim-swap-shift', `${distance}px`);
+    rightBox.style.setProperty('--sim-swap-shift', `${-distance}px`);
+    leftBox.style.animationDuration = `${opts.duration}ms`;
+    rightBox.style.animationDuration = `${opts.duration}ms`;
+    leftBox.classList.add('is-swap-over');
+    rightBox.classList.add('is-swap-under');
+
+    let finished = false;
+    let timer = null;
+
+    function finish() {
+      if (finished) return;
+      finished = true;
+      if (timer !== null) window.clearTimeout(timer);
+      leftBox.removeEventListener('animationend', finish);
+
+      // 位置を戻す動きが見えないよう、transition を止めてから戻す。
+      leftBox.style.transition = 'none';
+      rightBox.style.transition = 'none';
+      leftBox.classList.remove('is-swap-over');
+      rightBox.classList.remove('is-swap-under');
+      leftBox.textContent = afterLeft;
+      rightBox.textContent = afterRight;
+      leftBox.style.removeProperty('--sim-swap-shift');
+      rightBox.style.removeProperty('--sim-swap-shift');
+      leftBox.style.animationDuration = '';
+      rightBox.style.animationDuration = '';
+
+      const restore = () => {
+        leftBox.style.transition = '';
+        rightBox.style.transition = '';
+      };
+      if (typeof window.requestAnimationFrame === 'function') {
+        window.requestAnimationFrame(restore);
+      } else {
+        restore();
+      }
+
+      swapAnimation = null;
+    }
+
+    // 動きが終わった瞬間に確定させる。念のため時間切れでも確定する。
+    leftBox.addEventListener('animationend', finish);
+    timer = window.setTimeout(finish, opts.duration + 80);
+
+    swapAnimation = { finish: finish };
+  }
+
+  /**
+   * 1ステップ分の見た目を反映する。
+   * step.cells  … マスごとの状態（idle / active / miss / found / dup / skip）
+   * step.markers… マスの上に出す目印（{ 添字: "i▼" } など）
+   * step.values … 値が入れ替わる場合の表示値
+   */
+  function paintCells(arrayEl, step) {
+    // 前のステップのアニメーションが残っていたら片付けてから描き直す。
+    cancelSwapAnimation();
+    if (!arrayEl || !step) return;
+    const cells = arrayEl.querySelectorAll('.sim-cell');
+    cells.forEach((cell, index) => {
+      cell.setAttribute('data-state', (step.cells && step.cells[index]) || 'idle');
+
+      const marker = step.markers ? step.markers[index] || '' : '';
+      const cursor = cell.querySelector('.sim-cell-cursor');
+      if (cursor) cursor.textContent = marker;
+      if (marker) {
+        cell.setAttribute('data-cursor', 'true');
+      } else {
+        cell.removeAttribute('data-cursor');
+      }
+
+      if (step.values) {
+        const box = cell.querySelector('.sim-cell-box');
+        if (box) box.textContent = String(step.values[index]);
+      }
+    });
+  }
+
   /** 実行中の行だけ data-active を立てる。 */
   function setActiveLine(container, lineIndex) {
     if (!container) return;
@@ -264,6 +440,13 @@
         else if (action === 'next') player.next();
         else if (action === 'prev') player.prev();
         else if (action === 'reset') player.reset();
+      });
+    });
+
+    // まとめ送り（例：data-sim-skip="passEnd" で1パスぶん進む）
+    scope.querySelectorAll('[data-sim-skip]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        player.skipTo(btn.getAttribute('data-sim-skip'));
       });
     });
 
@@ -474,6 +657,10 @@
     SPEEDS: SPEEDS,
     renderCode: renderCode,
     setActiveLine: setActiveLine,
+    buildCells: buildCells,
+    paintCells: paintCells,
+    animateSwap: animateSwap,
+    cancelSwapAnimation: cancelSwapAnimation,
     fitArray: fitArray,
     bindResize: bindResize,
     observeWidth: observeWidth,

@@ -11,7 +11,7 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="canonical" href="https://it1-code-pocket.com/sim-linear-search.html">
   <title>線形探索シミュレーター｜1ステップずつ動きを確認 | IT1-CODE-POCKET</title>
-  <meta name="description" content="線形探索（逐次探索）の動きを1ステップずつ目で見て確認できるシミュレーターです。要素数を4〜10個から選び、先頭・末尾・見つからない・重複ありの4つの場面で、添字 i の進み方・pos の更新・比較回数を追えます。擬似コード（DNCL）／Python／JavaScript のコードと計算量、共通テスト情報Ⅰでの出題ポイントまで解説します。">
+  <meta name="description" content="線形探索（逐次探索）の動きを1ステップずつ確認できるシミュレーター。要素数4〜10個と4つの場面を選び、添字 i の進み方・pos の更新・比較回数を追えます。3言語のコードと出題ポイントも解説。">
   <meta property="og:site_name" content="IT1-CODE-POCKET">
   <meta property="og:title" content="線形探索シミュレーター｜1ステップずつ動きを確認">
   <meta property="og:description" content="配列と探す値を自由に変えて、線形探索の動きを1ステップずつ確認できるシミュレーター。擬似コード・Python・JavaScript のコードと出題ポイントも解説します。">
@@ -210,8 +210,8 @@
             <ul class="sim-legend">
               <li><span class="sim-legend-swatch" data-state="active"></span>比較中</li>
               <li><span class="sim-legend-swatch" data-state="miss"></span>不一致</li>
-              <li><span class="sim-legend-swatch" data-state="found"></span>一致・記録</li>
-              <li><span class="sim-legend-swatch" data-state="dup"></span>一致・無視</li>
+              <li><span class="sim-legend-swatch" data-state="found"></span>一致（記録）</li>
+              <li><span class="sim-legend-swatch" data-state="dup"></span>無視</li>
             </ul>
           </div>
         </div>
@@ -316,7 +316,7 @@
       <h3>整列されていなくても使える</h3>
       <p>
         線形探索の大きな特徴は、<strong>配列が小さい順に並んでいなくても正しく動く</strong>ことです。先頭から全部見ていくのだから、並び方は結果に影響しません。
-        「整列済みでなければ使えない」という制約があるのは<a href="algorithms.html#binary">二分探索</a>のほうです。この2つはセットで問われやすいので、前提条件の違いをはっきり区別しておきましょう。
+        「整列済みでなければ使えない」という制約があるのは<a href="sim-binary-search.html">二分探索</a>のほうです。この2つはセットで問われやすいので、前提条件の違いをはっきり区別しておきましょう。
       </p>
 
       <h3>同じ値が複数あるときの扱い</h3>
@@ -579,11 +579,11 @@ console.log(pos);</pre>
     <section class="themed-card p-4">
       <h2 class="text-lg font-bold mb-3">次に確認したいアルゴリズム</h2>
       <div class="sim-next-grid mb-3">
-        <a href="algorithms.html#binary" class="sim-next-card">
+        <a href="sim-binary-search.html" class="sim-next-card">
           <span class="sim-next-title">二分探索</span>
           <span class="sim-next-desc">整列済みの配列を半分ずつ絞る。線形探索との前提条件の違いを確認</span>
         </a>
-        <a href="algorithms.html#bubble" class="sim-next-card">
+        <a href="sim-bubble-sort.html" class="sim-next-card">
           <span class="sim-next-title">交換法（バブルソート）</span>
           <span class="sim-next-desc">隣どうしを比べて並べ替える。探索の前段になる整列</span>
         </a>
