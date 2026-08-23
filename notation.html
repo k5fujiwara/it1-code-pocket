@@ -2,12 +2,13 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
+  <link rel="canonical" href="https://it1-code-pocket.com/notation.html">
   <title>共通テスト用プログラム表記 | 情報Ⅰ 第3問 対策クイズ</title>
   <meta name="description" content="共通テスト「情報Ⅰ」で使われるプログラム表記を、変数、配列、条件分岐、繰返し、演算などのコード例と実行結果で確認できます。">
   <meta property="og:site_name" content="IT1-CODE-POCKET">
@@ -27,6 +28,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="js/theme-init.js"></script>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/simulation.css">
 </head>
 <body data-theme="simple">
 
@@ -171,8 +173,89 @@ tax = price * rate
         <pre class="notation-output" id="output-comment"></pre>
       </article>
     </section>
+
+    <section class="themed-card p-4 mt-4 sim-doc">
+      <p class="sim-kicker">SUMMARY</p>
+      <h2>間違えやすいところのまとめ</h2>
+      <p>
+        上の10項目のうち、実際の問題で失点につながりやすいのは次の5つです。
+        表記そのものより、<strong>「1つずれる」ことが失点の原因</strong>になります。
+      </p>
+      <div class="sim-table-wrap">
+        <table class="sim-table">
+          <thead>
+            <tr>
+              <th scope="col">項目</th>
+              <th scope="col">正しい理解</th>
+              <th scope="col">よくある誤り</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">配列の添字</th>
+              <td data-label="正しい理解">0から数える。3番目は Data[2]</td>
+              <td data-label="よくある誤り">3番目を Data[3] と読む</td>
+            </tr>
+            <tr>
+              <th scope="row">繰り返しの範囲</th>
+              <td data-label="正しい理解">「0 から 3 まで」は両端を含み4回</td>
+              <td data-label="よくある誤り">3回と数える</td>
+            </tr>
+            <tr>
+              <th scope="row">÷ と ％</th>
+              <td data-label="正しい理解">÷ は商、％ は余り</td>
+              <td data-label="よくある誤り">÷ で小数が出ると思い込む</td>
+            </tr>
+            <tr>
+              <th scope="row">= と ==</th>
+              <td data-label="正しい理解">= は代入、== は比較</td>
+              <td data-label="よくある誤り">条件式に = を使う</td>
+            </tr>
+            <tr>
+              <th scope="row">｜ と ⎿</th>
+              <td data-label="正しい理解">処理のまとまりを表す（字下げと同じ）</td>
+              <td data-label="よくある誤り">どこまでが繰り返しの中か見誤る</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        なかでも <strong>｜ と ⎿ の範囲</strong>は、慣れないうちは見落としがちです。
+        <code>⎿</code> はそのまとまりの<strong>最後の行</strong>を示します。
+        繰り返しの中に何行入っているかを、まず目で確認する習慣をつけてください。
+      </p>
+      <div class="sim-note">
+        <strong>この表記は「読むため」のものです。</strong>
+        共通テストでは、この表記でプログラムを書かせる問題はほとんど出ません。
+        書けるようになる必要はなく、<strong>読んで値を追えれば十分</strong>です。
+        実際に値を追う練習は<a href="reading.html" class="font-bold" style="color: var(--accent);">プログラムの読み方</a>、
+        アルゴリズムの動きは<a href="algorithms.html" class="font-bold" style="color: var(--accent);">シミュレーター</a>で確認できます。
+      </div>
+    </section>
+
+    <section class="themed-card p-4 mt-4">
+      <h2 class="text-lg font-bold mb-3">次に読むページ</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <a href="reading.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">プログラムの読み方</a>
+        <a href="dncl-guide.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">DNCL表記の読み方</a>
+        <a href="study-guide.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">情報Ⅰ 第3問の勉強法</a>
+        <a href="index.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">クイズで練習する</a>
+      </div>
+    </section>
   </main>
-  <div id="site-footer"></div>
+  <div id="site-footer">
+    <footer class="site-footer">
+      <nav class="site-footer-links" aria-label="サイト情報">
+        <a href="study-guide.html">学習ガイド</a>
+        <a href="about.html">このサイトについて</a>
+        <a href="operator.html">運営者情報</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="contact.html">お問い合わせ</a>
+        <a href="terms.html">利用規約・免責事項</a>
+      </nav>
+      <p class="site-footer-copy">© IT1-CODE-POCKET</p>
+    </footer>
+  </div>
 
   <script src="js/footer.js"></script>
   <script src="js/notation.js"></script>

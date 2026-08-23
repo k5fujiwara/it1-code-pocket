@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
@@ -72,6 +72,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="js/theme-init.js"></script>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/simulation.css">
 </head>
 <body data-theme="simple">
   <header class="themed-header sticky top-0 z-50 px-4 py-3 flex items-center justify-between gap-2">
@@ -82,7 +83,7 @@
   </header>
 
   <main class="max-w-3xl mx-auto px-4 pb-8 pt-4">
-    <article class="themed-card p-5 leading-relaxed">
+    <article class="themed-card p-5 leading-relaxed sim-doc">
       <h1 class="text-2xl font-bold mb-3">情報Ⅰ 第3問の勉強法</h1>
       <p class="themed-text-muted text-sm mb-5">
         共通テスト「情報Ⅰ」のプログラミング問題は、文法を丸暗記するよりも、変数の変化を正しく追う力が重要です。
@@ -115,6 +116,105 @@
         IT1-CODE-POCKETでは、間違えた問題を復習用に残せます。1回目は解説を見て理解し、時間を置いてからもう一度解くことで、位置や答えの記憶ではなく、処理を追う力として定着しやすくなります。
       </p>
 
+      <h2 class="text-lg font-bold mt-6 mb-2">トレース表の書き方（実演）</h2>
+      <p class="mb-3">
+        「変数表を作る」と言われても、最初はどう書けばよいか分かりにくいものです。
+        次の短いプログラムで、実際の書き方を示します。
+      </p>
+      <pre class="code-block">Nums = [3, 8, 5]
+total = 0
+count = 0
+
+i を 0 から 2 まで 1 ずつ増やしながら繰り返す:
+｜total = total + Nums[i]
+｜もし Nums[i] &gt; 4 ならば:
+⎿⎿ count = count + 1
+
+表示する(total, count)</pre>
+      <p class="mb-3">
+        紙には、<strong>出てくる変数を横に並べた表</strong>を書きます。あとは繰り返し1周ごとに1行ずつ埋めるだけです。
+      </p>
+      <div class="sim-table-wrap">
+        <table class="sim-table sim-table-compact">
+          <thead>
+            <tr><th scope="col">i</th><th scope="col">Nums[i]</th><th scope="col">total</th><th scope="col">4より大</th><th scope="col">count</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">開始前</th><td>—</td><td>0</td><td>—</td><td>0</td></tr>
+            <tr><th scope="row">0</th><td>3</td><td>3</td><td>×</td><td>0</td></tr>
+            <tr><th scope="row">1</th><td>8</td><td>11</td><td>○</td><td>1</td></tr>
+            <tr><th scope="row">2</th><td>5</td><td>16</td><td>○</td><td>2</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        答えは 16 と 2 です。これだけの表を書けば、<strong>読み違えようがありません</strong>。
+        慣れると頭の中でできるようになりますが、最初から暗算しようとすると必ずどこかでずれます。
+        テーマ別の詳しい練習は<a href="reading.html" class="font-bold" style="color: var(--accent);">プログラムの読み方</a>にまとめています。
+      </p>
+
+      <h2 class="text-lg font-bold mt-6 mb-2">学習の進め方の目安</h2>
+      <p class="mb-3">
+        受験までの残り時間に応じて、どこに時間を使うかの目安です。1日15〜30分でも、続ければ十分に間に合います。
+      </p>
+      <div class="sim-table-wrap">
+        <table class="sim-table">
+          <thead>
+            <tr>
+              <th scope="col">段階</th>
+              <th scope="col">やること</th>
+              <th scope="col">到達の目安</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">第1段階</th>
+              <td data-label="やること">配列の添字、繰り返しの回数を確実にする</td>
+              <td data-label="到達の目安">「基礎」を8割正解できる</td>
+            </tr>
+            <tr>
+              <th scope="row">第2段階</th>
+              <td data-label="やること">合計・個数・最大値・探索の型を覚える</td>
+              <td data-label="到達の目安">「標準」を7割正解できる</td>
+            </tr>
+            <tr>
+              <th scope="row">第3段階</th>
+              <td data-label="やること">二重ループ、表、シミュレーションに慣れる</td>
+              <td data-label="到達の目安">「発展」で時間内に解ける</td>
+            </tr>
+            <tr>
+              <th scope="row">仕上げ</th>
+              <td data-label="やること">間違えた問題を解き直し、傾向をつかむ</td>
+              <td data-label="到達の目安">同じ種類のミスが減る</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <strong>飛ばさないでください。</strong>第1段階が曖昧なまま発展問題に進むと、
+        「難しいから解けない」のではなく「添字がずれているから解けない」という状態になり、
+        原因が分からないまま時間だけが過ぎます。
+      </p>
+
+      <h2 class="text-lg font-bold mt-6 mb-2">本番での解き方</h2>
+      <p class="mb-3">
+        第3問は問題文が長く、読むだけで時間を使いがちです。次の順番で進めると、迷う時間を減らせます。
+      </p>
+      <ol class="space-y-2 list-decimal pl-5 mb-3">
+        <li><strong>設問を先に見る</strong> … 何を答えるのか（実行結果か、回数か、空欄か）を確認する</li>
+        <li><strong>プログラムの変数を書き出す</strong> … 配列名と、集計用の変数を余白にメモする</li>
+        <li><strong>表を作って追う</strong> … 選択肢は見ずに、自分で値を出す</li>
+        <li><strong>最後に選択肢と照合する</strong> … 先に選択肢を見ると、それらしいものに引っ張られる</li>
+      </ol>
+      <p class="mb-3">
+        特に <strong>4</strong> が重要です。選択肢には、添字を1つずらした値や、繰り返しを1回多く数えた値が
+        <strong>わざと並べられています</strong>。自分の答えを出してから照合すれば、この罠にかかりません。
+      </p>
+      <p>
+        また、途中で分からなくなったら<strong>行を戻さず、表を1行目から書き直す</strong>ほうが早いことが多いです。
+        どこでずれたか探すより、確実な位置からやり直すほうが結果的に速く終わります。
+      </p>
+
       <div class="mt-6">
         <a href="index.html" class="themed-btn-primary block w-full py-3 text-center font-bold">クイズで練習する</a>
       </div>
@@ -122,6 +222,7 @@
       <section class="themed-card p-4 mt-5">
         <h2 class="text-lg font-bold mb-3">関連する学習ページ</h2>
         <div class="grid grid-cols-1 gap-2">
+          <a href="reading.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">プログラムの読み方（トレース練習）</a>
           <a href="python-guide.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">Pythonで押さえる基礎文法</a>
           <a href="javascript-guide.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">JavaScriptの配列・条件分岐・繰り返し</a>
           <a href="dncl-guide.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">DNCL表記の読み方</a>
@@ -130,7 +231,19 @@
       </section>
     </article>
   </main>
-  <div id="site-footer"></div>
+  <div id="site-footer">
+    <footer class="site-footer">
+      <nav class="site-footer-links" aria-label="サイト情報">
+        <a href="study-guide.html">学習ガイド</a>
+        <a href="about.html">このサイトについて</a>
+        <a href="operator.html">運営者情報</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="contact.html">お問い合わせ</a>
+        <a href="terms.html">利用規約・免責事項</a>
+      </nav>
+      <p class="site-footer-copy">© IT1-CODE-POCKET</p>
+    </footer>
+  </div>
   <script src="js/footer.js"></script>
 </body>
 </html>

@@ -1091,7 +1091,8 @@ body.is-quiz-screen .site-footer {
   background: var(--bg-card);
   color: var(--text);
   padding: 0 0.75rem;
-  font-size: 0.95rem;
+  /* 16px 未満だと iOS が入力時に拡大するため下回らせない */
+  font-size: 16px;
 }
 
 .admin-input,
@@ -1102,7 +1103,7 @@ body.is-quiz-screen .site-footer {
   background: var(--bg-card);
   color: var(--text);
   padding: 0.65rem 0.75rem;
-  font-size: 0.95rem;
+  font-size: 16px;
 }
 
 .admin-textarea {
