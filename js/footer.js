@@ -10,6 +10,11 @@ function renderSiteFooter() {
   const mount = document.getElementById('site-footer');
   if (!mount) return;
 
+  // フッターは各ページに静的に書き出してある。
+  // すでに中身があるときは描画し直さない。
+  // （JavaScript が動かない環境でも内部リンクが残るようにするため）
+  if (mount.children.length > 0) return;
+
   const currentPage = window.location.pathname.split('/').pop();
   const isTopPage = currentPage === '' || currentPage === 'index.html';
   const shareUrl = encodeURIComponent('https://it1-code-pocket.com/');
