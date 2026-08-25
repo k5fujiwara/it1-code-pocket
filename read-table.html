@@ -35,7 +35,7 @@
         "url": "https://it1-code-pocket.com/read-table.html",
         "image": "https://it1-code-pocket.com/assets/ogp-card.png",
         "datePublished": "2026-08-13",
-        "dateModified": "2026-08-13",
+        "dateModified": "2026-08-26",
         "inLanguage": "ja",
         "author": { "@type": "Organization", "name": "IT1-CODE-POCKET" },
         "publisher": { "@type": "Organization", "name": "IT1-CODE-POCKET" }
@@ -348,6 +348,147 @@ r を 0 から 要素数(Table) - 1 まで 1 ずつ増やしながら繰り返�
     </section>
 
     <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 4</p>
+      <h2>例題4：条件に合うマスを数える</h2>
+      <p>次のプログラムで、<code>count = count + 1</code> は何回実行されますか。</p>
+      <pre class="code-block">Score = [
+  [2, 0, 1],
+  [0, 3, 2],
+  [4, 1, 0]
+]
+count = 0
+
+r を 0 から 要素数(Score) - 1 まで 1 ずつ増やしながら繰り返す:
+｜c を 0 から 要素数(Score[r]) - 1 まで 1 ずつ増やしながら繰り返す:
+｜｜もし Score[r][c] &gt;= 2 ならば:
+⎿⎿⎿ count = count + 1
+
+表示する(count)</pre>
+      <p>
+        <strong>選択肢：</strong>① 3回　② 4回　③ 5回　④ 9回
+      </p>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：② 4回</strong></p>
+          <p>
+            二重ループに<strong>条件分岐が加わった形</strong>です。
+            ここで問われているのは「二重ループが何回まわるか」ではなく、
+            <strong>「その中で条件が成り立つのが何回か」</strong>という点に注意してください。
+          </p>
+          <p>
+            二重ループ自体は 3 × 3 = <strong>9回</strong>まわります。
+            そのうち <code>&gt;= 2</code> を満たすマスだけを数えます。
+            表に○をつけていくのが最も確実です。
+          </p>
+          <div class="sim-table-wrap">
+            <table class="sim-table sim-table-compact">
+              <thead>
+                <tr><th scope="col"></th><th scope="col">c=0</th><th scope="col">c=1</th><th scope="col">c=2</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">r=0</th><td><strong>2 ○</strong></td><td>0 ×</td><td>1 ×</td></tr>
+                <tr><th scope="row">r=1</th><td>0 ×</td><td><strong>3 ○</strong></td><td><strong>2 ○</strong></td></tr>
+                <tr><th scope="row">r=2</th><td><strong>4 ○</strong></td><td>1 ×</td><td>0 ×</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            ○は 2・3・2・4 の<strong>4個</strong>です。
+            <code>&gt;= 2</code> なので<strong>2ちょうども含む</strong>点を見落とさないでください。
+          </p>
+          <ul>
+            <li>
+              <strong>① 3回</strong> … <code>&gt; 2</code> と読み違えた場合です。
+              3 と 4 だけになり、2 が2つ抜け落ちます。<strong>等号を含むかどうか</strong>は毎回確認してください
+            </li>
+            <li><strong>④ 9回</strong> … 条件分岐を無視して、二重ループの回数をそのまま答えた場合です</li>
+          </ul>
+          <div class="sim-note">
+            <strong>この問題は3つの読み取りを同時に要求しています。</strong>
+            ①二重ループの回数（9回）、②条件の向きと等号（<code>&gt;=</code>）、
+            ③数えているのが<strong>マスの個数であって合計ではない</strong>こと。
+            表に○×を書き込む1手間を惜しまなければ、確実に取れる問題です。
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 5</p>
+      <h2>例題5：集計してから、その最大値を求める</h2>
+      <p>次のプログラムを実行したとき、表示される best の値として正しいものを選びなさい。</p>
+      <pre class="code-block">Table = [
+  [3, 1, 4],
+  [2, 5, 0],
+  [1, 2, 6]
+]
+ColSum = [0, 0, 0]
+
+r を 0 から 要素数(Table) - 1 まで 1 ずつ増やしながら繰り返す:
+｜c を 0 から 要素数(Table[r]) - 1 まで 1 ずつ増やしながら繰り返す:
+⎿⎿ ColSum[c] = ColSum[c] + Table[r][c]
+
+best = 0
+i を 0 から 要素数(ColSum) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし ColSum[i] &gt; best ならば:
+⎿⎿ best = ColSum[i]
+
+表示する(best)</pre>
+      <p>
+        <strong>選択肢：</strong>① 6　② 8　③ 10　④ 21
+      </p>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：③ 10</strong></p>
+          <p>
+            <strong>繰り返しが2つに分かれている</strong>のがポイントです。
+            長く見えますが、<strong>前半と後半をまったく別のプログラムとして順に処理</strong>すれば難しくありません。
+          </p>
+          <ol>
+            <li><strong>前半（二重ループ）</strong> … 列ごとの合計を ColSum に作る</li>
+            <li><strong>後半（1重ループ）</strong> … できあがった ColSum の中から最大値を探す</li>
+          </ol>
+          <p>
+            まず前半です。<code>ColSum[c]</code> と<strong>添字が c だけ</strong>なので、
+            <strong>同じ列の値が1か所に集まっていきます</strong>。
+          </p>
+          <div class="sim-table-wrap">
+            <table class="sim-table sim-table-compact">
+              <thead>
+                <tr><th scope="col"></th><th scope="col">c=0</th><th scope="col">c=1</th><th scope="col">c=2</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">r=0</th><td>3</td><td>1</td><td>4</td></tr>
+                <tr><th scope="row">r=1</th><td>2</td><td>5</td><td>0</td></tr>
+                <tr><th scope="row">r=2</th><td>1</td><td>2</td><td>6</td></tr>
+                <tr><th scope="row">ColSum</th><td><strong>6</strong></td><td><strong>8</strong></td><td><strong>10</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            ColSum は <strong>[6, 8, 10]</strong> になります。
+            後半はこの3つから最大値を探すだけなので、<strong>10</strong> が答えです。
+          </p>
+          <ul>
+            <li><strong>① 6</strong> … ColSum[0] です。<strong>最大値を探す後半を読まずに</strong>止まった場合です</li>
+            <li><strong>② 8</strong> … 真ん中の列の合計です</li>
+            <li><strong>④ 21</strong> … 表の全部を足した値です。<code>ColSum[c]</code> を <code>total</code> と読み違えると、この値になります</li>
+          </ul>
+          <div class="sim-note sim-note-warn">
+            <strong>「集計してから、その結果をさらに処理する」二段構えは第3問の定番です。</strong>
+            長いプログラムを見たら、まず<strong>繰り返しの区切りで前半・後半に分ける</strong>こと。
+            そして<strong>前半が終わった時点での配列の中身を必ず書き出す</strong>こと。
+            この2つを守れば、後半は<a href="read-max.html">最大値を探す処理</a>の基本形に戻ります。
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
       <p class="sim-kicker">CODE</p>
       <h2>3つの表記での書き方の違い</h2>
 
@@ -409,6 +550,8 @@ console.log(colSum);</pre>
         <li><code>要素数(Table)</code> が行数、<code>要素数(Table[r])</code> が列数だと分かる</li>
         <li>行と列を逆にすると<strong>エラーにならず違う答えが出る</strong>ことがあると知っている</li>
         <li><code>total = 0</code> の位置で<strong>行ごと集計か全体集計かが変わる</strong>と分かる</li>
+        <li><code>&gt;=</code> と <code>&gt;</code> の違いで<strong>数える個数が変わる</strong>と分かる</li>
+        <li>繰り返しが2つ並んでいたら<strong>前半・後半に分けて</strong>読める</li>
       </ul>
       <p>
         表の問題が読めるようになれば、発展レベルの多くが解けるようになります。
