@@ -35,7 +35,7 @@
         "url": "https://it1-code-pocket.com/read-simulation.html",
         "image": "https://it1-code-pocket.com/assets/ogp-card.png",
         "datePublished": "2026-08-13",
-        "dateModified": "2026-08-13",
+        "dateModified": "2026-08-26",
         "inLanguage": "ja",
         "author": { "@type": "Organization", "name": "IT1-CODE-POCKET" },
         "publisher": { "@type": "Organization", "name": "IT1-CODE-POCKET" }
@@ -375,6 +375,154 @@ work を 0 から 要素数(Days) - 1 まで 1 ずつ増やしながら繰り返
     </section>
 
     <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 4</p>
+      <h2>例題4：全部そろったら打ち切る条件</h2>
+      <p>
+        座席を前から順にグループへ割り当てます。
+        すべてのグループが必要数を満たしたら繰り返しを抜けるには、［ ア ］に何を入れればよいですか。
+      </p>
+      <pre class="code-block">Seats = [2, 4, 1, 3, 2]
+Need = [3, 5, 2]
+Filled = [0, 0, 0]
+group = 0
+
+i を 0 から 要素数(Seats) - 1 まで 1 ずつ増やしながら繰り返す:
+｜Filled[group] = Filled[group] + Seats[i]
+｜もし Filled[group] &gt;= Need[group] ならば:
+｜⎿ group = group + 1
+｜もし ［ ア ］ ならば:
+⎿⎿ 繰り返しを抜ける
+
+表示する(group)</pre>
+      <p>
+        <strong>選択肢：</strong>① group == 要素数(Need)　② group == 要素数(Seats)
+        ③ Filled[group] == 0　④ i == group
+      </p>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：① group == 要素数(Need)</strong></p>
+          <p>
+            まず、<strong>変数が何を表しているか</strong>を1行ずつメモします。ここを飛ばすと必ず迷います。
+          </p>
+          <ul>
+            <li><code>Seats</code> … 前から順に来る座席のかたまり</li>
+            <li><code>Need</code> … 各グループが必要とする座席数（3人分・5人分・2人分）</li>
+            <li><code>Filled</code> … 各グループに今まで入った数</li>
+            <li><code>group</code> … <strong>今どのグループに入れているか。同時に「完了した数」でもある</strong></li>
+          </ul>
+          <p>
+            鍵は <code>group</code> です。
+            必要数に届くと <code>group = group + 1</code> で次へ進むので、
+            <strong>この値は「終わったグループの数」と同じ</strong>になります。
+            グループは全部で <code>要素数(Need)</code> 個なので、
+            <strong>group がその値になった＝全部終わった</strong>ということです。
+          </p>
+          <div class="sim-table-wrap">
+            <table class="sim-table sim-table-compact">
+              <thead>
+                <tr><th scope="col">i</th><th scope="col">Seats[i]</th><th scope="col">入れる先</th><th scope="col">Filled</th><th scope="col">group</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">開始前</th><td>—</td><td>—</td><td>[0, 0, 0]</td><td>0</td></tr>
+                <tr><th scope="row">0</th><td>2</td><td>group 0</td><td>[2, 0, 0]</td><td>0</td></tr>
+                <tr><th scope="row">1</th><td>4</td><td>group 0</td><td>[6, 0, 0]</td><td><strong>1</strong>（3以上で完了）</td></tr>
+                <tr><th scope="row">2</th><td>1</td><td>group 1</td><td>[6, 1, 0]</td><td>1</td></tr>
+                <tr><th scope="row">3</th><td>3</td><td>group 1</td><td>[6, 4, 0]</td><td>1</td></tr>
+                <tr><th scope="row">4</th><td>2</td><td>group 1</td><td>[6, 6, 0]</td><td><strong>2</strong>（5以上で完了）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            この例では Seats を使い切っても group は 2 までで、
+            <strong>3つ目のグループは完了しません</strong>。表示されるのは <strong>2</strong> です。
+            つまり<strong>「抜ける」条件は一度も成立しない</strong>——それでもプログラムとしては正しい、という点も確認しておいてください。
+          </p>
+          <ul>
+            <li>
+              <strong>② group == 要素数(Seats)</strong> … 比べる相手が違います。
+              Seats は<strong>座席のかたまりの個数（5）</strong>で、グループ数ではありません。
+              <strong>2つの配列が出てきたとき、どちらの個数と比べるのか</strong>が最大の分かれ目です
+            </li>
+            <li><strong>③ Filled[group] == 0</strong> … 開始直後に成り立ってしまい、1回目で抜けてしまいます</li>
+            <li><strong>④ i == group</strong> … i は座席の番号、group はグループ番号で、比べる意味がありません</li>
+          </ul>
+          <div class="sim-note sim-note-warn">
+            <strong>「打ち切り条件」は、ゴールを言葉にしてから式にしてください。</strong>
+            ここでのゴールは「全グループが完了した」。
+            それを式にすると<strong>「完了数 == グループ数」</strong>になります。
+            日本語を先に固めれば、②のように<strong>もっともらしい別の配列</strong>を選ぶ間違いを防げます。
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 5</p>
+      <h2>例題5：前の日と比べる</h2>
+      <p>前の値より大きくなった回数を数えるには、［ ア ］に何を入れればよいですか。</p>
+      <pre class="code-block">Temps = [18, 20, 19, 22, 22, 25]
+count = 0
+
+i を 1 から 要素数(Temps) - 1 まで 1 ずつ増やしながら繰り返す:
+｜もし ［ ア ］ ならば:
+⎿⎿ count = count + 1
+
+表示する(count)</pre>
+      <p>
+        <strong>選択肢：</strong>① Temps[i] &gt; Temps[i - 1]　② Temps[i] &lt; Temps[i - 1]
+        ③ Temps[i] == Temps[i - 1]　④ Temps[i] &gt;= Temps[i - 1]
+      </p>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：① Temps[i] &gt; Temps[i - 1]</strong></p>
+          <p>
+            日ごとのデータを扱う問題では、<strong>「前の日」と比べる</strong>形が非常によく出ます。
+            まず注目したいのは、繰り返しが <strong>0 ではなく 1 から</strong>始まっている点です。
+          </p>
+          <p>
+            <strong>1日目には「前の日」が存在しない</strong>からです。
+            もし 0 から始めると <code>Temps[-1]</code> という存在しない場所を見ることになります。
+            <strong>「− 1 を使うなら 1 から始める」</strong>——
+            <a href="read-loop.html">繰り返しの回数</a>で扱った「+ 1 を使うなら1つ手前まで」とちょうど対になる形です。
+          </p>
+          <div class="sim-table-wrap">
+            <table class="sim-table sim-table-compact">
+              <thead>
+                <tr><th scope="col">i</th><th scope="col">前日</th><th scope="col">当日</th><th scope="col">増えた?</th><th scope="col">count</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">1</th><td>18</td><td>20</td><td>○</td><td>1</td></tr>
+                <tr><th scope="row">2</th><td>20</td><td>19</td><td>×</td><td>1</td></tr>
+                <tr><th scope="row">3</th><td>19</td><td>22</td><td>○</td><td>2</td></tr>
+                <tr><th scope="row">4</th><td>22</td><td>22</td><td><strong>×（同じ）</strong></td><td>2</td></tr>
+                <tr><th scope="row">5</th><td>22</td><td>25</td><td>○</td><td><strong>3</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            答えは <strong>3</strong> です。
+            i = 4 で <strong>22 と 22 が並ぶ</strong>ように、データがわざわざ作られている点に注目してください。
+            <strong>同じ値のときにどうするか</strong>を試すための仕掛けです。
+          </p>
+          <ul>
+            <li><strong>④ &gt;= を選ぶと 4</strong> になります。「増えた」に<strong>「変わらなかった」を含めてしまう</strong>ためです</li>
+            <li><strong>② &lt;</strong> … 下がった回数（1回）になります</li>
+            <li><strong>③ ==</strong> … 同じだった回数（1回）になります</li>
+          </ul>
+          <div class="sim-note">
+            <strong>データに同じ値が並んでいたら、出題者が等号を試しています。</strong>
+            「増えた」なのか「減らなかった」なのか、<strong>問題文の日本語をもう一度読み直して</strong>から不等号を決めてください。
+            トレースは合っているのに1だけずれる失点は、ほぼこれが原因です。
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
       <p class="sim-kicker">SUMMARY</p>
       <h2>型の組み合わせで読む</h2>
       <p>
@@ -431,6 +579,8 @@ work を 0 から 要素数(Days) - 1 まで 1 ずつ増やしながら繰り返
         <li>累積の判定で <code>day == -1</code> が<strong>上書きを防いでいる</strong>と分かる</li>
         <li>連続の長さで <code>now = 0</code> の<strong>リセットを探す</strong>べきだと分かる</li>
         <li>答えるのが<strong>添字か順番か</strong>を最後に確認する習慣がある</li>
+        <li>打ち切り条件を<strong>ゴールの日本語から式に直せる</strong></li>
+        <li>前日と比べる処理は <strong>i を 1 から</strong>始めると分かる</li>
       </ul>
       <p>
         6テーマすべてを読み終えたら、あとは演習です。

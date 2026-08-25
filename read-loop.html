@@ -35,7 +35,7 @@
         "url": "https://it1-code-pocket.com/read-loop.html",
         "image": "https://it1-code-pocket.com/assets/ogp-card.png",
         "datePublished": "2026-08-13",
-        "dateModified": "2026-08-13",
+        "dateModified": "2026-08-26",
         "inLanguage": "ja",
         "author": { "@type": "Organization", "name": "IT1-CODE-POCKET" },
         "publisher": { "@type": "Organization", "name": "IT1-CODE-POCKET" }
@@ -311,6 +311,119 @@ i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す
     </section>
 
     <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 4</p>
+      <h2>例題4：回数から終わりの値を逆算する</h2>
+      <p>「Hello」をちょうど5回表示するには、［ ア ］に何を入れればよいですか。</p>
+      <pre class="code-block">i を 0 から ［ ア ］ まで 1 ずつ増やしながら繰り返す:
+⎿ 表示する("Hello")</pre>
+      <p>
+        <strong>選択肢：</strong>① 4　② 5　③ 6　④ 10
+      </p>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：① 4</strong></p>
+          <p>
+            例題1は「この繰り返しは何回まわるか」を数える問題でした。
+            今回は<strong>逆に、決まった回数にするための終わりの値を決める</strong>問題です。
+            出題としては例題1よりよく見かける形です。
+          </p>
+          <p>
+            i は <strong>0 から</strong> 始まります。0 を1回目と数えるので、
+            5回まわしたいなら最後の i は 4 です。
+          </p>
+          <div class="sim-table-wrap">
+            <table class="sim-table sim-table-compact">
+              <thead>
+                <tr><th scope="col">何回目</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">i の値</th><td>0</td><td>1</td><td>2</td><td>3</td><td><strong>4</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>② 5</strong> … 0〜5 の<strong>6回</strong>になります。「5回だから5」と考えた誤りで、選ぶ人がいちばん多い選択肢です</li>
+            <li><strong>③ 6</strong> … 0〜6 の7回です</li>
+            <li><strong>④ 10</strong> … 0〜10 の11回です</li>
+          </ul>
+          <div class="sim-note">
+            <strong>0 から始まると、回数は「終わりの値 + 1」になります。</strong>
+            逆に言えば、n 回まわしたいときの終わりの値は <strong>n - 1</strong> です。
+            配列を全部調べる <code>0 から 要素数 - 1 まで</code> が
+            <strong>「要素数の回数だけまわる」</strong>のも、まったく同じ理由です。
+            <a href="read-array.html">配列と添字</a>で覚えた形とつながっていることを確認しておいてください。
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 5</p>
+      <h2>例題5：隣どうしを比べるときの範囲</h2>
+      <p><code>Data[i]</code> と <code>Data[i + 1]</code> を安全に比べるには、［ ア ］に何を入れればよいですか。</p>
+      <pre class="code-block">Data = [3, 5, 4, 6, 8]
+pos = -1
+
+i を ［ ア ］ まで 1 ずつ増やしながら繰り返す:
+｜もし Data[i] &gt; Data[i + 1] ならば:
+｜｜pos = i
+⎿⎿ 繰り返しを抜ける
+
+表示する(pos)</pre>
+      <p>
+        <strong>選択肢：</strong>① 0 から 要素数(Data) - 1　② 0 から 要素数(Data) - 2
+        ③ 1 から 要素数(Data) - 1　④ 0 から 要素数(Data)
+      </p>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：② 0 から 要素数(Data) - 2</strong></p>
+          <p>
+            繰り返しの範囲は<strong>いつも「0 から 要素数 - 1 まで」とはかぎりません</strong>。
+            決め方は1つだけで、<strong>「繰り返しの中で使っている、いちばん大きい添字は何か」</strong>を見ます。
+          </p>
+          <p>
+            このプログラムが使っているのは <code>Data[i]</code> と <code>Data[i + 1]</code> です。
+            要素数は5なので、存在する添字は 0〜4。
+            <strong><code>i + 1</code> が 4 を超えてはいけない</strong>ので、i の最大は <strong>3</strong>、
+            つまり <strong>要素数 - 2</strong> までとなります。
+          </p>
+          <div class="sim-table-wrap">
+            <table class="sim-table sim-table-compact">
+              <thead>
+                <tr><th scope="col">i</th><th scope="col">Data[i]</th><th scope="col">Data[i+1]</th><th scope="col">大きい?</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">0</th><td>3</td><td>5</td><td>×</td></tr>
+                <tr><th scope="row">1</th><td>5</td><td>4</td><td><strong>○ → pos = 1 で抜ける</strong></td></tr>
+                <tr><th scope="row">2</th><td>4</td><td>6</td><td>（実行されない）</td></tr>
+                <tr><th scope="row">3</th><td>6</td><td>8</td><td>（実行されない）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>表示されるのは <strong>1</strong> です。他の選択肢は次のようになります。</p>
+          <ul>
+            <li>
+              <strong>①（- 1 まで）</strong> … i が 4 のとき <code>Data[5]</code> を見ようとします。
+              5番の箱は存在しないので<strong>エラー</strong>です。ここが最大のひっかけです
+            </li>
+            <li><strong>③（1 から）</strong> … 先頭どうしの比較（3 と 5）を飛ばしてしまいます</li>
+            <li><strong>④（要素数 まで）</strong> … ①よりさらに1つ多く、確実にエラーになります</li>
+          </ul>
+          <div class="sim-note sim-note-warn">
+            <strong>「+ 1 を使ったら、範囲は 1 つ手前まで」</strong>と覚えてください。
+            隣どうしの比較は<a href="sim-bubble-sort.html">バブルソート</a>でも
+            <a href="read-total.html">前日より増えた日を数える処理</a>でも出てくる定番なので、
+            この範囲の決め方は必ず押さえておきたいところです。
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
       <p class="sim-kicker">CODE</p>
       <h2>3つの表記での書き方の違い</h2>
 
@@ -367,6 +480,8 @@ while (x &gt; 5) {
         <li>「判定した回数」と「実行された回数」を区別して答えられる</li>
         <li>「繰り返しを抜ける」があれば<strong>データ次第で回数が変わる</strong>と分かる</li>
         <li>二重ループの回数が<strong>掛け算</strong>で求まると分かる</li>
+        <li>n 回まわしたいときの終わりの値が <strong>n - 1</strong> だと逆算できる</li>
+        <li><code>Data[i + 1]</code> を使うなら範囲は<strong>1つ手前まで</strong>だと分かる</li>
       </ul>
       <p>
         数え方が身についたら、次は<a href="read-table.html">二重ループと2次元配列</a>へ。

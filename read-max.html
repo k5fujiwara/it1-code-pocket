@@ -35,7 +35,7 @@
         "url": "https://it1-code-pocket.com/read-max.html",
         "image": "https://it1-code-pocket.com/assets/ogp-card.png",
         "datePublished": "2026-08-13",
-        "dateModified": "2026-08-13",
+        "dateModified": "2026-08-26",
         "inLanguage": "ja",
         "author": { "@type": "Organization", "name": "IT1-CODE-POCKET" },
         "publisher": { "@type": "Organization", "name": "IT1-CODE-POCKET" }
@@ -393,6 +393,144 @@ i を 0 から 要素数(Items) - 1 まで 1 ずつ増やしながら繰り返�
     </section>
 
     <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 4</p>
+      <h2>例題4：見つかったかどうかを記録する</h2>
+      <p>配列 Nums に target が含まれているかを found に入れるプログラム表記として、正しいものを選びなさい。</p>
+      <pre class="code-block">Nums = [3, 8, 1, 5]
+target = 1
+
+# found に True または False を入れる</pre>
+      <p><strong>選択肢：</strong></p>
+      <pre class="code-block">① found = False
+   i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+   ｜もし Nums[i] == target ならば:
+   ⎿⎿ found = True
+
+② found = True
+   i を 0 から 要素数(Nums) - 1 まで 1 ずつ増やしながら繰り返す:
+   ｜もし Nums[i] == target ならば:
+   ⎿⎿ found = False
+
+③ found = target
+
+④ found = Nums[0]</pre>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：①</strong></p>
+          <p>
+            例題3では「位置」を記録しました。今回は<strong>「あったか、なかったか」だけを記録</strong>します。
+            この <code>True</code>／<code>False</code> を入れる変数を<strong>フラグ</strong>（旗）と呼びます。
+          </p>
+          <p>
+            フラグの作り方は決まっています。<strong>「起きていない側」から始めて、起きたら1回だけ倒す</strong>——それだけです。
+          </p>
+          <ol>
+            <li><strong>調べる前は False</strong> … まだ1つも見ていないので「見つかっていない」が正しい状態</li>
+            <li><strong>見つかったら True</strong> … 1つでも一致すれば True にする</li>
+            <li><strong>最後まで False なら「なかった」</strong> … 一度も True にならなかったことが答えになる</li>
+          </ol>
+          <div class="sim-table-wrap">
+            <table class="sim-table sim-table-compact">
+              <thead>
+                <tr><th scope="col">i</th><th scope="col">Nums[i]</th><th scope="col">target と同じ?</th><th scope="col">found</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">開始前</th><td>—</td><td>—</td><td>False</td></tr>
+                <tr><th scope="row">0</th><td>3</td><td>×</td><td>False</td></tr>
+                <tr><th scope="row">1</th><td>8</td><td>×</td><td>False</td></tr>
+                <tr><th scope="row">2</th><td>1</td><td>○</td><td><strong>True</strong></td></tr>
+                <tr><th scope="row">3</th><td>5</td><td>×</td><td>True</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            i = 3 で条件が成り立たなくても、<strong>found は True のまま</strong>である点に注目してください。
+            <code>found = False</code> に戻す処理はどこにもないので、
+            <strong>一度 True になったら最後まで True</strong>です。これがフラグの大事な性質です。
+          </p>
+          <ul>
+            <li>
+              <strong>②</strong> … True から始めて、見つかったら False にしています。<strong>意味が完全に逆</strong>で、
+              「見つからなかったら True」というおかしな結果になります
+            </li>
+            <li><strong>③ found = target</strong> … found に 1 という数値が入るだけで、探していません</li>
+            <li><strong>④ found = Nums[0]</strong> … 先頭の 3 が入るだけです</li>
+          </ul>
+          <div class="sim-note">
+            <strong>これが線形探索そのものです。</strong>
+            <a href="sim-linear-search.html">線形探索シミュレーター</a>で、
+            フラグが False から True に変わる瞬間を目で確かめられます。
+            なお実際の問題では、見つかった時点で <code>繰り返しを抜ける</code> を足した形もよく出ます。
+            <strong>答えは同じで、調べる回数だけが減ります。</strong>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 5</p>
+      <h2>例題5：用意された関数を使う</h2>
+      <p>配列 Nums の中から最大値を表示するプログラム表記として、正しいものを選びなさい。</p>
+      <pre class="code-block">Nums = [3, 9, 1, 6]
+
+# 最大値を表示する</pre>
+      <p>
+        <strong>選択肢：</strong>① 表示する(最大値(Nums))　② 表示する(最小値(Nums))
+        ③ 表示する(要素数(Nums))　④ 表示する(Nums[0])
+      </p>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：① 表示する(最大値(Nums))</strong></p>
+          <p>
+            答えそのものは簡単ですが、<strong>ここで確認したいのは別のこと</strong>です。
+            このページの冒頭で書いた「4行の繰り返し」と、この1行が<strong>まったく同じ処理</strong>だと分かるかどうかです。
+          </p>
+          <div class="sim-table-wrap">
+            <table class="sim-table">
+              <thead>
+                <tr>
+                  <th scope="col">自分で書く場合</th>
+                  <th scope="col">関数を使う場合</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="自分で書く場合"><code>mx = Nums[0]</code><br>繰り返し<br><code>もし Nums[i] &gt; mx ならば</code><br><code>mx = Nums[i]</code></td>
+                  <td data-label="関数を使う場合"><code>最大値(Nums)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            共通テストでは<strong>両方の書き方が出ます</strong>。
+            <code>最大値()</code>・<code>最小値()</code>・<code>要素数()</code>・<code>合計()</code> のような関数が使われているときは、
+            <strong>その1行を「繰り返し1つ分」に頭の中で展開して読む</strong>のがコツです。
+          </p>
+          <ul>
+            <li><strong>② 最小値(Nums)</strong> … 1 が表示されます。<strong>関数名の1文字違い</strong>なので、急いでいると読み飛ばします</li>
+            <li><strong>③ 要素数(Nums)</strong> … 4 が表示されます。<strong>「個数」であって「値」ではありません</strong></li>
+            <li>
+              <strong>④ Nums[0]</strong> … 3 が表示されます。
+              これは<strong>「最大値を求める処理の1行目」だけ</strong>を書いた状態です。
+              仮の最大を置いただけで、まだ比べていません
+            </li>
+          </ul>
+          <div class="sim-note">
+            <strong>④ を選んでしまう人は、実は理解が進んでいます。</strong>
+            <code>mx = Nums[0]</code> という<strong>初期値の置き方を覚えているからこそ</strong>選んでしまう選択肢だからです。
+            足りないのは「そのあと全部と比べる」部分です。
+            <strong>「仮に置く」と「比べて更新する」はセットで1つの処理</strong>——ここまで言えれば、このテーマは十分に身についています。
+          </div>
+        </div>
+      </details>
+    </section>
+
+
+    <section class="themed-card p-4 mb-4 sim-doc">
       <p class="sim-kicker">CODE</p>
       <h2>3つの表記での書き方の違い</h2>
 
@@ -459,6 +597,8 @@ console.log(mx, mxPos);</pre>
         <li>位置を覚えるときは <code>Nums[mx_pos]</code> と比べると分かる</li>
         <li><code>pos = -1</code> が「未発見」と「まだ記録していない」の両方を表せると分かる</li>
         <li>打ち切りの有無で<strong>調べる回数だけが変わる</strong>と分かる</li>
+        <li>フラグは<strong>False から始めて、見つかったら True</strong> にすると分かる</li>
+        <li><code>最大値(Nums)</code> が<strong>繰り返し1つ分に相当する</strong>と読み替えられる</li>
       </ul>
       <p>
         探索が読めるようになったら、最後は<a href="read-simulation.html">シミュレーション型の問題</a>です。
