@@ -1285,3 +1285,23 @@ body.is-quiz-screen .site-footer {
 }
 
 .hidden { display: none !important; }
+
+/*
+ * 本文中のリンク。
+ * Tailwind の preflight が a { color: inherit; text-decoration: inherit; } を
+ * 当てるため、何も指定しないと本文と見分けがつかなくなる。
+ * class の付いていない a だけを対象にして、ボタンやカード型リンク
+ * （.themed-btn-secondary、.sim-next-card など）には影響させない。
+ */
+.themed-card a:not([class]) {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+}
+
+.themed-card a:not([class]):hover,
+.themed-card a:not([class]):focus-visible {
+  opacity: 0.75;
+}
