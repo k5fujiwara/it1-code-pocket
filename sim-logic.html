@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="canonical" href="https://it1-code-pocket.com/sim-logic.html">
+  <title>論理回路シミュレーター｜AND・OR・NOT と真理値表 | IT1-CODE-POCKET</title>
+  <meta name="description" content="AND・OR・NOT・XOR・NAND・NOR のゲートを選び、入力を切り替えて出力の変化を確かめられる論理回路シミュレーターです。真理値表が自動で作られ、半加算器の仕組みも確認できます。情報Ⅰのプログラムで使う「かつ・または」の理解にもつながります。">
+  <meta property="og:site_name" content="IT1-CODE-POCKET">
+  <meta property="og:title" content="論理回路シミュレーター｜AND・OR・NOT と真理値表">
+  <meta property="og:description" content="ゲートを選んで入力を切り替えると、出力と真理値表がその場で変わります。半加算器まで確認できます。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://it1-code-pocket.com/sim-logic.html">
+  <meta property="og:image" content="https://it1-code-pocket.com/assets/ogp-card.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="論理回路シミュレーター｜AND・OR・NOT と真理値表">
+  <meta name="twitter:description" content="ゲートを選んで入力を切り替え、出力と真理値表の変化を確かめられます。">
+  <meta name="twitter:image" content="https://it1-code-pocket.com/assets/ogp-card.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": "https://it1-code-pocket.com/sim-logic.html#article",
+        "headline": "論理回路シミュレーター｜AND・OR・NOT と真理値表",
+        "description": "論理ゲートを選んで入力を切り替え、出力と真理値表の変化を確かめられるシミュレーターです。",
+        "url": "https://it1-code-pocket.com/sim-logic.html",
+        "image": "https://it1-code-pocket.com/assets/ogp-card.png",
+        "datePublished": "2026-08-28",
+        "dateModified": "2026-08-28",
+        "inLanguage": "ja",
+        "author": { "@type": "Organization", "name": "IT1-CODE-POCKET" },
+        "publisher": { "@type": "Organization", "name": "IT1-CODE-POCKET" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://it1-code-pocket.com/sim-logic.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "トップ", "item": "https://it1-code-pocket.com/" },
+          { "@type": "ListItem", "position": 2, "name": "プログラムの読み方", "item": "https://it1-code-pocket.com/reading.html" },
+          { "@type": "ListItem", "position": 3, "name": "論理回路シミュレーター", "item": "https://it1-code-pocket.com/sim-logic.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://it1-code-pocket.com/sim-logic.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "論理回路とプログラムの条件分岐はどう関係しますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まったく同じ考え方です。AND ゲートは「かつ」、OR ゲートは「または」、NOT ゲートは「でない」に対応します。もし A かつ B ならば、という条件式は、A と B を入力とする AND ゲートと同じ判定をしています。回路で 0 と 1 の動きを見ておくと、条件式を読むときに迷わなくなります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "真理値表は何のために書くのですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "入力の組み合わせをすべて書き出して、出力を1つずつ確かめるためです。入力が2つなら4通り、3つなら8通りしかないので、全部書けば見落としがなくなります。条件が複雑になるほど、頭の中だけで考えるより表を書いたほうが速く、確実です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "XOR はどんなときに使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "2つの値が違うときだけ 1 にしたいときに使います。AND や OR と違い、両方が 1 のときは 0 になります。「どちらか一方だけ」を表せるため、半加算器の和の計算に使われます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "半加算器とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "1桁の2進数どうしの足し算をする回路です。XOR ゲートで和（S）を、AND ゲートで桁上がり（C）を求めます。1 + 1 は2進数で 10 になるので、和は 0、桁上がりは 1 です。この結果が XOR と AND の出力と一致します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "NAND や NOR は覚える必要がありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "名前の成り立ちを知っていれば十分です。NAND は AND の出力を反転したもの、NOR は OR の出力を反転したものです。頭の N は NOT を表します。AND と OR と NOT を理解していれば、その場で導けます。"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6924336257757707"
+     crossorigin="anonymous"></script>
+  <script src="js/theme-init.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/simulation.css">
+  <link rel="stylesheet" href="css/tailwind.css">
+</head>
+<body data-theme="simple">
+
+  <header class="themed-header sticky top-0 z-50 px-4 py-3 flex items-center justify-between gap-2">
+    <div class="header-brand flex items-center gap-2 min-w-0">
+      <a href="reading.html" class="header-back-btn" aria-label="プログラムの読み方へ戻る" title="プログラムの読み方へ戻る">‹</a>
+      <span class="app-title truncate">IT1-CODE-POCKET</span>
+    </div>
+  </header>
+
+  <main class="notation-shell max-w-5xl mx-auto px-4 pb-8 pt-4">
+
+    <nav class="sim-breadcrumb" aria-label="パンくずリスト">
+      <a href="index.html">トップ</a>
+      <span class="sim-breadcrumb-sep">›</span>
+      <a href="reading.html">プログラムの読み方</a>
+      <span class="sim-breadcrumb-sep">›</span>
+      <span aria-current="page">論理回路</span>
+    </nav>
+
+    <section class="themed-card p-4 mb-4">
+      <h1 class="text-xl font-bold mb-2">論理回路シミュレーター</h1>
+      <p class="themed-text-muted text-sm leading-relaxed">
+        <strong>ゲートを選び、入力を 0 と 1 で切り替える</strong>と、出力と真理値表がその場で変わります。
+        プログラムの<strong>「かつ」「または」「でない」</strong>が、回路ではどう表されるのかを目で確かめられます。
+      </p>
+    </section>
+
+    <!-- ============ シミュレーター ============ -->
+    <section class="themed-card sim-panel mb-4" aria-labelledby="sim-heading">
+      <h2 id="sim-heading" class="sim-panel-title">ゲートを選んで値の変化を見る</h2>
+
+      <div class="sim-setup">
+        <div class="sim-setup-row">
+          <span class="sim-setup-label" id="sim-preset-label">回路</span>
+          <div class="sim-chips sim-chips-scene" role="group" aria-labelledby="sim-preset-label">
+            <button type="button" class="sim-chip" data-logic-preset="single" aria-pressed="true">1つのゲート</button>
+            <button type="button" class="sim-chip" data-logic-preset="combo" aria-pressed="false">組み合わせ</button>
+            <button type="button" class="sim-chip" data-logic-preset="half" aria-pressed="false">半加算器</button>
+          </div>
+        </div>
+
+        <div class="sim-setup-row">
+          <span class="sim-setup-label" id="sim-input-label">入力（タップで切替）</span>
+          <div class="sim-logic-switches" role="group" aria-labelledby="sim-input-label">
+            <button type="button" class="sim-logic-switch" data-logic-input="A" aria-pressed="false">
+              <span class="sim-logic-switch-name">A</span>
+              <span class="sim-logic-switch-bit">0</span>
+            </button>
+            <button type="button" class="sim-logic-switch" data-logic-input="B" aria-pressed="true">
+              <span class="sim-logic-switch-name">B</span>
+              <span class="sim-logic-switch-bit">1</span>
+            </button>
+            <button type="button" class="sim-logic-switch" data-logic-input="C" aria-pressed="true">
+              <span class="sim-logic-switch-name">C</span>
+              <span class="sim-logic-switch-bit">1</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-view-tabs" data-sim-view-tabs role="tablist" aria-label="表示を切り替え">
+        <button type="button" class="sim-view-tab" role="tab" id="viewtab-circuit"
+                aria-controls="view-circuit" aria-selected="true">回路</button>
+        <button type="button" class="sim-view-tab" role="tab" id="viewtab-truth"
+                aria-controls="view-truth" aria-selected="false">真理値表</button>
+      </div>
+
+      <div class="sim-view">
+        <div class="sim-view-panel" id="view-circuit" role="tabpanel" aria-labelledby="viewtab-circuit">
+          <div class="sim-board">
+            <div class="sim-board-head">
+              <span class="sim-board-title">回路と流れている値</span>
+            </div>
+            <div id="sim-logic-circuit"></div>
+            <p class="sim-logic-expr" id="sim-logic-expr" aria-live="polite"></p>
+          </div>
+          <div class="sim-logic-picker" id="sim-logic-picker"></div>
+        </div>
+
+        <div class="sim-view-panel" id="view-truth" role="tabpanel" aria-labelledby="viewtab-truth" hidden>
+          <div class="sim-board">
+            <div class="sim-board-head">
+              <span class="sim-board-title">真理値表（色のついた行が今の入力）</span>
+            </div>
+            <div class="sim-table-wrap">
+              <table class="sim-table sim-table-compact sim-logic-truth">
+                <thead id="sim-logic-truth-head"></thead>
+                <tbody id="sim-logic-truth-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 解説 ============ -->
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">BASIC</p>
+      <h2>論理回路は「0 と 1 だけの世界」</h2>
+      <p>
+        コンピュータの中では、すべての情報が <strong>0 と 1</strong> で表されます。
+        電気が流れていない状態が 0、流れている状態が 1 です。
+        その 0 と 1 を受け取って、決まった規則で新しい 0 か 1 を出すのが<strong>論理ゲート</strong>です。
+      </p>
+      <p>
+        ゲートは全部で数種類しかなく、<strong>やっていることは「決まった表のとおりに答えを返す」だけ</strong>です。
+        難しそうな名前がついていますが、覚えることは多くありません。
+      </p>
+
+      <h3>基本は3つ。あとはその組み合わせ</h3>
+      <div class="sim-table-wrap">
+        <table class="sim-table">
+          <thead>
+            <tr>
+              <th scope="col">ゲート</th>
+              <th scope="col">1 になる条件</th>
+              <th scope="col">日本語で言うと</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">AND</th>
+              <td data-label="1 になる条件">両方とも 1 のとき</td>
+              <td data-label="日本語で言うと">A <strong>かつ</strong> B</td>
+            </tr>
+            <tr>
+              <th scope="row">OR</th>
+              <td data-label="1 になる条件">どちらか一方でも 1 のとき</td>
+              <td data-label="日本語で言うと">A <strong>または</strong> B</td>
+            </tr>
+            <tr>
+              <th scope="row">NOT</th>
+              <td data-label="1 になる条件">入力が 0 のとき</td>
+              <td data-label="日本語で言うと">A <strong>でない</strong></td>
+            </tr>
+            <tr>
+              <th scope="row">XOR</th>
+              <td data-label="1 になる条件">2つが<strong>違う</strong>値のとき</td>
+              <td data-label="日本語で言うと">どちらか<strong>一方だけ</strong></td>
+            </tr>
+            <tr>
+              <th scope="row">NAND</th>
+              <td data-label="1 になる条件">AND の答えを<strong>逆にした</strong>もの</td>
+              <td data-label="日本語で言うと">AND でない</td>
+            </tr>
+            <tr>
+              <th scope="row">NOR</th>
+              <td data-label="1 になる条件">OR の答えを<strong>逆にした</strong>もの</td>
+              <td data-label="日本語で言うと">OR でない</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sim-note">
+        <strong>頭に N がついたら「反転」です。</strong>
+        NAND は AND の、NOR は OR の答えをひっくり返しただけです。
+        <strong>この2つを別々に暗記する必要はありません。</strong>
+        AND と OR を求めてから、最後に 0 と 1 を入れ替えれば済みます。
+      </div>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">TRUTH TABLE</p>
+      <h2>真理値表は「全部書き出す」ための表</h2>
+      <p>
+        真理値表は、<strong>入力の組み合わせをすべて並べて、出力を1つずつ確かめる表</strong>です。
+        組み合わせの数は決まっていて、入力が増えるたびに2倍になります。
+      </p>
+      <div class="sim-table-wrap">
+        <table class="sim-table sim-table-compact">
+          <thead>
+            <tr><th scope="col">入力の数</th><th scope="col">組み合わせ</th><th scope="col">表の行数</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">1つ</th><td>0, 1</td><td>2行</td></tr>
+            <tr><th scope="row">2つ</th><td>00, 01, 10, 11</td><td>4行</td></tr>
+            <tr><th scope="row">3つ</th><td>000 〜 111</td><td>8行</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <strong>たった4行か8行しかありません。</strong>
+        頭の中だけで「AかつBでないとき…」と考えるより、<strong>表を書いたほうが速く、確実</strong>です。
+        上のシミュレーターでも、入力を切り替えると<strong>今どの行にいるのかが色でわかる</strong>ようになっています。
+      </p>
+
+      <h3>AND と OR の真理値表</h3>
+      <div class="sim-table-wrap">
+        <table class="sim-table sim-table-compact">
+          <thead>
+            <tr>
+              <th scope="col">A</th><th scope="col">B</th>
+              <th scope="col">AND</th><th scope="col">OR</th><th scope="col">XOR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>0</td><td>1</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+            <tr><td>1</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+            <tr><td>1</td><td>1</td><td><strong>1</strong></td><td>1</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sim-note sim-note-warn">
+        <strong>XOR だけ、いちばん下の行が 0 です。</strong>
+        OR は「どちらか一方でも 1 なら 1」ですが、XOR は「<strong>どちらか一方だけ</strong>が 1 のとき 1」です。
+        両方 1 のときの扱いが違う——ここが OR と XOR を見分けるポイントになります。
+      </div>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">LINK</p>
+      <h2>プログラムの条件分岐とまったく同じ</h2>
+      <p>
+        論理回路は特別な話ではありません。
+        <strong>第3問で出てくる条件式と、やっていることは同じ</strong>です。
+      </p>
+      <div class="sim-table-wrap">
+        <table class="sim-table">
+          <thead>
+            <tr>
+              <th scope="col">回路</th>
+              <th scope="col">プログラム表記</th>
+              <th scope="col">Python</th>
+              <th scope="col">JavaScript</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">AND</th>
+              <td data-label="プログラム表記">A かつ B</td>
+              <td data-label="Python"><code>a and b</code></td>
+              <td data-label="JavaScript"><code>a &amp;&amp; b</code></td>
+            </tr>
+            <tr>
+              <th scope="row">OR</th>
+              <td data-label="プログラム表記">A または B</td>
+              <td data-label="Python"><code>a or b</code></td>
+              <td data-label="JavaScript"><code>a || b</code></td>
+            </tr>
+            <tr>
+              <th scope="row">NOT</th>
+              <td data-label="プログラム表記">A でない</td>
+              <td data-label="Python"><code>not a</code></td>
+              <td data-label="JavaScript"><code>!a</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        たとえば
+        <a href="read-total.html">集計する処理</a>
+        の例題で出てきた次の条件は、AND ゲートそのものです。
+      </p>
+      <pre class="code-block">もし Nums[i] ％ 3 == 2 かつ Nums[i] &gt; 10 ならば:
+⎿ count = count + 1</pre>
+      <p>
+        「3で割った余りが2」を A、「10より大きい」を B と置けば、
+        <strong>A AND B が 1 のときだけ中身が実行される</strong>という形です。
+        条件が3つ4つと増えても考え方は変わらず、<strong>真理値表を書けば必ず整理できます</strong>。
+      </p>
+      <div class="sim-note">
+        <strong>条件式で迷ったら、0 と 1 に置き換えてください。</strong>
+        「成り立つ＝1」「成り立たない＝0」とすれば、複雑な条件も上の表と同じ話になります。
+        <a href="read-loop.html">繰り返しを抜ける条件</a>
+        や
+        <a href="read-simulation.html">シミュレーション型の打ち切り条件</a>
+        でも、この読み替えが効きます。
+      </div>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">DE MORGAN</p>
+      <h2>「かつ」の否定は「または」になる</h2>
+      <p>
+        条件を<strong>ひっくり返す</strong>とき、多くの人がつまずきます。
+        <strong>「A かつ B」でない</strong>——これを言い換えると、どうなるでしょうか。
+      </p>
+      <p>
+        「A でない <strong>かつ</strong> B でない」と考えたくなりますが、<strong>これは誤りです</strong>。
+        正しくは次のようになります。
+      </p>
+      <pre class="code-block">NOT(A かつ B) ＝ (NOT A) または (NOT B)
+NOT(A または B) ＝ (NOT A) かつ (NOT B)</pre>
+      <p>
+        <strong>否定すると、「かつ」と「または」が入れ替わります。</strong>
+        これを<strong>ド・モルガンの法則</strong>と呼びます。
+        覚えにくければ、真理値表で確かめれば済みます。
+      </p>
+      <div class="sim-table-wrap">
+        <table class="sim-table sim-table-compact">
+          <thead>
+            <tr>
+              <th scope="col">A</th><th scope="col">B</th>
+              <th scope="col">A かつ B</th>
+              <th scope="col">NOT(A かつ B)</th>
+              <th scope="col">(NOT A) または (NOT B)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td><td><strong>1</strong></td></tr>
+            <tr><td>0</td><td>1</td><td>0</td><td><strong>1</strong></td><td><strong>1</strong></td></tr>
+            <tr><td>1</td><td>0</td><td>0</td><td><strong>1</strong></td><td><strong>1</strong></td></tr>
+            <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        右の2列が<strong>4行とも同じ</strong>です。だから入れ替えて書いても構いません。
+        シミュレーターで <strong>NAND</strong> を選んだときの出力と、
+        この <code>NOT(A かつ B)</code> の列を見比べると、まったく同じだと分かります。
+      </p>
+      <div class="sim-note">
+        <strong>これは条件分岐で実際に使います。</strong>
+        たとえば「<strong>点数が60以上 かつ 出席が8回以上</strong>のとき合格」という条件があるとき、
+        <strong>不合格</strong>の条件は「点数が60未満 <strong>または</strong> 出席が8回未満」です。
+        「かつ」のまま否定すると、両方を満たさない人だけが不合格になってしまい、答えがずれます。
+      </div>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 1</p>
+      <h2>例題1：出力が 1 になる組み合わせを数える</h2>
+      <p>
+        次の回路で、出力が <strong>1</strong> になる入力の組み合わせはいくつありますか。
+      </p>
+      <pre class="code-block">出力 ＝ (A AND B) OR (NOT C)</pre>
+      <p><strong>選択肢：</strong>① 3個　② 4個　③ 5個　④ 6個</p>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：③ 5個</strong></p>
+          <p>
+            入力が3つなので、組み合わせは <strong>8通り</strong>です。
+            数える方法は1つだけ——<strong>8行すべて書き出すこと</strong>です。
+            途中を飛ばして考えると、必ずどこかを取りこぼします。
+          </p>
+          <div class="sim-table-wrap">
+            <table class="sim-table sim-table-compact">
+              <thead>
+                <tr>
+                  <th scope="col">A</th><th scope="col">B</th><th scope="col">C</th>
+                  <th scope="col">A AND B</th><th scope="col">NOT C</th><th scope="col">出力</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+                <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+                <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+                <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td><strong>1</strong></td></tr>
+                <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td><strong>1</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            出力が 1 の行は <strong>5行</strong>です。
+          </p>
+          <p>
+            表をよく見ると、<strong>C が 0 の行はすべて出力が 1</strong> になっています。
+            <code>NOT C</code> が 1 になり、OR は<strong>片方が 1 なら 1</strong> だからです。
+            C が 0 の行は4つ、残りは <code>A AND B</code> が 1 になる 1 行だけ——合わせて5行、と数えることもできます。
+          </p>
+          <div class="sim-note">
+            <strong>上のシミュレーターで確かめられます。</strong>
+            「組み合わせ」を選び、①に <strong>AND</strong>、②に <strong>NOT</strong>、③に <strong>OR</strong> を設定してから、
+            真理値表のタブを開いてみてください。同じ表が出ます。
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">EXERCISE 2</p>
+      <h2>例題2：条件をひっくり返す</h2>
+      <p>
+        次の条件を、<strong>「かつ」を使わずに</strong>書き直したものとして正しいものを選びなさい。
+      </p>
+      <pre class="code-block">NOT(A かつ B)</pre>
+      <p>
+        <strong>選択肢：</strong>① (NOT A) または (NOT B)　② (NOT A) かつ (NOT B)
+        ③ NOT(A または B)　④ A または B
+      </p>
+
+      <details class="sim-quiz-item">
+        <summary>答えと解説を見る</summary>
+        <div class="sim-quiz-answer">
+          <p><strong>答え：① (NOT A) または (NOT B)</strong></p>
+          <p>
+            ド・モルガンの法則です。<strong>否定を中に入れると、「かつ」は「または」に変わります。</strong>
+          </p>
+          <p>
+            意味で考えると分かりやすくなります。
+            <strong>「両方とも成り立つ」の否定</strong>は、<strong>「少なくとも一方は成り立たない」</strong>です。
+            片方だけ崩れていれば、もう「両方」ではなくなるからです。
+          </p>
+          <ul>
+            <li>
+              <strong>② (NOT A) かつ (NOT B)</strong> …
+              「<strong>両方とも</strong>成り立たない」という意味になり、条件が厳しすぎます。
+              A だけが成り立っている場合を取りこぼします。<strong>最も選ばれやすい誤答です</strong>
+            </li>
+            <li>
+              <strong>③ NOT(A または B)</strong> …
+              これは②と同じ意味です（もう一方のド・モルガンの法則）。やはり厳しすぎます
+            </li>
+            <li><strong>④ A または B</strong> … 否定が消えており、まったく別の条件です</li>
+          </ul>
+          <p>
+            迷ったら<strong>真理値表を4行書いてください。</strong>
+            A=1, B=0 を入れると、<code>NOT(A かつ B)</code> は 1、②は 0 になり、
+            <strong>違うものだとすぐ分かります</strong>。
+          </p>
+          <div class="sim-note sim-note-warn">
+            <strong>否定は必ず書き換えてから読んでください。</strong>
+            「〜でないとき」という条件が出てきたら、そのまま考えず、
+            <strong>ド・モルガンで「かつ」と「または」を入れ替えた形に直す</strong>のが確実です。
+            <a href="read-loop.html">繰り返しを抜ける条件</a>
+            は、この形で問われることがあります。
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">ADDER</p>
+      <h2>半加算器：足し算を回路で作る</h2>
+      <p>
+        論理ゲートを組み合わせると、<strong>計算そのもの</strong>が作れます。
+        いちばん基本になるのが、1桁の2進数どうしを足す<strong>半加算器</strong>です。
+      </p>
+      <p>
+        2進数の足し算は4通りしかありません。
+      </p>
+      <div class="sim-table-wrap">
+        <table class="sim-table sim-table-compact">
+          <thead>
+            <tr>
+              <th scope="col">計算</th><th scope="col">答え</th>
+              <th scope="col">和 S</th><th scope="col">桁上がり C</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">0 + 0</th><td>0</td><td>0</td><td>0</td></tr>
+            <tr><th scope="row">0 + 1</th><td>1</td><td>1</td><td>0</td></tr>
+            <tr><th scope="row">1 + 0</th><td>1</td><td>1</td><td>0</td></tr>
+            <tr><th scope="row">1 + 1</th><td><strong>10</strong></td><td>0</td><td><strong>1</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        注目したいのは<strong>いちばん下の行</strong>です。
+        <strong>1 + 1 は2進数では 10</strong> になるので、その桁は 0 になり、1 つ上の桁へ繰り上がります。
+        この「その桁の値」が<strong>和 S</strong>、「繰り上がり」が<strong>桁上がり C</strong> です。
+      </p>
+      <p>
+        ここで S の列と C の列を、先ほどの真理値表と見比べてください。
+      </p>
+      <ul>
+        <li><strong>S の列</strong>（0, 1, 1, 0）は <strong>XOR</strong> とまったく同じ</li>
+        <li><strong>C の列</strong>（0, 0, 0, 1）は <strong>AND</strong> とまったく同じ</li>
+      </ul>
+      <p>
+        つまり<strong>足し算は、XOR と AND を1つずつ置くだけで作れます</strong>。
+        上のシミュレーターで「半加算器」を選び、A と B を切り替えて確かめてみてください。
+      </p>
+      <div class="sim-note">
+        <strong>なぜ「半」加算器なのか。</strong>
+        下の桁からの繰り上がりを受け取れないからです。
+        受け取れるようにしたものを<strong>全加算器</strong>と呼び、これを桁の数だけ並べると、
+        <strong>何桁でも足せる回路</strong>になります。コンピュータの計算は、この積み重ねでできています。
+      </div>
+    </section>
+
+    <section class="themed-card p-4 mb-4 sim-doc">
+      <p class="sim-kicker">CHECK</p>
+      <h2>このページのチェックリスト</h2>
+      <ul>
+        <li>AND が<strong>両方 1 のときだけ</strong> 1 になると即答できる</li>
+        <li>OR と XOR の違いが<strong>「両方 1 のとき」</strong>だと説明できる</li>
+        <li>NAND・NOR が <strong>AND・OR の反転</strong>だと分かる</li>
+        <li>入力3つの真理値表が <strong>8行</strong>になると分かる</li>
+        <li>「かつ」が AND、「または」が OR に対応すると分かる</li>
+        <li><strong>否定すると「かつ」と「または」が入れ替わる</strong>と説明できる</li>
+        <li>半加算器の和が <strong>XOR</strong>、桁上がりが <strong>AND</strong> だと言える</li>
+      </ul>
+      <p>
+        論理の考え方が身についたら、次は実際の条件式で練習してください。
+        <a href="read-total.html">集計する処理の読み方</a>
+        の例題5で、「かつ」で条件が2つある問題を扱っています。
+      </p>
+    </section>
+
+    <section class="themed-card p-4">
+      <h2 class="text-lg font-bold mb-3">次に読むページ</h2>
+      <div class="sim-next-grid mb-3">
+        <a href="read-total.html" class="sim-next-card">
+          <span class="sim-next-title">集計する処理の読み方</span>
+          <span class="sim-next-desc">「かつ」で条件が2つある問題を例題で練習できます</span>
+        </a>
+        <a href="reading.html" class="sim-next-card">
+          <span class="sim-next-title">プログラムの読み方</span>
+          <span class="sim-next-desc">トレースの練習を6テーマに分けて解説。例題30問つき</span>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <a href="index.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">クイズで練習する</a>
+        <a href="algorithms.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">重要アルゴリズム解説</a>
+        <a href="operator.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">演算子の一覧</a>
+        <a href="notation.html" class="themed-btn-secondary block w-full py-3 px-4 text-sm font-bold">プログラム表記の解説</a>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer">
+    <footer class="site-footer">
+      <nav class="site-footer-links" aria-label="サイト情報">
+        <a href="study-guide.html">学習ガイド</a>
+        <a href="about.html">このサイトについて</a>
+        <a href="operator.html">運営者情報</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="contact.html">お問い合わせ</a>
+        <a href="terms.html">利用規約・免責事項</a>
+      </nav>
+      <p class="site-footer-copy">© IT1-CODE-POCKET</p>
+    </footer>
+  </div>
+  <script src="js/sim-core.js"></script>
+  <script src="js/sim-logic.js"></script>
+  <script src="js/footer.js"></script>
+</body>
+</html>

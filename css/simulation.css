@@ -1924,3 +1924,239 @@
     transform: none;
   }
 }
+
+/* ============================================================
+   論理回路シミュレーター
+   ゲートを選んで、入力を切り替え、値の変わり方を見るためのもの。
+   再生ボタンで進めるのではなく、操作するたびに即座に計算し直す。
+   ============================================================ */
+
+/* --- 入力スイッチ（A・B・C を 0 と 1 で切り替える） --- */
+.sim-logic-switches {
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.sim-logic-switch {
+  align-items: center;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--btn-radius);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.3rem 0.5rem;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.sim-logic-switch:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.sim-logic-switch-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.sim-logic-switch-bit {
+  background: var(--border);
+  border-radius: 0.35rem;
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 1.6rem;
+  padding: 0.3rem 0;
+  text-align: center;
+}
+
+.sim-logic-switch[aria-pressed="true"] {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.sim-logic-switch[aria-pressed="true"] .sim-logic-switch-bit {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* --- 回路図 --- */
+.sim-logic-stage {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* 線は値で色が変わる。0 は淡く、1 ははっきり見せる。 */
+.sim-logic-wire {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 2;
+  transition: stroke 0.15s;
+}
+
+.sim-logic-wire[data-bit="1"] {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.sim-logic-node {
+  fill: var(--border);
+  transition: fill 0.15s;
+}
+
+.sim-logic-node[data-bit="1"] {
+  fill: var(--accent);
+}
+
+.sim-logic-bit-label {
+  fill: var(--text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sim-logic-bit-label[data-bit="1"] {
+  fill: var(--accent);
+}
+
+.sim-logic-pin-label {
+  fill: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sim-logic-gate-box {
+  fill: var(--bg-card);
+  stroke: var(--border);
+  stroke-width: 2;
+  transition: stroke 0.15s;
+}
+
+.sim-logic-gate-box[data-active="true"] {
+  stroke: var(--accent);
+}
+
+.sim-logic-gate-text {
+  fill: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.sim-logic-out-ring {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 2;
+}
+
+.sim-logic-out-ring[data-bit="1"] {
+  stroke: var(--accent);
+}
+
+.sim-logic-out-fill {
+  fill: var(--bg-card);
+  transition: fill 0.15s;
+}
+
+.sim-logic-out-fill[data-bit="1"] {
+  fill: var(--accent);
+}
+
+.sim-logic-out-text {
+  fill: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.sim-logic-out-text[data-bit="1"] {
+  fill: var(--bg);
+}
+
+/* --- ゲートを選ぶ列 --- */
+.sim-logic-picker {
+  margin-top: 0.6rem;
+}
+
+.sim-logic-picker-row + .sim-logic-picker-row {
+  margin-top: 0.5rem;
+}
+
+.sim-logic-picker-label {
+  color: var(--text-muted);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.sim-logic-gates {
+  display: grid;
+  gap: 0.3rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.sim-logic-gates .sim-chip {
+  font-size: 0.68rem;
+  min-height: 2.3rem;
+  padding: 0.2rem 0.1rem;
+}
+
+/* --- 式の表示 --- */
+.sim-logic-expr {
+  background: var(--bg-code);
+  border-radius: var(--btn-radius);
+  color: #e2e8f0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  margin-top: 0.6rem;
+  overflow-x: auto;
+  padding: 0.6rem 0.7rem;
+  white-space: nowrap;
+}
+
+.sim-logic-expr strong {
+  color: #4ade80;
+}
+
+/* --- 真理値表 --- */
+.sim-logic-truth td,
+.sim-logic-truth th {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  text-align: center;
+}
+
+.sim-logic-truth tbody tr[data-current="true"] {
+  background: var(--accent-light);
+  font-weight: 700;
+}
+
+.sim-logic-truth tbody tr[data-current="true"] td {
+  color: var(--accent);
+}
+
+.sim-logic-truth .sim-logic-truth-out {
+  font-weight: 700;
+}
+
+@media (max-width: 380px) {
+  .sim-logic-gates .sim-chip {
+    font-size: 0.62rem;
+  }
+
+  .sim-logic-switch-name {
+    font-size: 0.8rem;
+  }
+}
