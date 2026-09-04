@@ -1,3 +1,7 @@
 # Local-only admin editor. Do not deploy to GitHub Pages.
 admin.html
 js/admin.js
+
+# Work-in-progress simulator. Keep local until release-ready.
+sim-logic.html
+js/sim-logic.js

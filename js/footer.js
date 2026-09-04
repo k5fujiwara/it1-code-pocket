@@ -35,6 +35,7 @@ function renderSiteFooter() {
     <footer class="site-footer">
       ${shareLinks}
       <nav class="site-footer-links" aria-label="サイト情報">
+        <a href="question-examples.html">問題例と解き方</a>
         <a href="study-guide.html">学習ガイド</a>
         <a href="about.html">このサイトについて</a>
         <a href="operator.html">運営者情報</a>

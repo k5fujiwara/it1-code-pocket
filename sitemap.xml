@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://it1-code-pocket.com/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-09-04</lastmod>
   </url>
   <url>
     <loc>https://it1-code-pocket.com/algorithms.html</loc>
@@ -38,11 +38,7 @@
   </url>
   <url>
     <loc>https://it1-code-pocket.com/reading.html</loc>
-    <lastmod>2026-08-28</lastmod>
-  </url>
-  <url>
-    <loc>https://it1-code-pocket.com/sim-logic.html</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-09-04</lastmod>
   </url>
   <url>
     <loc>https://it1-code-pocket.com/read-array.html</loc>
@@ -70,7 +66,11 @@
   </url>
   <url>
     <loc>https://it1-code-pocket.com/study-guide.html</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-09-04</lastmod>
+  </url>
+  <url>
+    <loc>https://it1-code-pocket.com/question-examples.html</loc>
+    <lastmod>2026-09-04</lastmod>
   </url>
   <url>
     <loc>https://it1-code-pocket.com/python-guide.html</loc>
